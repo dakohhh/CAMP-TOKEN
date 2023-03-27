@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from .forms import SignupStudentForm, SignupMerchantForm
 
 # Create your views here.
 
@@ -8,4 +9,18 @@ from django.shortcuts import render
 
 
 def home(request:HttpRequest):
-    return HttpResponse("Home works")
+    form = SignupMerchantForm()
+
+    if request.method == "POST":
+        print(request.POST)
+
+    context = {"form": form}
+    return render(request, "index.html", context)
+
+
+
+
+
+
+
+
