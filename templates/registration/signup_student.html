@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <title>Home page</title>
+    <style></style>
+
+
+</header>
+<body>
+    <div class="">
+
+        <h3>Signup as Merchants</h3>
+
+        <form method="POST" action="" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <button type="submit">Signup</button>
+
+        </form>
+
+
+
+    </div>
+
+</body>
+</html>

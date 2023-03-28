@@ -11,13 +11,9 @@
 
         <h3>This is the homepage</h3>
 
-        <form method="POST" action="" autocomplete="off">
-            {% csrf_token %}
-            {{ form.as_p }}
-            
-            <button type="submit">Signup</button>
-
-        </form>
+        <a href="#">Login</a> &nbsp;
+        <a  href="{% url 'signup_user' %}">Signup as Student</a>&nbsp;
+        <a  href="{% url 'signup_merchant' %}">Signup as Merchant</a>&nbsp;
 
 
 
