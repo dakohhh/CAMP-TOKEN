@@ -26,7 +26,9 @@ def signup_student(request:HttpRequest):
 
             current_user = form.save(commit=False)
 
-            form.save()
+            current_user.is_student = True
+
+            current_user.save()
 
             # Setup 2FA
 
@@ -48,11 +50,11 @@ def signup_merchants(request:HttpRequest):
 
         if form.is_valid():
             
-            print(form.first_name, form.email)
-
             current_user = form.save(commit=False)
 
-            form.save()
+            current_user.is_merchant = True
+    
+            current_user.save()
 
             # Setup 2FA
 
@@ -63,7 +65,7 @@ def signup_merchants(request:HttpRequest):
             return redirect("home")
 
     context = {"form": form}
-    return render(request, "registration/signup_student.html", context)
+    return render(request, "registration/signup_merchant.html", context)
 
 
 
