@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
 
     business_name = models.CharField(max_length=200, null=True)
 
-    business_id = models.CharField(max_length=200, unique=True ,null=True)
+    business_id = models.CharField(max_length=200, unique=True ,null=False)
 
     balance = models.FloatField(default=0)
 
