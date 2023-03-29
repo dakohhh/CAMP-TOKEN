@@ -1,6 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
+
+
 
 
 
@@ -37,3 +39,11 @@ class SignupMerchantForm(SignupForm):
     class Meta(SignupForm.Meta):
         model = CustomUser
         fields = ["business_name", "email", "phone_number", "password1", "password2", "business_id"]
+
+
+
+
+class LoginForm(AuthenticationForm):
+
+    username =  forms.EmailField(required=True)
+    password = forms.CharField(label='Password',widget=forms.PasswordInput(), required=True)

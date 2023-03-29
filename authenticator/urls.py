@@ -8,13 +8,19 @@ urlpatterns = [
 
     path("", views.home, name="home"),
 
-    # -  SIGNUP USER
-
-    path("accounts/signup/user", views.signup_student, name="signup_user"),
+    # -   SIGNUP STUDENT
+    path("accounts/signup/student", views.signup_student, name="signup_student"),
 
     # -  SIGNUP MERCHANT
 
     path("accounts/signup/merchant", views.signup_merchants, name="signup_merchant"),
+
+    # -  LOGIN STUDENT
+
+    path("accounts/login", views.login, name="login"),
+
+
+
 
     
 ]

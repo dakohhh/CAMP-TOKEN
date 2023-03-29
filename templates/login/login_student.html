@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <title>Login | Students</title>
+    <style></style>
+
+
+</header>
+<body>
+    <div class="">
+
+        <h3>Login as Students</h3>
+
+        <form method="POST" action="" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <button type="submit">Login</button>
+
+        </form>
+
+
+
+    </div>
+
+</body>
+</html>

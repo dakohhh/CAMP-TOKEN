@@ -21,6 +21,8 @@ class CustomUser(AbstractUser):
     business_id = models.CharField(max_length=200, unique=True ,null=True)
 
     balance = models.FloatField(default=0)
+    
+    transaction_pin = models.CharField(max_length=6, null=True)
 
     is_student = models.BooleanField(default=False)
 
@@ -28,3 +30,5 @@ class CustomUser(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+

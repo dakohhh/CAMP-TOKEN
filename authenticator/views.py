@@ -1,8 +1,17 @@
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from .forms import SignupStudentForm, SignupMerchantForm
+from .forms import SignupStudentForm, SignupMerchantForm, LoginForm
 
 from .utils.generate import generate_wallet_id
+
+
+
+from django.contrib import auth
+from django.contrib.auth import authenticate
+
+
+
+
 
 # Create your views here.
 
@@ -72,6 +81,30 @@ def signup_merchants(request:HttpRequest):
 
     context = {"form": form}
     return render(request, "registration/signup_merchant.html", context)
+
+
+
+
+def login(request:HttpRequest):
+    form = LoginForm()
+
+
+    if request.method == "POST":
+        
+        email = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, email=email, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+
+            # redirect to dashboard , confirm whether its student or merchant
+
+
+    context = {"form":form}
+
+    return render(request, "login/login_student.html", context)
 
 
 
