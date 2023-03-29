@@ -56,6 +56,8 @@ def signup_merchants(request:HttpRequest):
             
             current_user = form.save(commit=False)
 
+            current_user.wallet_id = generate_wallet_id(10)
+
             current_user.is_merchant = True
     
             current_user.save()
