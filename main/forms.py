@@ -32,8 +32,8 @@ class SignupStudentForm(SignupForm):
 class SignupMerchantForm(SignupForm):
     phone_number = forms.IntegerField(max_value=10, required=True, label="Phone Number", help_text="Enter a valid 10-digit number")
     business_name = forms.CharField(max_length=200, required=True, label="Business Name")
-    business_id = forms.CharField(max_length=200, required=False,label="Business ID or CAC No.")    
+    business_id = forms.CharField(max_length=200, label="Business ID or CAC No.")    
 
     class Meta(SignupForm.Meta):
         model = CustomUser
-        fields = ["business_name", "email", "phone_number", "password1", "password2"]
+        fields = ["business_name", "email", "phone_number", "password1", "password2", "business_id"]

@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from . import utils
 
 # Create your models here.
 # from django.contrib.auth.models import User
@@ -10,17 +9,19 @@ from . import utils
 
 
 class CustomUser(AbstractUser):
+            
+    
     username = models.CharField(max_length=30, blank=True, null=True)
     
     email = models.EmailField(unique=True, null=False)
 
-    wallet_id = models.IntegerField(unique=True, default=utils.generate_number(10))
+    wallet_id = models.IntegerField(unique=True, null=False)
 
     phone_number = models.IntegerField(unique=True, null=False)
 
     business_name = models.CharField(max_length=200, null=True)
 
-    business_id = models.CharField(max_length=200, unique=True ,null=False)
+    business_id = models.CharField(max_length=200, unique=True ,null=True)
 
     balance = models.FloatField(default=0)
 

@@ -2,6 +2,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from .forms import SignupStudentForm, SignupMerchantForm
 
+from .utils import generate_wallet_id
+
 # Create your views here.
 
 
@@ -25,6 +27,8 @@ def signup_student(request:HttpRequest):
         if form.is_valid():
 
             current_user = form.save(commit=False)
+
+            current_user.wallet_id = generate_wallet_id(10)
 
             current_user.is_student = True
 
