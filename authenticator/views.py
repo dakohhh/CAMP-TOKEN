@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from .forms import SignupStudentForm, SignupMerchantForm
 
-from .utils import generate_wallet_id
+from .utils.generate import generate_wallet_id
 
 # Create your views here.
 
