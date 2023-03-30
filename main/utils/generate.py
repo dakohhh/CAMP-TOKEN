@@ -1,5 +1,5 @@
 import random
-from authenticator.models import CustomUser
+from main.models import CustomUser
 
 
 

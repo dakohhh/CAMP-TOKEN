@@ -1,29 +1,14 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from .forms import SignupStudentForm, SignupMerchantForm, LoginForm
-
-from .utils.generate import generate_wallet_id
-
-
-
 from django.contrib import auth
 from django.contrib.auth import authenticate
+from main.forms import SignupStudentForm, SignupMerchantForm, LoginForm
+from main.utils.generate import generate_wallet_id
 
 
 
 
-
-# Create your views here.
-
-
-
-
-
-def home(request:HttpRequest):
- 
-    return render(request, "index.html")
-
-
+# - AUTHENTICATIONS
 
 def signup_student(request:HttpRequest):
 
@@ -108,7 +93,11 @@ def login(request:HttpRequest):
 
 
 
+def logout(request:HttpRequest):
+    
+    auth.logout(request)
 
+    return redirect("/login")
 
 
 

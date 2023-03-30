@@ -8,7 +8,6 @@ from .models import CustomUser
 
 
 class SignupForm(UserCreationForm):
-    phone_number = forms.IntegerField(max_value=10, required=True, label="Phone Number", help_text="Enter a valid 10-digit number")
     email = forms.EmailField(max_length=254, required=True)
     password1 = forms.CharField(label='Password',widget=forms.PasswordInput(render_value=False), help_text='')
     password2 = forms.CharField(label='Confirm Password',widget=forms.PasswordInput(), help_text='Enter the same password as before, for verification.')
@@ -23,7 +22,7 @@ class SignupForm(UserCreationForm):
 class SignupStudentForm(SignupForm):
     first_name = forms.CharField(max_length=100, required=True, label="First Name")
     last_name = forms.CharField(max_length=100, required=True, label="Last Name")
-    phone_number = forms.IntegerField(max_value=10, required=True, label="Phone Number", help_text="Enter a valid 10-digit number")
+    phone_number = forms.IntegerField(max_value=9999999999, required=True, label="Phone Number", help_text="Enter a valid 10-digit number")
 
     class Meta(SignupForm.Meta):
         model = CustomUser
@@ -32,7 +31,7 @@ class SignupStudentForm(SignupForm):
 
 
 class SignupMerchantForm(SignupForm):
-    phone_number = forms.IntegerField(max_value=10, required=True, label="Phone Number", help_text="Enter a valid 10-digit number")
+    phone_number = forms.IntegerField(max_value=9999999999, required=True, label="Phone Number", help_text="Enter a valid 10-digit number")
     business_name = forms.CharField(max_length=200, required=True, label="Business Name")
     business_id = forms.CharField(max_length=200, label="Business ID or CAC No.")    
 

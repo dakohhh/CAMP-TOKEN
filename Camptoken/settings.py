@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    "authenticator.apps.AuthenticatorConfig"
+    "main.apps.MainConfig",
+
 
 ]
 
@@ -58,7 +59,7 @@ MIDDLEWARE = [
 
 
 AUTHENTICATION_BACKENDS = [
-    'authenticator.backends.EmailBackend',
+    'main.backends.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -94,7 +95,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'authenticator.CustomUser'
+AUTH_USER_MODEL = 'main.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
