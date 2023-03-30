@@ -8,8 +8,9 @@ from main.utils.generate import generate_wallet_id
 
 
 
-# - AUTHENTICATIONS
 
+
+# - AUTHENTICATIONS
 def signup_student(request:HttpRequest):
 
     form = SignupStudentForm()
@@ -71,6 +72,14 @@ def signup_merchants(request:HttpRequest):
 
 
 def login(request:HttpRequest):
+
+    if request.user.is_authenticated == True:
+        return redirect("dashboard")
+    
+    url = request.GET.get("next")
+
+    url = "dashboard" if not url else url
+
     form = LoginForm()
 
 
@@ -84,7 +93,7 @@ def login(request:HttpRequest):
         if user is not None:
             auth.login(request, user)
 
-            # redirect to dashboard , confirm whether its student or merchant
+            return redirect(url)
 
 
     context = {"form":form}
@@ -97,7 +106,7 @@ def logout(request:HttpRequest):
     
     auth.logout(request)
 
-    return redirect("/login")
+    return redirect("login")
 
 
 

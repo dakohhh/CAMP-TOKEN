@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import auth_view
 from .views import home_view
+from .views import dashboard_view
 
 
 urlpatterns = [
@@ -19,6 +20,12 @@ urlpatterns = [
     # -  LOGIN STUDENT
 
     path("accounts/login", auth_view.login, name="login"),
+    
+    path("accounts/logout", auth_view.logout, name="logout"),
+
+    # - DASHBOARD
+
+    path("dashboard", dashboard_view.dashboard, name="dashboard"),
 
 
 ]

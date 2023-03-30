@@ -29,9 +29,13 @@ class CustomUser(AbstractUser):
 
     is_student = models.BooleanField(default=False)
 
+    is_verified = models.BooleanField(default=False)
+
     is_merchant = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+
 
 

@@ -1,0 +1,40 @@
+To display a success message in Django and render it on a Bootstrap HTML template, you can follow these steps:
+
+In your Django view, import the messages module from django.contrib and use the success method to add a success message. For example:
+python
+Copy code
+from django.contrib import messages
+
+def my_view(request):
+    # do some work here
+    messages.success(request, 'Your message was sent successfully!')
+    # render the response
+In your Bootstrap HTML template, add a placeholder for the success message. For example, you can add the following code where you want the message to appear:
+html
+Copy code
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+This code checks if there are any messages in the messages variable passed to the template context by the view. If there are, it iterates over them and renders each message as a Bootstrap alert with the alert-success class.
+
+Render the template in your view and pass the messages variable to the template context. For example:
+python
+Copy code
+from django.shortcuts import render
+
+def my_view(request):
+    # do some work here
+    messages.success(request, 'Your message was sent successfully!')
+    # render the response
+    return render(request, 'my_template.html', {'messages': messages.get_messages(request)})
+This code passes the messages variable to the template context using the get_messages method. This method returns an iterable of all messages stored in the cookie and clears the cookie at the same time.
+
+Note that the messages module uses cookies to store messages between requests, so you need to make sure that your view sets the SESSION_COOKIE_SECURE and CSRF_COOKIE_SECURE settings to True if your site is running over HTTPS.
+
+
+
+
