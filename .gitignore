@@ -2,3 +2,5 @@ env/
 
 messages.txt
 verificationmail.txt
+
+.env
