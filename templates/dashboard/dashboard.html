@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <title>Dashboard</title>
+    <style></style>
+
+
+</header>
+<body>
+    <div class="">
+
+        <h1>Dashboard</h1>
+
+        <h2>Welcome, {{first_name}} {{ last_name }}</h2>
+
+        <p>Balance: {{ balance|floatformat:2 }}</p>
+        <p>Wallet_ID: {{ wallet_id }}</p>
+
+
+        <p><a href="#">Pay</a></p>
+
+        <div>
+            <h3>Transaction History: </h3>
+            
+            <ul>
+                <li>History one</li>
+                <li>History two</li>
+                <li>History three</li>
+                <li>History four</li>
+            
+
+            <ul>
+
+        </div>
+
+    
+
+        <p><a href="{% url 'logout' %}"> Logout</a></p>
+        
+
+    </div>
+
+</body>
+</html>

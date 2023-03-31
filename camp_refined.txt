@@ -1,0 +1,24 @@
+We attack the university giving them access codes  ,now once a merchat starts his business in the school
+After merchant integration, merchants will be given the university access code, this will allow 
+merchants signup
+
+
+
+
+Transfers can only be made tn the merchants on the app using the Qr code scan fore recieving payments or transfers made to the merchants using thier ID
+
+
+
+Search by CAMPtransferID: To verify charges and payments made by the students
+
+
+Money can then be credited to students Camp wallet by:
+
+Transfer to virtiual bank account
+cardn transfer
+account number and otp charge
+
+
+Transfers to other bank accounts from the apps are only allowed on the merchant SIDE, To reduce risk of fraud
+
+

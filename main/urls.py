@@ -25,7 +25,8 @@ urlpatterns = [
 
     # - DASHBOARD
 
-    path("dashboard", dashboard_view.dashboard, name="dashboard"),
+    path("dashboard/s/", dashboard_view.dashboard_student, name="dashboard_student"),
+    path("dashboard/m/", dashboard_view.dashboard_merchant, name="dashboard_merchant"),
 
 
 ]

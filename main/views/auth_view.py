@@ -1,8 +1,9 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from main.forms import SignupStudentForm, SignupMerchantForm, LoginForm
+from main.models import CustomUser
 from main.utils.generate import generate_wallet_id
 
 
@@ -11,7 +12,7 @@ from main.utils.generate import generate_wallet_id
 
 
 # - AUTHENTICATIONS
-def signup_student(request:HttpRequest):
+async def signup_student(request:HttpRequest):
 
     form = SignupStudentForm()
 
@@ -40,7 +41,7 @@ def signup_student(request:HttpRequest):
     return render(request, "registration/signup_student.html", context)
 
 
-def signup_merchants(request:HttpRequest):
+async def signup_merchants(request:HttpRequest):
 
     form = SignupMerchantForm()
 
@@ -72,16 +73,17 @@ def signup_merchants(request:HttpRequest):
 
 
 def login(request:HttpRequest):
-
-    if request.user.is_authenticated == True:
-        return redirect("dashboard")
     
-    url = request.GET.get("next")
+    if request.user.is_authenticated == True:
 
-    url = "dashboard" if not url else url
 
+        if request.user.is_student:
+            return redirect("dashboard_student")
+        
+        elif request.user.is_merchant:
+            return redirect("dashboard_merchant")
+   
     form = LoginForm()
-
 
     if request.method == "POST":
         
@@ -92,10 +94,15 @@ def login(request:HttpRequest):
 
         if user is not None:
             auth.login(request, user)
+           
 
-            return redirect(url)
+            if request.user.is_student:
+                return redirect("dashboard_student")
+        
+            elif request.user.is_merchant:
+                return redirect("dashboard_merchant")
 
-
+            
     context = {"form":form}
 
     return render(request, "login/login_student.html", context)
