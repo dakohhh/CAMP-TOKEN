@@ -4,3 +4,5 @@ messages.txt
 verificationmail.txt
 
 .env
+
+transactions_in_Django.txt
