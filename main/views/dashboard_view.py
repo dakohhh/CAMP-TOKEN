@@ -22,7 +22,7 @@ def dashboard_student(request:HttpRequest):
         "wallet_id":user.wallet_id, 
         }
 
-    return render(request, "dashboard/dashboard.html", context)
+    return render(request, "dashboard/dashboard_student.html", context)
 
 
 
@@ -38,10 +38,10 @@ def dashboard_merchant(request:HttpRequest):
         return redirect("dashboard_student")
     
     context = {
-        "business_name": user.first_name,
+        "business_name": user.business_name,
         "last_name": user.last_name,
         "balance": user.balance,
         "wallet_id":user.wallet_id, 
     }
 
-    return render(request, "dashboard/dashboard.html", context)
+    return render(request, "dashboard/dashboard_merchants.html", context)

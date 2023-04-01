@@ -2,6 +2,7 @@ from django.urls import path
 from .views import auth_view
 from .views import home_view
 from .views import dashboard_view
+from .views import transaction_view
 
 
 urlpatterns = [
@@ -20,13 +21,22 @@ urlpatterns = [
     # -  LOGIN STUDENT
 
     path("accounts/login", auth_view.login, name="login"),
+
+    # - LOGOUT 
     
     path("accounts/logout", auth_view.logout, name="logout"),
 
-    # - DASHBOARD
+    # - DASHBOARD STUDENT
 
     path("dashboard/s/", dashboard_view.dashboard_student, name="dashboard_student"),
+
+    # - DASHBOARD MERCHANT
+
     path("dashboard/m/", dashboard_view.dashboard_merchant, name="dashboard_merchant"),
+
+    # - PAY A MERCHANT
+
+    path("dashboard/s/pay", transaction_view.pay, name="pay_merchant"),
 
 
 ]

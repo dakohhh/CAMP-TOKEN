@@ -6,6 +6,7 @@ from main.forms import SignupStudentForm, SignupMerchantForm, LoginForm
 from main.models import CustomUser
 from main.utils.generate import generate_wallet_id
 
+from django.contrib import messages
 
 
 
@@ -101,6 +102,9 @@ def login(request:HttpRequest):
         
             elif request.user.is_merchant:
                 return redirect("dashboard_merchant")
+            
+        else:
+            messages.warning(request, "Email or password is incorrect")
 
             
     context = {"form":form}

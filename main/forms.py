@@ -46,3 +46,9 @@ class LoginForm(AuthenticationForm):
 
     username =  forms.EmailField(required=True)
     password = forms.CharField(label='Password',widget=forms.PasswordInput(), required=True)
+
+
+
+class PayMerchantForm(forms.Form):
+    merchant_id =  forms.IntegerField(required=True, label="Enter Merchant ID")
+    amount =  forms.IntegerField(required=True,  label="Enter Amount")
