@@ -19,15 +19,19 @@ function getCSRFToken() {
 
 
 
-
-
-
-
-
 const merchant_id_input = document.getElementById("id_merchant_wallet_id")
+
 const ammount_input = document.getElementById("id_amount")
 
 const wallet_id_msg = document.getElementById("wallet_id_msg")
+
+const next_btn = document.getElementById("next_btn");
+
+const trans_form = document.getElementById("trans_form");
+
+const show_merchant = document.getElementById("show_merchant");
+
+const show_amount = document.getElementById("show_amount");
 
 merchant_id_input.addEventListener("input", async (event) =>{
 
@@ -36,6 +40,8 @@ merchant_id_input.addEventListener("input", async (event) =>{
         wallet_id_msg.textContent = "";
 
         ammount_input.disabled = true
+
+        next_btn.disabled = true
     }
 
     else if (merchant_id_input.value.length > 10){
@@ -44,8 +50,6 @@ merchant_id_input.addEventListener("input", async (event) =>{
     }
 
     else if (merchant_id_input.value.length == 10){
-
-
 
         const csrf_token = getCSRFToken();
 
@@ -64,6 +68,10 @@ merchant_id_input.addEventListener("input", async (event) =>{
             wallet_id_msg.textContent = result.data
 
             ammount_input.disabled = false;
+
+            show_merchant.textContent = result.data;
+
+
         }
         else{
             wallet_id_msg.textContent = "Wallet ID Not Found";
@@ -76,8 +84,32 @@ merchant_id_input.addEventListener("input", async (event) =>{
 
 })
 
+ammount_input.addEventListener("input", async()=>{
+
+    if(ammount_input.value.length >= 1){
+        next_btn.disabled = false
+    }
+
+    else if(ammount_input.value.length < 1){
+
+        next_btn.disabled = true
+
+        show_merchant.textContent = merchant_id_input.value;
+        
+    }
+
+    show_amount.textContent = ammount_input.value;
+
+})
+
+trans_form.addEventListener("submit", async (event)=>{
+
+    event.preventDefault();
+
+})
 
 ammount_input.disabled = true
+next_btn.disabled = true
 
 
 

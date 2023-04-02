@@ -22,3 +22,9 @@ account number and otp charge
 Transfers to other bank accounts from the apps are only allowed on the merchant SIDE, To reduce risk of fraud
 
 
+
+We get our money by
+1. adding a certain percentage to the transfer request made to the student wallet
+2. Quarterly account maintenance fee
+3. charges from the merchant when there want to transfer to other banks 
+

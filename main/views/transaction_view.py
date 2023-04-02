@@ -9,23 +9,32 @@ from main.models import CustomUser
 
 
 @login_required(login_url="login")
-def pay(request:HttpRequest):
+def pay_merchant(request:HttpRequest):
 
     form = PayMerchantForm()
 
+    if request.method == "POST":
+        merchant_wallet_id = request.POST.get("merchant_wallet_id")
+
+        amount = request.POST.get("amount")
+
+        print(merchant_wallet_id, amount)
 
     context = {"form": form}
 
-    return render(request, "pay.html", context)
+    return render(request, "transactions/pay_merchant.html", context)
+
+
+@login_required(login_url="login")
+def confirm_pay_merchant(request:HttpRequest):
+    pass
 
 
 
 
 
 
-
-
-
+@login_required(login_url="login")
 def confirm_merchant_wallet_id(request:HttpRequest):
 
     try:

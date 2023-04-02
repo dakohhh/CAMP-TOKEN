@@ -36,11 +36,15 @@ urlpatterns = [
 
     # - PAY A MERCHANT
 
-    path("dashboard/s/pay", transaction_view.pay, name="pay_merchant"),
+    path("dashboard/s/pay", transaction_view.pay_merchant, name="pay_merchant"),
+
+    # -  CONFIRM PAY MERCHANT
+
+    path("dashboard/s/pay/confirm", transaction_view.confirm_pay_merchant, name="confirm_pay_merchant"),
 
     # - CONFIRM MERCHANT 
 
-    path("confirm_merchant_wallet_id", transaction_view.confirm_merchant_wallet_id, name="pay_merchant"),
+    path("confirm_merchant_wallet_id", transaction_view.confirm_merchant_wallet_id, name="confirm_merchant_wallet_id"),
 
 
 ]
