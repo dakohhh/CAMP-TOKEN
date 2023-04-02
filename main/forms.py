@@ -50,5 +50,5 @@ class LoginForm(AuthenticationForm):
 
 
 class PayMerchantForm(forms.Form):
-    merchant_id =  forms.IntegerField(required=True, label="Enter Merchant ID")
+    merchant_wallet_id =  forms.IntegerField(max_value=9999999999, required=True, label="Enter Merchant Wallet ID")
     amount =  forms.IntegerField(required=True,  label="Enter Amount")

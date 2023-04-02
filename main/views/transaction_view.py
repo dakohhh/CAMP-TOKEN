@@ -1,10 +1,10 @@
 from django.http import HttpRequest
-from django.http.response import JsonResponse
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from main.forms import PayMerchantForm
 from django.contrib.auth.decorators import login_required
-
-from main.utils.repsonse import customResponse, CustomResponse
+from main.utils.repsonse import CustomResponse
+from main.models import CustomUser
 
 
 
@@ -26,9 +26,18 @@ def pay(request:HttpRequest):
 
 
 
-def confirm_merchant_id(request:HttpRequest):
+def confirm_merchant_wallet_id(request:HttpRequest):
 
-    merchant_id = request.GET.get("id")
+    try:
+        merchant_id = request.GET.get("id")
+
+        merchant = CustomUser.objects.get(wallet_id=merchant_id)
+
+        # 4318883660
+
+        print(merchant.business_name)
+    except:
+        return CustomResponse(HttpResponseNotFound.status_code, "Wallet ID not Found", False)
 
 
-    return CustomResponse(200, f"yeah it works ,id = {merchant_id}")
+    return CustomResponse(200, "ID Confirmed Successfully", data=merchant.business_name)

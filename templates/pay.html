@@ -12,26 +12,32 @@
 
         <h3>Pay Merchant</h3>
 
-        {% comment %} {% if messages %}
-            {% for message in messages %}
-                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-        {% endif %} {% endcomment %}
-
+    
         <form method="POST" action="" autocomplete="off">
+
             {% csrf_token %}
-            {{ form.as_p }}
+
+            <label for="id_merchant_wallet_id">{{ form.merchant_wallet_id.label }}: </label>
+            {{ form.merchant_wallet_id }}
+            <br>
+
+            <p id="wallet_id_msg"></p>
+
+            <br>
+
+            <label for="id_amount_id">{{ form.amount.label }}: </label>
+            {{ form.amount }}
+
+            <br>
+            <br>
             
             <button type="submit">Pay Merchant</button>
 
         </form>
-
+    
+        
         <p><a href="#"> Pay with QrCode</a></p>
+
 
     </div>
 
