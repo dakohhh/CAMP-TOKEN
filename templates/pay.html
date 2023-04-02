@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <header>
@@ -30,9 +31,11 @@
 
         </form>
 
-        <p><a href="#"> PAY WITH QR CODE</a></p>
+        <p><a href="#"> Pay with QrCode</a></p>
 
     </div>
 
 </body>
+
+<script src="{% static 'js/confirm_merchant.js' %}"></script>
 </html>
