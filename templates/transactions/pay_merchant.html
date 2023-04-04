@@ -46,11 +46,6 @@
 
         <h3>Pay Merchant</h3>
 
-    
-        <form id="trans_form" action="" autocomplete="off">
-
-            {% csrf_token %}
-
             <label for="id_merchant_wallet_id">{{ form.merchant_wallet_id.label }}: </label>
             {{ form.merchant_wallet_id }}
             <br>
@@ -66,29 +61,28 @@
             <br>
             
             <button id="next_btn" onclick="openModal()">Next</button>
-            
-
-        </form>
+        
     
         
         <p><a href="#"> Pay with QrCode</a></p>
 
-	
-	    <!-- Button to open the modal -->
 
-        <!-- The Modal -->
         <div id="modal" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <form>
+
+				<p id="show_merchant"></p>
+                <p id="show_amount"></p>
+                <form id="pay_form" method="POST">
                     {% csrf_token %}
-                    <p id="show_merchant"></p>
-                    <p id="show_amount"></p>
                     <label for="trans_pin">Enter your pin: </label>
+					<p id="pay_msg"></p>
                     <input type="number" id="trans_pin" name="trans_pin">
+                    <input type="hidden" id="merchant_id" name="merchant_wallet_id">
+                    <input type="hidden" id="amount_id" name="amount">
                     <br><br>
-                    <input type="submit" value="Pay Merchant">
+                    <button id="pay_merchant_btn">Pay Merchant</button>
                 </form>
             </div>
         </div>
@@ -100,15 +94,12 @@
 
 <script src="{% static 'js/payment.js' %}"></script>
 <script>
-    // Get the modal
 		let modal = document.getElementById("modal");
 		
-		// When the user clicks the button, open the modal 
 		function openModal() {
 			modal.style.display = "block";
 		}
 		
-		// When the user clicks on <span> (x), close the modal
 		function closeModal() {
 			modal.style.display = "none";
 		}

@@ -47,6 +47,12 @@ INSTALLED_APPS = [
 
 ]
 
+# CSRF_COOKIE_SECURE = True
+
+# CSRF_COOKIE_HTTPONLY = True
+
+# CSRF_HEADER_NAME = "HTTP_X_CSRFTOKEN"
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

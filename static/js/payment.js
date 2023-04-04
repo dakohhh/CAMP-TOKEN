@@ -33,6 +33,11 @@ const show_merchant = document.getElementById("show_merchant");
 
 const show_amount = document.getElementById("show_amount");
 
+
+const submit_merchant_id = document.getElementById("merchant_id")
+const submit_ammount = document.getElementById("amount_id")
+const pay_merchant_button = document.getElementById("pay_merchant_btn")
+
 merchant_id_input.addEventListener("input", async (event) =>{
 
     if (merchant_id_input.value.length < 10){
@@ -51,6 +56,9 @@ merchant_id_input.addEventListener("input", async (event) =>{
 
     else if (merchant_id_input.value.length == 10){
 
+        merchant_id_input.disabled = true
+
+
         const csrf_token = getCSRFToken();
 
         const response = await fetch(`/confirm_merchant_wallet_id?id=${merchant_id_input.value}`, {
@@ -61,9 +69,10 @@ merchant_id_input.addEventListener("input", async (event) =>{
             }
           });
 
+        
         const result = await response.json();
         
-        if (result.success === true){
+        if (result.success){
 
             wallet_id_msg.textContent = result.data
 
@@ -71,10 +80,17 @@ merchant_id_input.addEventListener("input", async (event) =>{
 
             show_merchant.textContent = result.data;
 
+            merchant_id_input.disabled = false
+            
+
+
 
         }
         else{
             wallet_id_msg.textContent = "Wallet ID Not Found";
+
+            merchant_id_input.disabled = false
+
 
         }
 
@@ -88,13 +104,16 @@ ammount_input.addEventListener("input", async()=>{
 
     if(ammount_input.value.length >= 1){
         next_btn.disabled = false
+
+
     }
 
     else if(ammount_input.value.length < 1){
 
         next_btn.disabled = true
 
-        show_merchant.textContent = merchant_id_input.value;
+
+
         
     }
 
@@ -102,14 +121,72 @@ ammount_input.addEventListener("input", async()=>{
 
 })
 
-trans_form.addEventListener("submit", async (event)=>{
 
-    event.preventDefault();
+next_btn.addEventListener("click", async ()=>{
+    
+
+    submit_merchant_id.value = merchant_id_input.value;
+    submit_ammount.value = ammount_input.value;
 
 })
 
+
+
+
+
+
+pay_merchant_button.addEventListener("click", async (event)=>{
+
+    event.preventDefault()
+
+    const pay_msg = document.getElementById("pay_msg")
+
+    const form = document.getElementById("pay_form")
+    
+
+    const formData = new FormData(form)
+
+    const myHeaders = new Headers();
+
+    const csrf_token = getCSRFToken();
+
+    myHeaders.append("X-CSRFToken", csrf_token);
+    myHeaders.append("Cookie", `csrftoken=${csrf_token}`);
+
+    
+    pay_merchant_button.disabled = true
+
+    const response = await fetch(`/dashboard/s/pay`, {
+        method: 'POST',
+        headers: myHeaders,
+        body: formData,
+        redirect: "follow"
+      });
+
+
+    
+    const result = await response.json();
+
+    const redirect_url = `/payment_success`
+
+    if (response.redirected){
+        window.location = redirect_url;
+    }
+    else if (!result.success){
+        pay_msg.textContent = result.msg;
+        pay_merchant_button.disabled = false;
+    }
+
+})
+
+
+
+
+
 ammount_input.disabled = true
 next_btn.disabled = true
+
+
 
 
 
