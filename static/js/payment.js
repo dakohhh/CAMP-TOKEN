@@ -35,6 +35,9 @@ const show_amount = document.getElementById("show_amount");
 
 const form = document.getElementById("pay_form")
 
+const pay_msg = document.getElementById("pay_msg")
+
+
 
 const submit_merchant_id = document.getElementById("merchant_id")
 const submit_ammount = document.getElementById("amount_id")
@@ -140,8 +143,6 @@ next_btn.addEventListener("click", async ()=>{
 form.addEventListener("submit", async (event)=>{
     event.preventDefault()
 
-    const pay_msg = document.getElementById("pay_msg")
-
     const formData = new FormData(form)
 
     const myHeaders = new Headers();
@@ -167,13 +168,12 @@ form.addEventListener("submit", async (event)=>{
     const result = await response.json();
     
     if (result.success === false){
-        
+
         pay_msg.textContent = result.msg;
     }
     
     
 })
-
 
 
 
