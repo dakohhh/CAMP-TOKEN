@@ -33,6 +33,8 @@ const show_merchant = document.getElementById("show_merchant");
 
 const show_amount = document.getElementById("show_amount");
 
+const form = document.getElementById("pay_form")
+
 
 const submit_merchant_id = document.getElementById("merchant_id")
 const submit_ammount = document.getElementById("amount_id")
@@ -135,14 +137,10 @@ next_btn.addEventListener("click", async ()=>{
 
 
 
-pay_merchant_button.addEventListener("click", async (event)=>{
-
+form.addEventListener("submit", async (event)=>{
     event.preventDefault()
 
     const pay_msg = document.getElementById("pay_msg")
-
-    const form = document.getElementById("pay_form")
-    
 
     const formData = new FormData(form)
 
@@ -154,7 +152,6 @@ pay_merchant_button.addEventListener("click", async (event)=>{
     myHeaders.append("Cookie", `csrftoken=${csrf_token}`);
 
     
-    pay_merchant_button.disabled = true
 
     const response = await fetch(`/dashboard/s/pay`, {
         method: 'POST',
@@ -163,20 +160,18 @@ pay_merchant_button.addEventListener("click", async (event)=>{
         redirect: "follow"
       });
 
-
-    
-    const result = await response.json();
-
-    const redirect_url = `/payment_success`
-
     if (response.redirected){
-        window.location = redirect_url;
-    }
-    else if (!result.success){
-        pay_msg.textContent = result.msg;
-        pay_merchant_button.disabled = false;
-    }
+        window.location = response.url;
+    }   
 
+    const result = await response.json();
+    
+    if (result.success === false){
+        
+        pay_msg.textContent = result.msg;
+    }
+    
+    
 })
 
 
