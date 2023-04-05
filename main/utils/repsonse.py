@@ -13,7 +13,7 @@ class CustomResponse(JsonResponse):
 
         response = {
         "status": status, 
-        "msg" : msg,
+        "message" : msg,
         "success":success,
         "data": data
         }
@@ -37,23 +37,16 @@ class HttpResponseNotFound(CustomResponse):
         super().__init__(msg, status=404, success=False)
 
 
-class HttpResponseForbidden(CustomResponse):
-
-    def __init__(self, msg) -> None:
-
-        super().__init__(msg, status=400, success=False)
-
-
-class HttpResponseNotAllowed(CustomResponse):
-
-    def __init__(self, msg) -> None:
-
-        super().__init__(msg, status=400, success=False)
-
-
 
 class HttpResponseBadRequest(CustomResponse):
 
     def __init__(self, msg) -> None:
 
         super().__init__(msg, status=400,  success=False)
+
+
+class HttpResponsePaymentRequired(CustomResponse):
+
+    def __init__(self, msg) -> None:
+
+        super().__init__(msg, status=402,  success=False)

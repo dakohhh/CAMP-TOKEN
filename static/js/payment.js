@@ -18,7 +18,7 @@ function getCSRFToken() {
 }
 
 
-
+// FROM DJANGO
 const merchant_id_input = document.getElementById("id_merchant_wallet_id")
 
 const ammount_input = document.getElementById("id_amount")
@@ -27,7 +27,11 @@ const wallet_id_msg = document.getElementById("wallet_id_msg")
 
 const next_btn = document.getElementById("next_btn");
 
-const trans_form = document.getElementById("trans_form");
+
+
+
+//MODAL FORM 
+
 
 const show_merchant = document.getElementById("show_merchant");
 
@@ -38,7 +42,7 @@ const form = document.getElementById("pay_form")
 const pay_msg = document.getElementById("pay_msg")
 
 
-
+// POST FORM PARAM
 const submit_merchant_id = document.getElementById("merchant_id")
 const submit_ammount = document.getElementById("amount_id")
 const pay_merchant_button = document.getElementById("pay_merchant_btn")
@@ -153,6 +157,7 @@ form.addEventListener("submit", async (event)=>{
     myHeaders.append("Cookie", `csrftoken=${csrf_token}`);
 
     
+
 
     const response = await fetch(`/dashboard/s/pay`, {
         method: 'POST',
