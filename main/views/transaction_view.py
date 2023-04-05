@@ -48,8 +48,10 @@ def pay_merchant(request:HttpRequest):
                 merchant.balance += float(amount)
 
                 merchant.save()
+
         except ValidationError:
-            return HttpResponseBadRequest("wisdomda")
+
+            return HttpResponseBadRequest("Transaction Failed")
 
         print(merchant.email, merchant.balance)
 

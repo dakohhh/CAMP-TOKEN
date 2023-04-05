@@ -39,3 +39,21 @@ class CustomUser(AbstractUser):
 
 
 
+
+
+class Transactions(models.Model):
+
+    transaction_id = models.CharField(max_length=20, primary_key=True, blank=True)
+
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recipient_transactions')
+
+    status = models.SmallIntegerField(null=False)
+
+    description = models.TextField(null=True)
+
+    date_added = models.DateTimeField(auto_now_add=True, null=False)
+
+
+
