@@ -1,4 +1,5 @@
 import random
+from secrets import token_hex
 from main.models import CustomUser
 
 
@@ -20,6 +21,11 @@ def generate_wallet_id(length):
 
             return num
 
+
+
+def generate_transaction_id(length):
+    
+    return token_hex(length)
 
 
 

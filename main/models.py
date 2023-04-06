@@ -1,4 +1,5 @@
 from django.db import models
+from .utils.generate import generate_transaction_id
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
@@ -43,7 +44,7 @@ class CustomUser(AbstractUser):
 
 class Transactions(models.Model):
 
-    transaction_id = models.CharField(max_length=20, primary_key=True, blank=True)
+    transaction_id = models.CharField(max_length=20, primary_key=True, blank=True, default=generate_transaction_id(10))
 
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 

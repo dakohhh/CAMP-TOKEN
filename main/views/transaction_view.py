@@ -4,7 +4,7 @@ from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
-from main.models import CustomUser
+from main.models import CustomUser, Transactions
 from main.utils.shortcuts import get_object_or_none
 from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,
                                  HttpResponsePaymentRequired,HttpResponseBadRequest)
@@ -27,7 +27,6 @@ def pay_merchant(request:HttpRequest):
         
         trans_pin = request.POST.get("trans_pin")
 
-        # payment to merchant
 
         if int(trans_pin) != test_pin:
             return HttpResponseUnauthorized("Incorrect Pin")
@@ -36,8 +35,12 @@ def pay_merchant(request:HttpRequest):
         if request.user.balance < float(amount):
             return HttpResponsePaymentRequired("Insufficient Balance, you may need to fund your wallet")
         
-        merchant = get_object_or_none(CustomUser, wallet_id=merchant_wallet_id)
+        # Get the merchant from the wallet id
         
+        merchant = get_object_or_none(CustomUser, wallet_id=merchant_wallet_id)
+
+        # - START TRANSACTION LOOP
+
         try:
 
             with transaction.atomic():
@@ -49,11 +52,16 @@ def pay_merchant(request:HttpRequest):
 
                 merchant.save()
 
+                Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=1)
+
         except ValidationError:
+
+            Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=0)
 
             return HttpResponseBadRequest("Transaction Failed")
 
-        print(merchant.email, merchant.balance)
+        except Exception:
+            pass
 
         return redirect("payment_success")
 
