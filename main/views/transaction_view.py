@@ -23,7 +23,7 @@ def pay_merchant(request:HttpRequest):
         
         merchant_wallet_id = request.POST.get("merchant_wallet_id")
 
-        amount = request.POST.get("amount")
+        amount = float(request.POST.get("amount"))
         
         trans_pin = request.POST.get("trans_pin")
 
@@ -41,14 +41,15 @@ def pay_merchant(request:HttpRequest):
 
         # - START TRANSACTION LOOP
 
-        try:
 
+        try:
             with transaction.atomic():
-                request.user.balance -= float(amount)
+               
+                request.user.balance -= amount
 
                 request.user.save()
 
-                merchant.balance += float(amount)
+                merchant.balance += amount
 
                 merchant.save()
 
@@ -60,9 +61,7 @@ def pay_merchant(request:HttpRequest):
 
             return HttpResponseBadRequest("Transaction Failed")
 
-        except Exception:
-            pass
-
+    
         return redirect("payment_success")
 
     context = {"form": form}
@@ -79,9 +78,9 @@ def payment_success(request:HttpRequest):
 
 
 @login_required(login_url="login")
-def payment_success(request:HttpRequest):
+def payment_failed(request:HttpRequest):
 
-    return render(request, "transactions/pay_success.html")
+    return render(request, "transactions/pay_failed.html")
 
 
 

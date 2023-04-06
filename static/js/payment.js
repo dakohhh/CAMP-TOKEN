@@ -164,18 +164,24 @@ form.addEventListener("submit", async (event)=>{
         headers: myHeaders,
         body: formData,
         redirect: "follow"
-      });
+    });
 
     if (response.redirected){
-        window.location = response.url;
-    }   
+        window.location = response.url
+    }
 
     const result = await response.json();
     
-    if (result.success === false){
+    console.log(result)
+    console.log(result.success)
 
-        pay_msg.textContent = result.msg;
+    if (result.success === false){
+        
+        pay_msg.textContent = result.message;
     }
+   
+    
+   
     
     
 })

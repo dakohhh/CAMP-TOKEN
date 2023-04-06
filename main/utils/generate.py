@@ -23,11 +23,6 @@ def generate_wallet_id(length):
 
 
 
-def generate_transaction_id(length):
-    
-    return token_hex(length)
-
-
 
 
 

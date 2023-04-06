@@ -1,5 +1,5 @@
 from django.db import models
-from .utils.generate import generate_transaction_id
+from .utils.shortcuts import generate_transaction_id
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
@@ -50,9 +50,9 @@ class Transactions(models.Model):
 
     recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recipient_transactions')
 
-    status = models.SmallIntegerField(null=False)
+    amount = models.FloatField(null=False)
 
-    description = models.TextField(null=True)
+    status = models.SmallIntegerField(null=False)
 
     date_added = models.DateTimeField(auto_now_add=True, null=False)
 
