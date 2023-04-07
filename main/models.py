@@ -44,7 +44,7 @@ class CustomUser(AbstractUser):
 
 class Transactions(models.Model):
 
-    transaction_id = models.CharField(max_length=20, primary_key=True, blank=True, default=generate_transaction_id(10))
+    transaction_id = models.CharField(max_length=30, primary_key=True, blank=True)
 
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 

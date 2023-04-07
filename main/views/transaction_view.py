@@ -5,8 +5,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
 from main.models import CustomUser, Transactions
-from django.contrib import messages
-from main.utils.shortcuts import get_object_or_none
+from main.utils.shortcuts import generate_transaction_id, get_object_or_none, does_object_exists
 from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
@@ -41,6 +40,8 @@ def pay_merchant(request:HttpRequest):
             
             merchant = get_object_or_none(CustomUser, wallet_id=merchant_wallet_id)
 
+            transaction_id = generate_transaction_id(15)
+
 
             # - START TRANSACTION LOOP
 
@@ -55,16 +56,16 @@ def pay_merchant(request:HttpRequest):
 
                     merchant.save()
 
-                    Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=1)
+                    Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=1)
 
             except ValidationError:
 
-                Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=0)
+                Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=0)
 
                 return HttpResponseBadRequest("Transaction Failed")
 
     
-            return redirect("payment_merchant_success")
+            return redirect("payment_merchant_success",transaction_id=transaction_id)
 
     context = {"form": form}
 
@@ -73,9 +74,30 @@ def pay_merchant(request:HttpRequest):
 
 
 @login_required(login_url="login")
-def payment_success(request:HttpRequest):
+def payment_success(request:HttpRequest, transaction_id):
 
-    return render(request, "transactions/pay_success.html")
+    transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
+
+    if not transaction:
+        return Exception
+    
+    recipient = transaction.recipient.business_name
+
+    amount = transaction.amount
+
+    date_added = transaction.date_added
+
+    transaction = {
+        "recipient": recipient, 
+        "amount": amount,
+
+        "date_added": date_added
+
+    }
+
+    context = {"transaction": transaction}
+
+    return render(request, "transactions/pay_success.html", context)
 
 
 
