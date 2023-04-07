@@ -32,6 +32,7 @@ const next_btn = document.getElementById("next_btn");
 
 //MODAL FORM 
 
+const modal = document.getElementById("modal");
 
 const show_merchant = document.getElementById("show_merchant");
 
@@ -41,6 +42,7 @@ const form = document.getElementById("pay_form")
 
 const pay_msg = document.getElementById("pay_msg")
 
+const modal_close_btn = document.getElementById("modal_close_btn")
 
 // POST FORM PARAM
 const submit_merchant_id = document.getElementById("merchant_id")
@@ -96,7 +98,7 @@ merchant_id_input.addEventListener("input", async (event) =>{
 
         }
         else{
-            wallet_id_msg.textContent = "Wallet ID Not Found";
+            wallet_id_msg.textContent = result.message;
 
             merchant_id_input.disabled = false
 
@@ -137,9 +139,16 @@ next_btn.addEventListener("click", async ()=>{
     submit_merchant_id.value = merchant_id_input.value;
     submit_ammount.value = ammount_input.value;
 
+    modal.style.display = "block";
+
 })
 
+modal_close_btn.addEventListener("click", async ()=>{
 
+    modal.style.display = "none";
+    pay_msg.textContent = "";
+
+})
 
 
 
@@ -185,6 +194,16 @@ form.addEventListener("submit", async (event)=>{
     
     
 })
+
+
+
+function openModal() {
+}
+		
+function closeModal() {
+    modal.style.display = "none";
+}
+
 
 
 

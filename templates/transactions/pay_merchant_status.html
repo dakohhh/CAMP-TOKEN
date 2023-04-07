@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <title>Pay Success</title>
+
+
+
+
+</header>
+<body>
+    <div class="">
+        
+        <h1 style="text-align: center;"></h1>
+        <br>
+        <h1 style="text-align: center;">#{{ transaction.amount }}</h1>
+        <br>
+        <h1 style="text-align: center;">{% if transaction.status == 1 %} SUCCESS! {% elif transaction.status == 0  %} FAILED {% endif %}</h1>
+        <br>
+        <h1 style="text-align: center;">{{ transaction.recipient|upper }}</h1>
+        <br>
+        <h1 style="text-align: center;">RECIPT NO: {{ transaction.id }}</h1>
+        
+        <a href="{% url 'dashboard_student' %}">Go back to Dashboard</a>
+
+
+    </div>
+
+</body>
+
+
+</html> 

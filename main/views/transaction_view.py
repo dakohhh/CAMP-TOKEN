@@ -1,4 +1,4 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.db import transaction
 from django.core.exceptions import ValidationError
@@ -62,10 +62,10 @@ def pay_merchant(request:HttpRequest):
 
                 Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=0)
 
-                return HttpResponseBadRequest("Transaction Failed")
+                return redirect("payment_merchant_status",transaction_id=transaction_id)
 
     
-            return redirect("payment_merchant_success",transaction_id=transaction_id)
+            return redirect("payment_merchant_status",transaction_id=transaction_id)
 
     context = {"form": form}
 
@@ -74,37 +74,32 @@ def pay_merchant(request:HttpRequest):
 
 
 @login_required(login_url="login")
-def payment_success(request:HttpRequest, transaction_id):
+def payment_merchant_status(request:HttpRequest, transaction_id):
 
     transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
 
     if not transaction:
-        return Exception
+        return HttpResponse("Page not found", status=404)
     
     recipient = transaction.recipient.business_name
 
     amount = transaction.amount
 
+    status = transaction.status
+
     date_added = transaction.date_added
 
     transaction = {
+        "id": transaction_id,
         "recipient": recipient, 
         "amount": amount,
-
+        "status": status,
         "date_added": date_added
-
     }
 
     context = {"transaction": transaction}
 
-    return render(request, "transactions/pay_success.html", context)
-
-
-
-@login_required(login_url="login")
-def payment_failed(request:HttpRequest):
-
-    return render(request, "transactions/pay_failed.html")
+    return render(request, "transactions/pay_merchant_status.html", context)
 
 
 
@@ -118,12 +113,10 @@ def confirm_merchant_wallet_id(request:HttpRequest):
 
         # 4318883660
 
-        print(merchant.business_name)
     except:
         return HttpResponseNotFound("Merchant Wallet ID not Found")
     
     if not merchant.is_merchant:
         return HttpResponseNotFound("Merchant Wallet ID not Found")
-
 
     return CustomResponse("ID Confirmed Successfully", data=merchant.business_name)
