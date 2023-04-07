@@ -5,9 +5,9 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
 from main.models import CustomUser, Transactions
+from django.contrib import messages
 from main.utils.shortcuts import get_object_or_none
-from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,
-                                 HttpResponsePaymentRequired,HttpResponseBadRequest)
+from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
 
@@ -31,38 +31,40 @@ def pay_merchant(request:HttpRequest):
         if int(trans_pin) != test_pin:
             return HttpResponseUnauthorized("Incorrect Pin")
 
+        elif request.user.balance < amount:
 
-        if request.user.balance < float(amount):
-            return HttpResponsePaymentRequired("Insufficient Balance, you may need to fund your wallet")
+            return HttpResponseBadRequest("Insufficient Balance, you may need to fund your wallet")
         
-        # Get the merchant from the wallet id
-        
-        merchant = get_object_or_none(CustomUser, wallet_id=merchant_wallet_id)
+        else:
 
-        # - START TRANSACTION LOOP
+            # Get the merchant from the wallet id
+            
+            merchant = get_object_or_none(CustomUser, wallet_id=merchant_wallet_id)
 
 
-        try:
-            with transaction.atomic():
-               
-                request.user.balance -= amount
+            # - START TRANSACTION LOOP
 
-                request.user.save()
+            try:
+                with transaction.atomic():
+                
+                    request.user.balance -= amount
 
-                merchant.balance += amount
+                    request.user.save()
 
-                merchant.save()
+                    merchant.balance += amount
 
-                Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=1)
+                    merchant.save()
 
-        except ValidationError:
+                    Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=1)
 
-            Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=0)
+            except ValidationError:
 
-            return HttpResponseBadRequest("Transaction Failed")
+                Transactions.objects.create(sender=request.user, recipient=merchant, amount=amount, status=0)
+
+                return HttpResponseBadRequest("Transaction Failed")
 
     
-        return redirect("payment_success")
+            return redirect("payment_merchant_success")
 
     context = {"form": form}
 

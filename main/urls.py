@@ -38,14 +38,17 @@ urlpatterns = [
 
     path("dashboard/s/pay", transaction_view.pay_merchant, name="pay_merchant"),
 
-
     # - CONFIRM MERCHANT 
 
     path("confirm_merchant_wallet_id", transaction_view.confirm_merchant_wallet_id, name="confirm_merchant_wallet_id"),
 
-    # - PAY SUCCESS
+    # - PAY MERCHANT SUCCESS
 
-    path("payment_success", transaction_view.payment_success, name="payment_success"),
+    path("payments/success/<str:transaction_id>", transaction_view.payment_success, name="payment_merchant_success"),
+
+    # - PAY MERCHANT FAILED
+
+    path("payments/success/<str:transaction_id>", transaction_view.payment_failed, name="payment_merchant_failed"),
 
 
 ]

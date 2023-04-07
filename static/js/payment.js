@@ -147,6 +147,8 @@ next_btn.addEventListener("click", async ()=>{
 form.addEventListener("submit", async (event)=>{
     event.preventDefault()
 
+    pay_merchant_button.disabled = true;
+
     const formData = new FormData(form)
 
     const myHeaders = new Headers();
@@ -172,16 +174,14 @@ form.addEventListener("submit", async (event)=>{
 
     const result = await response.json();
     
-    console.log(result)
-    console.log(result.success)
 
     if (result.success === false){
-        
         pay_msg.textContent = result.message;
     }
-   
-    
-   
+
+
+    pay_merchant_button.disabled = false;
+
     
     
 })
