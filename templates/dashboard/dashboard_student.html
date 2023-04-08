@@ -25,7 +25,7 @@
             <ul>
                 {% for transaction in trans_history %}
                 <li>
-                    <h3>{{transaction.amount}}</h3>
+                    <h3>{% if transaction.type == 1 %} - {% elif transaction.type == 2 %} + {% endif %} {{transaction.amount}}</h3>
                     <p>{{transaction.recipient.business_name}}<p>
                     <p> {{ transaction.get_type_display }}</p>
                     <br>

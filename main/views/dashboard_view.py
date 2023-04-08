@@ -3,6 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from main.models import CustomUser, Transactions
+from main.utils.shortcuts import group_transactions_by_date
 
 
 
@@ -16,13 +17,6 @@ def dashboard_student(request:HttpRequest):
         return redirect("dashboard_merchant")
     
     trans_history = Transactions.objects.filter(sender=request.user)
-
-
-    for i in trans_history:
-        print(i.recipient)
-        print(i.status)
-        print(i.date_added)
-        print(i.amount)
 
 
     context = {
@@ -58,20 +52,17 @@ def dashboard_merchant(request:HttpRequest):
     if not user.is_merchant:
         return redirect("dashboard_student")
 
-    trans_history = Transactions.objects.filter(recipient=request.user)
+    trans_history = Transactions.objects.filter(recipient=request.user).order_by("-date_added")
 
-    for i in trans_history:
-        print(i.recipient)
-        print(i.status)
-        print(i.date_added)
-        print(i.amount)
-    
+
+    transactions_by_date = group_transactions_by_date(trans_history)
+
     context = {
         "business_name": user.business_name,
         "last_name": user.last_name,
         "balance": user.balance,
         "wallet_id":user.wallet_id, 
-        "trans_history": trans_history
+        "transactions_by_date": transactions_by_date
     }
 
     return render(request, "dashboard/dashboard_merchants.html", context)

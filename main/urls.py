@@ -52,7 +52,7 @@ urlpatterns = [
 
     # - REFUND STUDENT
 
-    path("refund_student/<str:transaction_id>", transaction_view.payment_merchant_status, name="refund_student")
+    path("refund_student/<str:transaction_id>", transaction_view.refund_student, name="refund_student")
 
 
 

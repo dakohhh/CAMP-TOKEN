@@ -23,14 +23,17 @@
             <h3>Transaction History: </h3>
             
             <ul>
-                {% for transaction in trans_history %}
-                <li>
-                    <h3>{{transaction.amount}}</h3>
+                {% for date, transaction_group in transactions_by_date.items %}
+                <h3>{{date}}</h3>
+                 <li>
+                    {% for transaction in transaction_group %}
+                    <h3>{% if transaction.type == 1 %} + {% elif transaction.type == 2 %} - {% endif %} {{transaction.amount}}</h3>
                     <p>{{transaction.sender.first_name}} {{transaction.sender.last_name}}<p>
                     <p>{% if transaction.type == 1 %} Recieved {% elif transaction.type == 2 %} Refunded {% endif %}</p>
                     <br>
+                    {% endfor %}
                 </li>
-                {% endfor %}
+                {% endfor %} 
             <ul>
 
         </div>
