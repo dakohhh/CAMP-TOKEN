@@ -52,6 +52,8 @@ class Transactions(models.Model):
 
     amount = models.FloatField(null=False)
 
+    type = models.SmallIntegerField(null=False)
+
     status = models.SmallIntegerField(null=False)
 
     date_added = models.DateTimeField(auto_now_add=True, null=False)

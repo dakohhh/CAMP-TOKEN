@@ -34,6 +34,10 @@ urlpatterns = [
 
     path("dashboard/m/", dashboard_view.dashboard_merchant, name="dashboard_merchant"),
 
+    # - TRANSACTION HISTORY FOR STUDENT 
+
+    path("dashboard/s/transactions/<str:transaction_id>", dashboard_view.dashboard_student, name="transactions_student"),
+
     # - PAY A MERCHANT
 
     path("dashboard/s/pay", transaction_view.pay_merchant, name="pay_merchant"),

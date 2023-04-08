@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
 from main.models import CustomUser, Transactions
-from main.utils.shortcuts import generate_transaction_id, get_object_or_none, does_object_exists
+from main.utils.shortcuts import generate_transaction_id, get_object_or_none
 from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
@@ -24,10 +24,10 @@ def pay_merchant(request:HttpRequest):
 
         amount = float(request.POST.get("amount"))
         
-        trans_pin = request.POST.get("trans_pin")
+        trans_pin = int(request.POST.get("trans_pin"))
 
 
-        if int(trans_pin) != test_pin:
+        if trans_pin != test_pin:
             return HttpResponseUnauthorized("Incorrect Pin")
 
         elif request.user.balance < amount:
@@ -79,6 +79,8 @@ def payment_merchant_status(request:HttpRequest, transaction_id):
     transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
 
     if not transaction:
+
+        # ??? return custom 404 page
         return HttpResponse("Page not found", status=404)
     
     recipient = transaction.recipient.business_name

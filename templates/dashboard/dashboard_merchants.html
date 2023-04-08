@@ -23,12 +23,13 @@
             <h3>Transaction History: </h3>
             
             <ul>
-                <li>History one</li>
-                <li>History two</li>
-                <li>History three</li>
-                <li>History four</li>
-            
-
+                {% for transaction in trans_history %}
+                <li>
+                    <h3>{{transaction.amount}}</h3>
+                    <p>{{transaction.sender}}<p>
+                    <br>
+                </li>
+                {% endfor %}
             <ul>
 
         </div>
