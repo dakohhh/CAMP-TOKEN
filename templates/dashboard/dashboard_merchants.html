@@ -26,7 +26,8 @@
                 {% for transaction in trans_history %}
                 <li>
                     <h3>{{transaction.amount}}</h3>
-                    <p>{{transaction.sender}}<p>
+                    <p>{{transaction.sender.first_name}} {{transaction.sender.last_name}}<p>
+                    <p>{% if transaction.type == 1 %} Recieved {% elif transaction.type == 2 %} Refunded {% endif %}</p>
                     <br>
                 </li>
                 {% endfor %}

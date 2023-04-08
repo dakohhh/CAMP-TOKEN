@@ -56,11 +56,11 @@ def pay_merchant(request:HttpRequest):
 
                     merchant.save()
 
-                    Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=1)
+                    Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=1, type=1)
 
             except ValidationError:
 
-                Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=0)
+                Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=0, type=1)
 
                 return redirect("payment_merchant_status",transaction_id=transaction_id)
 
@@ -70,6 +70,38 @@ def pay_merchant(request:HttpRequest):
     context = {"form": form}
 
     return render(request, "transactions/pay_merchant.html", context)
+
+
+@login_required(login_url="login")
+@transaction.atomic
+def refund_student(request:HttpRequest, transaction_id):
+    
+    if request.method == "POST":
+
+        test_pin = 5050
+
+        _transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
+
+        try:
+            with transaction.atomic():
+
+                request.user.balance -= _transaction.amount
+
+                request.user.save()
+
+                _transaction.sender.balance += _transaction.amount
+
+                Transactions.objects.create(transaction_id=transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, status=1, type=2)
+
+        except ValidationError:
+            pass
+
+        
+
+
+        
+
+
 
 
 
@@ -102,6 +134,8 @@ def payment_merchant_status(request:HttpRequest, transaction_id):
     context = {"transaction": transaction}
 
     return render(request, "transactions/pay_merchant_status.html", context)
+
+
 
 
 

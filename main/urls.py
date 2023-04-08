@@ -50,6 +50,10 @@ urlpatterns = [
 
     path("payments/status/<str:transaction_id>", transaction_view.payment_merchant_status, name="payment_merchant_status"),
 
+    # - REFUND STUDENT
+
+    path("refund_student/<str:transaction_id>", transaction_view.payment_merchant_status, name="refund_student")
+
 
 
 ]
