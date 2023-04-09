@@ -30,7 +30,14 @@
                     <h3>{% if transaction.type == 1 %} + {% elif transaction.type == 2 %} - {% endif %} {{transaction.amount}}</h3>
                     <p>{{transaction.sender.first_name}} {{transaction.sender.last_name}}<p>
                     <p>{% if transaction.type == 1 %} Recieved {% elif transaction.type == 2 %} Refunded {% endif %}</p>
-                    <br>
+                    <p>{{ transaction.date_added }}</p>
+                    {% if transaction.type == 2 %}
+                    {% elif transaction.type == 1 and transaction.was_refunded == False %}
+                        <p><a href="{% url 'refund_student' transaction.transaction_id %}" >Refund</a></p>
+                    {% else %}
+                        <p> Was Refunded </p>
+                    {% endif %}
+                    <p>========================================</p>
                     {% endfor %}
                 </li>
                 {% endfor %} 

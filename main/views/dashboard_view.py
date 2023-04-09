@@ -16,7 +16,12 @@ def dashboard_student(request:HttpRequest):
     if not user.is_student:
         return redirect("dashboard_merchant")
     
-    trans_history = Transactions.objects.filter(sender=request.user)
+
+    trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added")
+
+    transactions_by_date = group_transactions_by_date(trans_history)
+
+
 
 
     context = {
@@ -24,7 +29,7 @@ def dashboard_student(request:HttpRequest):
         "last_name": user.last_name,
         "balance": user.balance,
         "wallet_id":user.wallet_id,
-        "trans_history": trans_history 
+        "transactions_by_date": transactions_by_date
     }
 
     return render(request, "dashboard/dashboard_student.html", context)

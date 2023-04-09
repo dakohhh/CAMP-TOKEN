@@ -62,6 +62,8 @@ class Transactions(models.Model):
 
     status = models.SmallIntegerField(choices=TRANSACTION_STATUS)
 
+    was_refunded = models.BooleanField(default=False)
+
     date_added = models.DateTimeField(auto_now_add=True, null=False)
 
 

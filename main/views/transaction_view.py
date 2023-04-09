@@ -78,6 +78,12 @@ def pay_merchant(request:HttpRequest):
 @csrf_exempt
 @transaction.atomic
 def refund_student(request:HttpRequest, transaction_id):
+
+    _transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
+
+    if not _transaction:
+        # ??? return custom 404 page
+        return HttpResponse("Page not found", status=404)
     
     if request.method == "POST":
         test_pin = 5050
@@ -87,13 +93,11 @@ def refund_student(request:HttpRequest, transaction_id):
         if trans_pin != test_pin:
             return HttpResponseUnauthorized("Incorrect Pin")
 
-        _transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
-
         refund_transaction_id = generate_transaction_id(15)
 
         try:
             with transaction.atomic():
-
+                
                 request.user.balance -= float(_transaction.amount)
 
                 request.user.save()
@@ -101,6 +105,10 @@ def refund_student(request:HttpRequest, transaction_id):
                 _transaction.sender.balance += float(_transaction.amount)
 
                 _transaction.sender.save()
+
+                _transaction.was_refunded = True
+
+                _transaction.save()
 
                 Transactions.objects.create(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, status=1, type=2)
 
@@ -111,8 +119,9 @@ def refund_student(request:HttpRequest, transaction_id):
 
             return HttpResponseBadRequest("Refund Failed")
 
-    return HttpResponse("This is the refund student page")
-            
+    context = {"transaction":_transaction}
+
+    return render(request, "transactions/refund_student.html", context)
 
 
 
