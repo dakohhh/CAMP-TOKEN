@@ -42,7 +42,7 @@ urlpatterns = [
 
     # - PAY A MERCHANT
 
-    path("dashboard/s/pay", transaction_view.pay_merchant, name="pay_merchant"),
+    path("dashboard/s/pay_merchant", transaction_view.pay_merchant, name="pay_merchant"),
 
     # - CONFIRM MERCHANT 
 

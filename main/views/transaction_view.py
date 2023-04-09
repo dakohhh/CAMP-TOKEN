@@ -6,12 +6,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
 from main.models import CustomUser, Transactions
-from main.utils.shortcuts import generate_transaction_id, get_object_or_none
+from main.utils.shortcuts import generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student
 from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
 
 @login_required(login_url="login")
+@forbidden_if_merchant
 @transaction.atomic
 def pay_merchant(request:HttpRequest):
 
@@ -75,6 +76,7 @@ def pay_merchant(request:HttpRequest):
 
 
 @login_required(login_url="login")
+@forbidden_if_student
 @csrf_exempt
 @transaction.atomic
 def refund_student(request:HttpRequest, transaction_id):
@@ -127,6 +129,7 @@ def refund_student(request:HttpRequest, transaction_id):
 
 
 @login_required(login_url="login")
+@forbidden_if_merchant
 def payment_merchant_status(request:HttpRequest, transaction_id):
 
     transaction = get_object_or_none(Transactions, transaction_id=transaction_id)

@@ -1,5 +1,5 @@
 
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from main.models import CustomUser, Transactions
@@ -20,8 +20,6 @@ def dashboard_student(request:HttpRequest):
     trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added")
 
     transactions_by_date = group_transactions_by_date(trans_history)
-
-
 
 
     context = {

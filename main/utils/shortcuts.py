@@ -1,5 +1,8 @@
 from collections import OrderedDict
 from django.db.models import Model
+from django.http import HttpResponseForbidden
+from django.http.request import HttpRequest
+from django.shortcuts import redirect
 from main.models import CustomUser, Transactions
 from secrets import token_hex
 from typing  import Type
@@ -37,6 +40,30 @@ def group_transactions_by_date(trans_history:QuerySet[Transactions])-> dict:
                 transactions_by_date[transaction.date_added.date().strftime("%B %d %Y")] = [transaction]
 
     return transactions_by_date
+
+
+
+def forbidden_if_merchant(view_func):
+    def wrapper(request:HttpRequest, *args, **kwargs):
+
+        if request.user.is_merchant:
+            return HttpResponseForbidden("You do not have permission to access this page, forbidden for merchants")
+        
+        return view_func(request, *args, **kwargs)
+
+    return wrapper
+
+
+def forbidden_if_student(view_func):
+    def wrapper(request:HttpRequest, *args, **kwargs):
+
+        if request.user.is_student:
+            return HttpResponseForbidden("You do not have permission to access this page, forbidden for students")
+        
+        return view_func(request, *args, **kwargs)
+
+    return wrapper
+
 
 
 def generate_transaction_id(length):
