@@ -1,8 +1,10 @@
-from django.urls import path
+from django.urls import path, re_path
+
 from .views import auth_view
 from .views import home_view
 from .views import dashboard_view
 from .views import transaction_view
+from .views import handle_404_error
 
 
 urlpatterns = [
@@ -52,7 +54,9 @@ urlpatterns = [
 
     # - REFUND STUDENT
 
-    path("refund_student/<str:transaction_id>", transaction_view.refund_student, name="refund_student")
+    path("refund_student/<str:transaction_id>", transaction_view.refund_student, name="refund_student"), 
+
+    re_path(r'^.*$', handle_404_error.custom_404_view),
 
 
 
