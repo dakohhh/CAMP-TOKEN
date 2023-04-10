@@ -36,25 +36,26 @@ urlpatterns = [
 
     path("dashboard/m/", dashboard_view.dashboard_merchant, name="dashboard_merchant"),
 
-    # - TRANSACTION HISTORY FOR STUDENT 
-
-    path("dashboard/s/transactions/<str:transaction_id>", dashboard_view.dashboard_student, name="transactions_student"),
 
     # - PAY A MERCHANT
 
-    path("dashboard/s/pay_merchant", transaction_view.pay_merchant, name="pay_merchant"),
+    path("/pay_merchant", transaction_view.pay_merchant, name="pay_merchant"),
 
     # - CONFIRM MERCHANT 
 
     path("confirm_merchant_wallet_id", transaction_view.confirm_merchant_wallet_id, name="confirm_merchant_wallet_id"),
 
-    # - PAY MERCHANT SUCCESS OR FAILED
+    # - PAY MERCHANT STATUS SUCCESS OR FAILED
 
-    path("payments/status/<str:transaction_id>", transaction_view.payment_merchant_status, name="payment_merchant_status"),
+    path("pay_merchant/status/<str:transaction_id>", transaction_view.payment_merchant_status, name="payment_merchant_status"),
 
     # - REFUND STUDENT
 
     path("refund_student/<str:transaction_id>", transaction_view.refund_student, name="refund_student"), 
+
+    # - REFUND STUDENT STATUS SUCCESS OR FAILED
+
+    path("refund_student/status/<str:transaction_id>",transaction_view.refund_student_status, name="refund_student_status"), 
 
     re_path(r'^.*$', handle_404_error.custom_404_view),
 

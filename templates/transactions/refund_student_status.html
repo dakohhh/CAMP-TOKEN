@@ -17,7 +17,10 @@
         <br>
         <h1 style="text-align: center;">{% if transaction.status == 1 %} SUCCESS! {% elif transaction.status == 0  %} FAILED {% endif %}</h1>
         <br>
+        <h1 style="text-align: center;"> REFUNDED TO {{ transaction.sender.first_name }} {{ transaction.sender.last_name }}</h1>
+        <br>
         <h1 style="text-align: center;">{{ transaction.recipient|upper }}</h1>
+        <br>
         <br>
         <h1 style="text-align: center;">RECIPT NO: {{ transaction.id }}</h1>
         

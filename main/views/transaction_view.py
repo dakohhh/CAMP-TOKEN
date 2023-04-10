@@ -145,20 +145,13 @@ def payment_merchant_status(request:HttpRequest, transaction_id):
         # ??? return custom 404 page
         return HttpResponse("Page not found", status=404)
     
-    recipient = transaction.recipient.business_name
-
-    amount = transaction.amount
-
-    status = transaction.status
-
-    date_added = transaction.date_added
 
     transaction = {
         "id": transaction_id,
-        "recipient": recipient, 
-        "amount": amount,
-        "status": status,
-        "date_added": date_added
+        "recipient": transaction.recipient.business_name, 
+        "amount": transaction.amount,
+        "status": transaction.status,
+        "date_added": transaction.date_added
     }
 
     context = {"transaction": transaction}
@@ -166,6 +159,22 @@ def payment_merchant_status(request:HttpRequest, transaction_id):
     return render(request, "transactions/pay_merchant_status.html", context)
 
 
+
+@login_required(login_url="login")
+@forbidden_if_merchant
+def refund_student_status(request:HttpRequest, transaction_id):
+
+    transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
+
+    if not transaction:
+        # ??? return custom 404 page
+        return HttpResponse("Page not found", status=404)
+    
+
+
+    context = {"transaction": transaction}
+
+    return render(request, "transactions/refund_student_status.html", context)
 
 
 
