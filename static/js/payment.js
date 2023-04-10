@@ -170,7 +170,7 @@ form.addEventListener("submit", async (event)=>{
     
 
 
-    const response = await fetch(`/dashboard/s/pay`, {
+    const response = await fetch(`/dashboard/s/pay_merchant`, {
         method: 'POST',
         headers: myHeaders,
         body: formData,

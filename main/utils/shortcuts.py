@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from django.db.models import Model
-from django.http import HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden
 from django.http.request import HttpRequest
 from django.shortcuts import redirect
 from main.models import CustomUser, Transactions
@@ -64,6 +64,19 @@ def forbidden_if_student(view_func):
 
     return wrapper
 
+
+def forbidden_if_already_refunded(view_func):
+    def wrapper(request:HttpRequest, transaction_id:str,  *args, **kwargs):
+        
+        transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
+
+        if transaction.was_refunded:
+            return HttpResponseForbidden("Refund has already been made")
+        
+        return view_func(request, transaction_id, *args, **kwargs)
+
+    return wrapper
+   
 
 
 def generate_transaction_id(length):

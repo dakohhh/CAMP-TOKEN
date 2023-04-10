@@ -1,4 +1,4 @@
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.db import transaction
 from django.core.exceptions import ValidationError
@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
 from main.models import CustomUser, Transactions
-from main.utils.shortcuts import generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student
+from main.utils.shortcuts import generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student, forbidden_if_already_refunded
 from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
@@ -77,15 +77,17 @@ def pay_merchant(request:HttpRequest):
 
 @login_required(login_url="login")
 @forbidden_if_student
+@forbidden_if_already_refunded
 @csrf_exempt
 @transaction.atomic
-def refund_student(request:HttpRequest, transaction_id):
+def refund_student(request:HttpRequest, transaction_id:str):
 
     _transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
 
     if not _transaction:
         # ??? return custom 404 page
-        return HttpResponse("Page not found", status=404)
+        raise Http404()
+    
     
     if request.method == "POST":
         test_pin = 5050
@@ -94,6 +96,10 @@ def refund_student(request:HttpRequest, transaction_id):
 
         if trans_pin != test_pin:
             return HttpResponseUnauthorized("Incorrect Pin")
+
+        elif request.user.balance < float(_transaction.amount):
+
+            return HttpResponseBadRequest("Insufficient Balance, you may need to fund your wallet")
 
         refund_transaction_id = generate_transaction_id(15)
 
