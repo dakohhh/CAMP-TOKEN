@@ -1,4 +1,4 @@
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.db import transaction
 from django.core.exceptions import ValidationError
@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
 from main.models import CustomUser, Transactions
-from main.utils.shortcuts import generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student, forbidden_if_already_refunded
+from main.utils.shortcuts import forbidden_if_already_refunded, generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student
 from main.utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
@@ -120,12 +120,13 @@ def refund_student(request:HttpRequest, transaction_id:str):
 
                 Transactions.objects.create(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, status=1, type=2)
 
-                return CustomResponse("Refunded Sucessfully")
+                return redirect("refund_student_status", transaction_id=transaction_id)
 
         except ValidationError:
             Transactions.objects.create(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, status=0, type=2)
 
-            return HttpResponseBadRequest("Refund Failed")
+            return redirect("refund_student_status", transaction_id=transaction_id)
+            
 
     context = {"transaction":_transaction}
 
@@ -142,17 +143,11 @@ def payment_merchant_status(request:HttpRequest, transaction_id):
 
     if not transaction:
 
-        # ??? return custom 404 page
+        # raise Http404 here
+    
         return HttpResponse("Page not found", status=404)
     
 
-    transaction = {
-        "id": transaction_id,
-        "recipient": transaction.recipient.business_name, 
-        "amount": transaction.amount,
-        "status": transaction.status,
-        "date_added": transaction.date_added
-    }
 
     context = {"transaction": transaction}
 
@@ -161,16 +156,17 @@ def payment_merchant_status(request:HttpRequest, transaction_id):
 
 
 @login_required(login_url="login")
-@forbidden_if_merchant
+@forbidden_if_student
 def refund_student_status(request:HttpRequest, transaction_id):
 
     transaction = get_object_or_none(Transactions, transaction_id=transaction_id)
 
     if not transaction:
-        # ??? return custom 404 page
+
+        # raise Http404 here
+
         return HttpResponse("Page not found", status=404)
     
-
 
     context = {"transaction": transaction}
 
@@ -178,22 +174,17 @@ def refund_student_status(request:HttpRequest, transaction_id):
 
 
 
-
-
 @login_required(login_url="login")
 def confirm_merchant_wallet_id(request:HttpRequest):
 
-    try:
-        merchant_id = request.GET.get("id")
+    merchant_wallet_id = request.GET.get("id")
 
-        merchant = CustomUser.objects.get(wallet_id=merchant_id)
 
-        # 4318883660
+    merchant = get_object_or_none(CustomUser,wallet_id=merchant_wallet_id)
 
-    except:
-        return HttpResponseNotFound("Merchant Wallet ID not Found")
+    # 4318883660
     
-    if not merchant.is_merchant:
+    if not merchant or (merchant.is_merchant == False):
         return HttpResponseNotFound("Merchant Wallet ID not Found")
 
     return CustomResponse("ID Confirmed Successfully", data=merchant.business_name)

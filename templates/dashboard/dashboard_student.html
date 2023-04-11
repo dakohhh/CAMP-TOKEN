@@ -41,7 +41,7 @@
                      <li>
                         {% for transaction in transaction_group %}
                         <h3>{% if transaction.type == 1 %} - {% elif transaction.type == 2 %} + {% endif %} {{transaction.amount}}</h3>
-                        <p>{{transaction.sender.first_name}} {{transaction.sender.last_name}}<p>
+                        <p>{{transaction.recipient.business_name}}<p>
                         <p>{% if transaction.type == 1 %} Sent {% elif transaction.type == 2 %} Refunded {% endif %}</p>
                         <p>{{ transaction.date_added }}</p>
                         {% if transaction.type == 2 %}
