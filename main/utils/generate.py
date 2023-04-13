@@ -1,6 +1,8 @@
 import random
+import uuid
 from secrets import token_hex
 from main.models import CustomUser
+
 
 
 
@@ -23,6 +25,9 @@ def generate_wallet_id(length):
 
 
 
+def generate_verification_token():
+
+    return str(uuid.uuid4())
 
 
 

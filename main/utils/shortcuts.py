@@ -5,6 +5,7 @@ from django.http.request import HttpRequest
 from django.shortcuts import redirect
 from main.models import CustomUser, Transactions
 from secrets import token_hex
+import uuid
 from typing  import Type
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
@@ -82,10 +83,14 @@ def forbidden_if_already_refunded(view_func):
 
 
 
+def get_verification_url(request:HttpRequest, verification_token:str):
+
+    base_url = request.build_absolute_uri("/")[:-1]
+
+    return f"{base_url}/token?={verification_token}"
 
 
-
-def generate_transaction_id(length):
+def generate_transaction_id(length:int):
     
     return token_hex(length)
 

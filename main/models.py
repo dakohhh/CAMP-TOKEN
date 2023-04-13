@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 
@@ -66,6 +67,17 @@ class Transactions(models.Model):
 
     date_added = models.DateTimeField(auto_now_add=True, null=False)
 
+
+
+class VerificationToken(models.Model):
+
+    user_email =models.EmailField()
+    token = models.CharField(max_length=64, unique=True)
+    expiration_time = models.DateTimeField()
+    
+
+    def is_token_expired(self):
+        return timezone.now() > self.expiration_time
 
 
 

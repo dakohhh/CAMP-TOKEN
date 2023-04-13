@@ -19,7 +19,7 @@
         <br>
         <h1 style="text-align: center;">{{ transaction.recipient.business_name|upper }}</h1>
         <br>
-        <h1 style="text-align: center;">RECIPT NO: {{ transaction.id }}</h1>
+        <h1 style="text-align: center;">RECIPT NO: {{ transaction.transaction_id }}</h1>
         
         <a href="{% url 'dashboard_student' %}">Go back to Dashboard</a>
 

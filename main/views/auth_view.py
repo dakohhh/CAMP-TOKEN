@@ -1,12 +1,16 @@
-from django.http import HttpRequest, HttpResponse
+import datetime
+from django.http import HttpRequest
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.contrib.auth import authenticate
+from django.utils import timezone
+from main.utils.generate import generate_verification_token
+from main.utils.shortcuts import get_verification_url
+from main.utils.crud import save_verifcation_token
 from main.forms import SignupStudentForm, SignupMerchantForm, LoginForm
-from main.models import CustomUser
 from main.utils.generate import generate_wallet_id
 
-from django.contrib import messages
 
 
 
@@ -31,14 +35,23 @@ async def signup_student(request:HttpRequest):
 
             current_user.save()
 
-            # Setup 2FA
+            verification_token = generate_verification_token()
+
+            expiration_time = timezone.now() + datetime.timedelta(minutes=3)
+
+            save_verifcation_token(current_user.email, verification_token, expiration_time)
+
+            verification_url = get_verification_url(request, verification_token)
+
 
             # send welcome mail
 
             # flash messages
 
             return redirect("home")
+        
     context = {"form": form}
+
     return render(request, "registration/signup_student.html", context)
 
 
@@ -60,6 +73,8 @@ async def signup_merchants(request:HttpRequest):
             current_user.save()
 
             # Setup 2FA
+
+            #create token
 
             # send welcome mail
 
@@ -91,23 +106,29 @@ def login(request:HttpRequest):
         email = request.POST.get("username")
         password = request.POST.get("password")
 
+        
         user = authenticate(request, email=email, password=password)
 
-        if user is not None:
+        if user is not None and (user.is_verified):
+
             auth.login(request, user)
            
-
-            if request.user.is_student:
+            if user.is_student:
                 return redirect("dashboard_student")
         
-            elif request.user.is_merchant:
+            elif user.is_merchant:
                 return redirect("dashboard_merchant")
-            
+        
+        elif user is not None and (not user.is_verified):
+
+            messages.error(request, "User is not Verified")
         else:
+            
             messages.warning(request, "Email or password is incorrect")
 
-            
+    
     context = {"form":form}
+    
 
     return render(request, "login/login_student.html", context)
 
