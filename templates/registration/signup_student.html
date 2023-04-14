@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <header>
@@ -10,6 +11,13 @@
     <div class="">
 
         <h3>Signup as Students</h3>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor  %}
+        </ul>
+        {% endif %}
 
         <form method="POST" action="" autocomplete="off">
             {% csrf_token %}
@@ -19,9 +27,9 @@
 
         </form>
 
-
-
     </div>
 
 </body>
+
+<script src="{% static 'js/signup.js' %}"></script>
 </html>

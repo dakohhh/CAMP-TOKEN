@@ -3,7 +3,9 @@ from django.urls import path, re_path
 from .views import auth_view
 from .views import home_view
 from .views import dashboard_view
+from .views import dashboard_view
 from .views import transaction_view
+from .views import verification_view
 from .views import handle_404_error
 
 
@@ -18,7 +20,7 @@ urlpatterns = [
 
     # -  SIGNUP MERCHANT
 
-    path("accounts/signup/merchant", auth_view.signup_merchants, name="signup_merchant"),
+    path("accounts/signup/merchant", auth_view.signup_merchant, name="signup_merchant"),
 
     # -  LOGIN STUDENT
 
@@ -27,6 +29,10 @@ urlpatterns = [
     # - LOGOUT 
     
     path("accounts/logout", auth_view.logout, name="logout"),
+
+    # VERIFY ACCOUNT
+
+    path("accounts/verify", verification_view.verify, name="verify"),
 
     # - DASHBOARD STUDENT
 

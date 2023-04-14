@@ -17,7 +17,7 @@ from main.utils.generate import generate_wallet_id
 
 
 # - AUTHENTICATIONS
-async def signup_student(request:HttpRequest):
+def signup_student(request:HttpRequest):
 
     form = SignupStudentForm()
 
@@ -41,21 +41,21 @@ async def signup_student(request:HttpRequest):
 
             save_verifcation_token(current_user.email, verification_token, expiration_time)
 
-            verification_url = get_verification_url(request, verification_token)
+            verification_url = get_verification_url(request,current_user.email, verification_token)
 
-
+            print(verification_url)
             # send welcome mail
 
-            # flash messages
-
-            return redirect("home")
+            messages.success(request, "Verification Email has been sent")
+            
+            return redirect("signup_student")
         
     context = {"form": form}
 
     return render(request, "registration/signup_student.html", context)
 
 
-async def signup_merchants(request:HttpRequest):
+def signup_merchant(request:HttpRequest):
 
     form = SignupMerchantForm()
 
@@ -72,17 +72,24 @@ async def signup_merchants(request:HttpRequest):
     
             current_user.save()
 
-            # Setup 2FA
+            verification_token = generate_verification_token()
 
-            #create token
+            expiration_time = timezone.now() + datetime.timedelta(minutes=3)
+
+            save_verifcation_token(current_user.email, verification_token, expiration_time)
+
+            verification_url = get_verification_url(request,current_user.email, verification_token)
+
+            print(verification_url)
+
+            messages.success(request, "Verification Email has been sent")
 
             # send welcome mail
 
-            # flash messages
-
-            return redirect("home")
+            return redirect("signup_merchant")
 
     context = {"form": form}
+
     return render(request, "registration/signup_merchant.html", context)
 
 

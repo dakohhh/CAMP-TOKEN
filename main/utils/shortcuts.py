@@ -3,7 +3,7 @@ from django.db.models import Model
 from django.http import Http404, HttpResponse, HttpResponseForbidden
 from django.http.request import HttpRequest
 from django.shortcuts import redirect
-from main.models import CustomUser, Transactions
+from main.models import CustomUser, Transactions, VerificationToken
 from secrets import token_hex
 import uuid
 from typing  import Type
@@ -13,7 +13,7 @@ from typing import Union
 
 
 
-def get_object_or_none(klass:Type[Model], *args, **kwargs)-> Union[CustomUser, Transactions]:
+def get_object_or_none(klass:Type[Model], *args, **kwargs)-> Union[CustomUser, Transactions, VerificationToken, None]:
     try:
         return klass.objects.get(*args, **kwargs)
     except klass.DoesNotExist:
@@ -83,23 +83,26 @@ def forbidden_if_already_refunded(view_func):
 
 
 
-def get_verification_url(request:HttpRequest, verification_token:str):
+def get_verification_url(request:HttpRequest, email:str, verification_token:str):
 
     base_url = request.build_absolute_uri("/")[:-1]
 
-    return f"{base_url}/token?={verification_token}"
+    return f"{base_url}/accounts/verify?email={email}&token={verification_token}"
+
+
+
+
+def is_valid_verification(email:str, token:str) -> bool :
+
+    verification = get_object_or_none(VerificationToken, user_email=email, token=token)
+
+    if verification !=  None and (not verification.is_token_expired()):
+        return True
+    else:
+        return False
 
 
 def generate_transaction_id(length:int):
     
     return token_hex(length)
 
-
-def is_student(user:User):
-
-    return user.is_student == True
-
-
-def is_merchant(user:User):
-    
-    return user.is_student == True
