@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from main.models import CustomUser, Transactions
 from main.utils.shortcuts import group_transactions_by_date
+from main.utils.repsonse import CustomResponse
 
 
 
@@ -69,3 +70,16 @@ def dashboard_merchant(request:HttpRequest):
     }
 
     return render(request, "dashboard/dashboard_merchants.html", context)
+
+
+
+@login_required(login_url="login")
+def get_user(request:HttpRequest):
+
+    data = {
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+        "email": request.user.email
+    }
+
+    return CustomResponse("User Retrieved Successfull", data=data)

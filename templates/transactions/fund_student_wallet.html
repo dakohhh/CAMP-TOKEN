@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <title>Add Money</title>
+    <style></style>
+
+
+</header>
+<body>
+    <div class="">
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor  %}
+            </ul>
+        {% endif %}
+
+        <h3>Add Money</h3>
+
+        <p>Balance: ₦{{ balance }}</p>
+
+        <input type="number" id="amount_id" name="amount" placeholder="₦0.00">
+        <br><br>
+
+        <label for="description">Description:</label>
+        <br>
+        <textarea id="description" name="description" rows="5" cols="50" placeholder="Enter a description..."></textarea>
+
+        <br>
+        
+        <button id="fund_wallet_button" type="submit">Fund Wallet</button>
+
+        
+
+
+        <p>Comming Soon.....</p>
+        <p><a href="{% url 'fund_student_wallet' %}">Pay with Quick Teller</a></p>
+
+        <p><a href="{% url 'fund_student_wallet' %}">Pay Camp Bank</a></p>
+        
+        
+
+
+
+    </div>
+
+</body>
+<script src="{% static 'js/fund_student.js' %}"></script>
+<script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
+</html>

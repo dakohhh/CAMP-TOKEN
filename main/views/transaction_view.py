@@ -188,3 +188,16 @@ def confirm_merchant_wallet_id(request:HttpRequest):
         return HttpResponseNotFound("Merchant Wallet ID not Found")
 
     return CustomResponse("ID Confirmed Successfully", data=merchant.business_name)
+
+
+
+
+
+@login_required(login_url="login")
+@forbidden_if_merchant
+def fund_student_wallet(request:HttpRequest):
+    
+    
+    context = {"balance": request.user.balance}
+    
+    return render(request, "transactions/fund_student_wallet.html", context)
