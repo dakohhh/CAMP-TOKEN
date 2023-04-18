@@ -1,7 +1,5 @@
-from main.models import CustomUser, VerificationToken
 from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
-
+from main.models import CustomUser, VerificationToken
 from main.utils.shortcuts import get_object_or_none
 
 

@@ -10,6 +10,18 @@ from main.utils.repsonse import CustomResponse
 
 
 @login_required(login_url="login")
+def get_user(request:HttpRequest):
+
+    data = {
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+        "email": request.user.email
+    }
+
+    return CustomResponse("User Retrieved Successfull", data=data)
+
+
+@login_required(login_url="login")
 def dashboard_student(request:HttpRequest):
     
     user = CustomUser.objects.get(email=request.user)
@@ -32,19 +44,6 @@ def dashboard_student(request:HttpRequest):
     }
 
     return render(request, "dashboard/dashboard_student.html", context)
-
-
-
-@login_required(login_url="login")
-def transactions_student(request):
-
-
-
-    return render(request, "transaction/transaction_student.html")
-
-
-
-
 
 
 
@@ -72,14 +71,3 @@ def dashboard_merchant(request:HttpRequest):
     return render(request, "dashboard/dashboard_merchants.html", context)
 
 
-
-@login_required(login_url="login")
-def get_user(request:HttpRequest):
-
-    data = {
-        "first_name": request.user.first_name,
-        "last_name": request.user.last_name,
-        "email": request.user.email
-    }
-
-    return CustomResponse("User Retrieved Successfull", data=data)

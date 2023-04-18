@@ -36,7 +36,7 @@ function payWithMonnify(amount, first_name, last_name, email, description) {
         currency: "NGN",
         reference: new String((new Date()).getTime()),
         customerFullName: `${first_name} ${last_name}`,
-        customerEmail: "wisdomdakoh@gmail.com",
+        customerEmail: email,
         apiKey: "",
         contractCode: "",
         paymentDescription: description,

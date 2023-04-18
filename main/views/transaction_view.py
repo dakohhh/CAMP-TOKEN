@@ -37,8 +37,6 @@ def pay_merchant(request:HttpRequest):
             return HttpResponseBadRequest("Insufficient Balance, you may need to fund your wallet")
         
         else:
-
-            # Get the merchant from the wallet id
             
             merchant = get_object_or_none(CustomUser, wallet_id=merchant_wallet_id)
 
@@ -196,7 +194,7 @@ def confirm_merchant_wallet_id(request:HttpRequest):
 @login_required(login_url="login")
 @forbidden_if_merchant
 def fund_student_wallet(request:HttpRequest):
-    
+
     
     context = {"balance": request.user.balance}
     
