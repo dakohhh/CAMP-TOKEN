@@ -1,20 +1,18 @@
 import datetime
-from django.http import HttpRequest
-from django.contrib import messages
-from django.shortcuts import redirect, render
-from django.contrib import auth
-from django.contrib.auth import authenticate
 from django.utils import timezone
-from main.utils.generate import generate_verification_token
-from main.utils.shortcuts import get_verification_url
-from main.utils.crud import save_verifcation_token
+from django.http import HttpRequest
+from django.contrib import messages, auth
+from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from utils.generate import generate_verification_token
+from utils.shortcuts import get_verification_url, group_transactions_by_date
+from utils.crud import save_verifcation_token
+from utils.repsonse import CustomResponse
+from utils.generate import generate_wallet_id
+from main.models import CustomUser
+from Transactions.models import Transactions
 from main.forms import SignupStudentForm, SignupMerchantForm, LoginForm
-from main.utils.generate import generate_wallet_id
-
-
-
-
-
 
 # - AUTHENTICATIONS
 def signup_student(request:HttpRequest):
@@ -146,6 +144,70 @@ def logout(request:HttpRequest):
     auth.logout(request)
 
     return redirect("login")
+
+
+
+
+@login_required(login_url="login")
+def get_user(request:HttpRequest):
+
+    data = {
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+        "email": request.user.email
+    }
+
+    return CustomResponse("User Retrieved Successfull", data=data)
+
+
+@login_required(login_url="login")
+def dashboard_student(request:HttpRequest):
+    
+    user = CustomUser.objects.get(email=request.user)
+
+    if not user.is_student:
+        return redirect("dashboard_merchant")
+    
+
+    trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added")
+
+    transactions_by_date = group_transactions_by_date(trans_history)
+
+
+    context = {
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "balance": user.balance,
+        "wallet_id":user.wallet_id,
+        "transactions_by_date": transactions_by_date
+    }
+
+    return render(request, "dashboard/dashboard_student.html", context)
+
+
+
+@login_required(login_url="login")
+def dashboard_merchant(request:HttpRequest):
+
+    user = CustomUser.objects.get(email=request.user)
+
+    if not user.is_merchant:
+        return redirect("dashboard_student")
+
+    trans_history = Transactions.objects.filter(recipient=request.user).order_by("-date_added")
+
+
+    transactions_by_date = group_transactions_by_date(trans_history)
+
+    context = {
+        "business_name": user.business_name,
+        "last_name": user.last_name,
+        "balance": user.balance,
+        "wallet_id":user.wallet_id, 
+        "transactions_by_date": transactions_by_date
+    }
+
+    return render(request, "dashboard/dashboard_merchants.html", context)
 
 
 

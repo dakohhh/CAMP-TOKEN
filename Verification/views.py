@@ -1,6 +1,6 @@
 from django.http import HttpRequest, HttpResponse
-from main.utils.shortcuts import is_valid_verification
-from main.utils.crud import delete_verfication_token, update_user_verication
+from utils.shortcuts import is_valid_verification
+from utils.crud import delete_verfication_token, update_user_verication
 
 
 

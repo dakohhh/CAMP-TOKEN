@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "main.apps.MainConfig",
+    "Transactions.apps.TransactionsConfig",
+    "Payments.apps.PaymentsConfig",
+    "Verification.apps.VerificationConfig",
 
 
 ]

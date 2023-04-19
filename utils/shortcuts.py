@@ -1,16 +1,14 @@
+from secrets import token_hex
+from typing  import Type
+from typing import Union
 from collections import OrderedDict
 from django.db.models import Model
 from django.http import Http404, HttpResponse, HttpResponseForbidden
 from django.http.request import HttpRequest
-from django.shortcuts import redirect
-from main.models import CustomUser, Transactions, VerificationToken
-from secrets import token_hex
-import uuid
-from typing  import Type
-from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
-from typing import Union
-
+from main.models import CustomUser
+from Transactions.models import Transactions
+from Verification.models import VerificationToken
 
 
 def get_object_or_none(klass:Type[Model], *args, **kwargs)-> Union[CustomUser, Transactions, VerificationToken, None]:

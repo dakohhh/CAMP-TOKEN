@@ -1,6 +1,7 @@
 from datetime import datetime
-from main.models import CustomUser, VerificationToken
-from main.utils.shortcuts import get_object_or_none
+from main.models import CustomUser
+from Verification.models import VerificationToken
+from utils.shortcuts import get_object_or_none
 
 
 
