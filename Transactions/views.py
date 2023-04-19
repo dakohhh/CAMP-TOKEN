@@ -5,7 +5,8 @@ from django.core.exceptions import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from main.forms import PayMerchantForm
-from main.models import CustomUser, Transactions
+from main.models import CustomUser
+from .models import Transactions
 from utils.shortcuts import forbidden_if_already_refunded, generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student
 from utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
