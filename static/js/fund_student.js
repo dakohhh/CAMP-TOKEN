@@ -37,8 +37,8 @@ function payWithMonnify(amount, first_name, last_name, email, description) {
         reference: new String((new Date()).getTime()),
         customerFullName: `${first_name} ${last_name}`,
         customerEmail: email,
-        apiKey: "",
-        contractCode: "",
+        apiKey: "MK_TEST_JXGSBYF0C9",
+        contractCode: "7675112414",
         paymentDescription: description,
         isTestMode: true,
         metadata: {

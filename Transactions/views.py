@@ -8,7 +8,7 @@ from main.forms import PayMerchantForm
 from main.models import CustomUser
 from .models import Transactions
 from utils.shortcuts import forbidden_if_already_refunded, generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student
-from utils.crud import pay_merchant_transaction
+from utils.crud import pay_merchant_transaction, refund_student_transaction
 from utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
@@ -30,10 +30,8 @@ def pay_merchant(request:HttpRequest):
         
         trans_pin = int(request.POST.get("trans_pin"))
 
-
         if trans_pin != test_pin:
             return HttpResponseUnauthorized("Incorrect Pin")
-        
         
         elif request.user.balance < amount:
 
@@ -49,14 +47,9 @@ def pay_merchant(request:HttpRequest):
                 return HttpResponseNotFound("Merchant not found")
 
 
-            transfer = pay_merchant_transaction(request, merchant_wallet_id, amount, )
+            pay_merchant_transaction(request, merchant, amount, transaction_id)
 
-            if transfer:
-                return redirect("payment_merchant_status",transaction_id=transaction_id)
-            else:
-                return redirect("payment_merchant_status",transaction_id=transaction_id)
-
-
+            return redirect("payment_merchant_status",transaction_id=transaction_id)
 
 
     context = {"form": form}
@@ -68,7 +61,6 @@ def pay_merchant(request:HttpRequest):
 @login_required(login_url="login")
 @forbidden_if_student
 @forbidden_if_already_refunded
-@csrf_exempt
 @transaction.atomic
 def refund_student(request:HttpRequest, transaction_id:str):
 
@@ -77,7 +69,6 @@ def refund_student(request:HttpRequest, transaction_id:str):
     if not _transaction:
         # ??? return custom 404 page
         raise Http404()
-    
     
     if request.method == "POST":
         test_pin = 5050
@@ -90,32 +81,13 @@ def refund_student(request:HttpRequest, transaction_id:str):
         elif request.user.balance < float(_transaction.amount):
 
             return HttpResponseBadRequest("Insufficient Balance, you may need to fund your wallet")
-
+        
+        
         refund_transaction_id = generate_transaction_id(15)
 
-        try:
-            with transaction.atomic():
-                
-                request.user.balance -= float(_transaction.amount)
+        refund_student_transaction(request, _transaction, refund_transaction_id)
 
-                request.user.save()
-
-                _transaction.sender.balance += float(_transaction.amount)
-
-                _transaction.sender.save()
-
-                _transaction.was_refunded = True
-
-                _transaction.save()
-
-                Transactions.objects.create(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, status=1, type=2)
-
-                return redirect("refund_student_status", transaction_id=transaction_id)
-
-        except ValidationError:
-            Transactions.objects.create(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, status=0, type=2)
-
-            return redirect("refund_student_status", transaction_id=transaction_id)
+        return redirect("refund_student_status", transaction_id=transaction_id)
             
 
     context = {"transaction":_transaction}
@@ -172,7 +144,7 @@ def confirm_merchant_wallet_id(request:HttpRequest):
 
     merchant = get_object_or_none(CustomUser,wallet_id=merchant_wallet_id)
 
-    # 4318883660
+    # 4558664727
     
     if not merchant or (merchant.is_merchant == False):
         return HttpResponseNotFound("Merchant Wallet ID not Found")
