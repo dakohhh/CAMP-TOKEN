@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import urls
 from django.http import HttpRequest
 from django.shortcuts import render 
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 
 
@@ -32,6 +32,7 @@ def home(request:HttpRequest):
 def custom_404_view(request:HttpRequest, exception=None):
 
     return render(request, '404.html', status=404)
+
 
 urls.handler404 = custom_404_view
 
@@ -47,6 +48,8 @@ urlpatterns = [
     path("", include("Verification.urls")),
     
     path("", home, name="home"),
+
+    re_path(r'^.*$', custom_404_view),
     
 ]
 

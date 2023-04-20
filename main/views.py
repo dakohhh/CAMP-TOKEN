@@ -5,12 +5,14 @@ from django.contrib import messages, auth
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.sessions.models import Session
 from utils.generate import generate_verification_token
-from utils.shortcuts import get_verification_url, group_transactions_by_date
+from utils.shortcuts import get_verification_url, group_transactions_by_date, get_object_or_none
 from utils.crud import save_verifcation_token
 from utils.repsonse import CustomResponse
 from utils.generate import generate_wallet_id
 from main.models import CustomUser
+from django.core.cache import cache
 from Transactions.models import Transactions
 from main.forms import SignupStudentForm, SignupMerchantForm, LoginForm
 
@@ -94,13 +96,10 @@ def signup_merchant(request:HttpRequest):
 
 
 def login(request:HttpRequest):
-    
-    if request.user.is_authenticated == True:
 
-
+    if request.user.is_authenticated:
         if request.user.is_student:
             return redirect("dashboard_student")
-        
         elif request.user.is_merchant:
             return redirect("dashboard_merchant")
    
@@ -111,29 +110,39 @@ def login(request:HttpRequest):
         email = request.POST.get("username")
         password = request.POST.get("password")
 
-        
         user = authenticate(request, email=email, password=password)
 
-        if user is not None and (user.is_verified):
+        if user is not None and user.is_verified:
+            prev_user_id = request.session.get('user_id', None)
+            if prev_user_id:
+                try:
+                    prev_session = Session.objects.get(session_key=prev_user_id)
+                    prev_session.delete()
+                except Session.DoesNotExist:
+                    pass
+
+            # set the new user's session
+            request.session['user_id'] = user.id
+                    
 
             auth.login(request, user)
-           
+            
+
             if user.is_student:
                 return redirect("dashboard_student")
-        
+            
             elif user.is_merchant:
                 return redirect("dashboard_merchant")
-        
-        elif user is not None and (not user.is_verified):
-
-            messages.error(request, "User is not Verified")
-        else:
             
+            
+            
+        elif user is not None and not user.is_verified:
+            messages.error(request, "User is not Verified")
+
+        else:
             messages.warning(request, "Email or password is incorrect")
 
-    
     context = {"form":form}
-    
 
     return render(request, "login/login_student.html", context)
 
@@ -163,9 +172,8 @@ def get_user(request:HttpRequest):
 @login_required(login_url="login")
 def dashboard_student(request:HttpRequest):
     
-    user = CustomUser.objects.get(email=request.user)
 
-    if not user.is_student:
+    if not request.user.is_student:
         return redirect("dashboard_merchant")
     
 
@@ -175,12 +183,14 @@ def dashboard_student(request:HttpRequest):
 
 
     context = {
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "balance": user.balance,
-        "wallet_id":user.wallet_id,
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+        "balance": request.user.balance,
+        "wallet_id":request.user.wallet_id,
         "transactions_by_date": transactions_by_date
     }
+
+
 
     return render(request, "dashboard/dashboard_student.html", context)
 
@@ -189,9 +199,7 @@ def dashboard_student(request:HttpRequest):
 @login_required(login_url="login")
 def dashboard_merchant(request:HttpRequest):
 
-    user = CustomUser.objects.get(email=request.user)
-
-    if not user.is_merchant:
+    if not request.user.is_merchant:
         return redirect("dashboard_student")
 
     trans_history = Transactions.objects.filter(recipient=request.user).order_by("-date_added")
@@ -200,10 +208,10 @@ def dashboard_merchant(request:HttpRequest):
     transactions_by_date = group_transactions_by_date(trans_history)
 
     context = {
-        "business_name": user.business_name,
-        "last_name": user.last_name,
-        "balance": user.balance,
-        "wallet_id":user.wallet_id, 
+        "business_name": request.user.business_name,
+        "last_name": request.user.last_name,
+        "balance": request.user.balance,
+        "wallet_id": request.user.wallet_id, 
         "transactions_by_date": transactions_by_date
     }
 

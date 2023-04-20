@@ -56,6 +56,10 @@ INSTALLED_APPS = [
 
 # CSRF_HEADER_NAME = "HTTP_X_CSRFTOKEN"
 
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -148,5 +152,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+SESSION_SAVE_EVERY_REQUEST = False 
 
 

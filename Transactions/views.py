@@ -8,6 +8,7 @@ from main.forms import PayMerchantForm
 from main.models import CustomUser
 from .models import Transactions
 from utils.shortcuts import forbidden_if_already_refunded, generate_transaction_id, get_object_or_none, forbidden_if_merchant, forbidden_if_student
+from utils.crud import pay_merchant_transaction
 from utils.repsonse import(CustomResponse, HttpResponseNotFound, HttpResponseUnauthorized,HttpResponseBadRequest)
 
 
@@ -32,41 +33,31 @@ def pay_merchant(request:HttpRequest):
 
         if trans_pin != test_pin:
             return HttpResponseUnauthorized("Incorrect Pin")
-
+        
+        
         elif request.user.balance < amount:
 
             return HttpResponseBadRequest("Insufficient Balance, you may need to fund your wallet")
         
         else:
-            
             merchant = get_object_or_none(CustomUser, wallet_id=merchant_wallet_id)
 
             transaction_id = generate_transaction_id(15)
 
 
-            # - START TRANSACTION LOOP
+            if merchant is None:
+                return HttpResponseNotFound("Merchant not found")
 
-            try:
-                with transaction.atomic():
-                
-                    request.user.balance -= amount
 
-                    request.user.save()
+            transfer = pay_merchant_transaction(request, merchant_wallet_id, amount, )
 
-                    merchant.balance += amount
-
-                    merchant.save()
-
-                    Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=1, type=1)
-
-            except ValidationError:
-
-                Transactions.objects.create(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, status=0, type=1)
-
+            if transfer:
+                return redirect("payment_merchant_status",transaction_id=transaction_id)
+            else:
                 return redirect("payment_merchant_status",transaction_id=transaction_id)
 
-    
-            return redirect("payment_merchant_status",transaction_id=transaction_id)
+
+
 
     context = {"form": form}
 
