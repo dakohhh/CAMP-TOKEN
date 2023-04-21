@@ -17,6 +17,15 @@ def save_verifcation_token(email:str,token:str, expiration_time:datetime):
     verification.save()
 
 
+def update_verication_token(email, token:str, expiration_time:datetime):
+
+    verification = get_object_or_none(VerificationToken, email=email)
+
+    verification.token = token
+    
+    verification.expiration_time = expiration_time
+
+    verification.save()
 
 
 
@@ -27,10 +36,12 @@ def delete_verfication_token(token):
     if token: token_obj.delete()
 
 
-def update_user_verication(email, status=True):
+def update_user(email, transaction_pin:int=None, status=True):
     user = get_object_or_none(CustomUser, email=email)
 
     user.is_verified = status
+
+    user.transaction_pin = transaction_pin
     
     user.save()
 

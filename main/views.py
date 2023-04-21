@@ -37,7 +37,7 @@ def signup_student(request:HttpRequest):
 
             verification_token = generate_verification_token()
 
-            expiration_time = timezone.now() + datetime.timedelta(minutes=3)
+            expiration_time = timezone.now() + datetime.timedelta(minutes=30)
 
             save_verifcation_token(current_user.email, verification_token, expiration_time)
 
