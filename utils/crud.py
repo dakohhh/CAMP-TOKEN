@@ -19,10 +19,10 @@ def save_verifcation_token(email:str,token:str, expiration_time:datetime):
 
 def update_verication_token(email, token:str, expiration_time:datetime):
 
-    verification = get_object_or_none(VerificationToken, email=email)
+    verification = get_object_or_none(VerificationToken, user_email=email)
 
     verification.token = token
-    
+
     verification.expiration_time = expiration_time
 
     verification.save()

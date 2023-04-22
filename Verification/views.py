@@ -3,11 +3,12 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
 from django.utils import timezone
+from Verification.models import VerificationToken
 from main.models import CustomUser
 from utils.generate import generate_verification_token
-from utils.repsonse import HttpResponseNotFound
-from utils.shortcuts import get_verification_url, is_valid_verification
-from utils.crud import delete_verfication_token, save_verifcation_token, update_user
+from utils.repsonse import CustomResponse, HttpResponseNotFound, HttpResponseBadRequest
+from utils.shortcuts import get_object_or_none, get_verification_url, is_valid_verification
+from utils.crud import delete_verfication_token, save_verifcation_token, update_verication_token, update_user
 
 
 
@@ -24,8 +25,8 @@ def verify(request:HttpRequest):
 
         transaction_pin = request.POST.get("trans_pin")
         
-
         delete_verfication_token(token)
+
         update_user(email, transaction_pin)
 
         return HttpResponse("Account Vertified Successfully")
@@ -41,24 +42,36 @@ def resend_verification(request:HttpRequest):
 
         email = request.POST.get("email")
 
-        if CustomUser.objects.filter(email=email).exists():
+        user = get_object_or_none(CustomUser, email=email)
 
+
+        if user is not None and not user.is_verified:
             verification_token = generate_verification_token()
 
             expiration_time = timezone.now() + datetime.timedelta(minutes=30)
 
-            save_verifcation_token(email, verification_token, expiration_time)
+            if VerificationToken.objects.filter(user_email=email).exists():
 
+                update_verication_token(email, verification_token, expiration_time)
+            
+            else:
+                save_verifcation_token(email, verification_token, expiration_time)
 
             verification_url = get_verification_url(request, email, verification_token)
 
             print(verification_url)
-            
+
             # send welcome mail
+            return CustomResponse("Verification Link has been sent")
+
+        elif user is not None and user.is_verified:
+            
+            return HttpResponseBadRequest("Email Already Verified")
+        
         else:
             return HttpResponseNotFound("Email not found")
 
-    return render(request,)
+    return render(request,"verification/resend_verification_page.html")
 
 
 

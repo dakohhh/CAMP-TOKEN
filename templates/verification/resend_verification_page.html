@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <header>
-    <title>Pay</title>
+    <title>Resend Verification</title>
     <style></style>
 
 
@@ -11,13 +11,13 @@
 <body>
     <div class="">
 
-        <h3>Verification</h3>
+        <h3>Resend Verification</h3>
 
         <form method="POST">
             {% csrf_token %}
-            <label for="trans_pin">Enter your new transaction pin: </label>
+            <label for="trans_pin">Enter your email: </label>
     
-            <input id="trans_pin" type="number" name="trans_pin" required>
+            <input id="email" type="email" name="email" required>
             <br>
             <br>
             <button type="submit" id="next_btn" >Next</button>
