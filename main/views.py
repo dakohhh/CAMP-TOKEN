@@ -55,6 +55,10 @@ def signup_student(request:HttpRequest):
     return render(request, "registration/signup_student.html", context)
 
 
+
+
+
+
 def signup_merchant(request:HttpRequest):
 
     form = SignupMerchantForm()
