@@ -3,8 +3,12 @@ from . import views
 
 urlpatterns = [
 
+    # SIGNUP STUDENT
 
-    #SIGNUP STUDENT
-    path("accounts/signup/student", views.signup_student, name="signup_student")
+    path("accounts/signup/student", views.signup_student, name="signup_student"),
+
+    # SIGNUP MERCHANT
+
+    path("accounts/signup/merchant", views.signup_merchant, name="signup_merchant"),
 
 ]

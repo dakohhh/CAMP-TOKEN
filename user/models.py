@@ -59,7 +59,7 @@ class User(AbstractUser, PermissionsMixin):
 
     last_name = models.CharField(max_length=100, blank=True, null=True)
     
-    email = models.EmailField(db_index=True, unique=True, null=False)
+    email = models.EmailField(max_length=254, db_index=True, unique=True, null=False)
 
     wallet_id = models.IntegerField(unique=True, null=False)
 

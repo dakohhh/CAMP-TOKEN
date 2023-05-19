@@ -4,21 +4,39 @@ from .models import User
 
 
 class StudentRegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True, max_length=254)
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(render_value=False), help_text='')
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(render_value=False), help_text='')
+    first_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+
+    last_name = forms.CharField(max_length=100, required=True,widget=forms.TextInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+
+    email = forms.EmailField(max_length=254,required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+
+    phone_number = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+    
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}, render_value=False))
+    
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}, render_value=False), help_text='')
 
     class Meta:
         model = User
+        
         fields = ['first_name', 'last_name', 'email', 'phone_number', 'password1', 'password2']
 
 
 
 class MerchantRegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True, max_length=254)
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(render_value=False), help_text='')
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(render_value=False), help_text='')
+    first_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+
+    last_name = forms.CharField(max_length=100, required=True,widget=forms.TextInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+
+    email = forms.EmailField(max_length=254,required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+
+    phone_number = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))
+    
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}, render_value=False))
+    
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}, render_value=False), help_text='')
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'phone_number']
+        
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'password1', 'password2']

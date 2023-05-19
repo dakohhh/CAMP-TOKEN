@@ -42,51 +42,57 @@
 					Verification email has been sent
 				</div>
 
-				<form class="row needs-validation" novalidate>
+				<form method="POST" action="#" class="row needs-validation" novalidate>
+					{% csrf_token %}
 					<div class="item col-md-6">
-						<label for="validationCustom01" class="form-label">First name</label>
-						<input type="text" class="form-control" id="validationCustom01" value="Mark" required>
-						<div class="valid-feedback">
-						Looks good!
-						</div>
+						<label for="id_first_name" class="form-label">First name</label>
+						{{ form.first_name }}
+						<div class="valid-feedback">Looks good!</div>
 					</div>
 
 					<div class="item col-md-6">
-						<label for="validationCustom02" class="form-label">Last name</label>
-						<input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+						<label for="id_last_name" class="form-label">Last name</label>
+						{{ form.last_name }}
 						<div class="valid-feedback">Looks good!</div>
 					</div>
 					
 					<div class="item col-md-12">
-						<label for="validationCustomUsername" class="form-label">Email</label>
+						<label for="id_email" class="form-label">Email</label>
 						<div class="input-group has-validation">
-							<input type="email" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+							{{ form.email }}
 							<div class="invalid-feedback">Please choose a valid email.</div>
 						</div>                    
 					</div>
 
 					<div class="item col-md-12">
-						<label for="validationCustomUsername" class="form-label">Phone number</label>
+						<label for="id_phone_number" class="form-label">Phone number</label>
 						<div class="input-group has-validation">
 							<span class="input-group-text" id="inputGroupPrepend">+234</span>
-							<input type="number" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+							{{ form.phone_number }}
 							<div class="valid-feedback">Looks Good</div>
+							<div class="invalid-feedback">Phone number must be 10-digits</div>
 						</div>
 					</div>
 
 					<div class="item col-md-12">
-						<label for="id-password" class="form-label">Password</label>
+						<label for="id_password1" class="form-label">Password</label>
 						<div class="input-group has-validation">
-							<input type="password" class="form-control" id="id-password" aria-describedby="inputGroupPrepend" required>
-							<div class="invalid-feedback">Please choose a valid password.</div>
+							{{ form.password1 }}
+							<div class="invalid-feedback"><ul><li>Password must be equal to or more than 8-characters</li></ul></div>
 						</div>
 					</div>
 
 					<div class="item col-md-12">
-						<label for="id-confirm-password" class="form-label">Confirm Password</label>
+						<label for="id_password2" class="form-label">Confirm Password</label>
 						<div class="input-group has-validation">
-							<input type="password" class="form-control" id="id-confirm-password" aria-describedby="inputGroupPrepend" required>
-							<div class="invalid-feedback">Please choose a valid password.</div>
+							{{ form.password2 }}
+							<div class="invalid-feedback">
+								<ul>
+									<li>Password must be equal to or more than 8-characters</li>
+									<li>Passwords must be equal</li>
+								</ul>
+							</div>
+
 						</div>
 					</div>
 
@@ -118,6 +124,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 		<script src="https://kit.fontawesome.com/5f0ec56c6d.js" crossorigin="anonymous"></script>
 		<script src="{% static 'js/validation.js' %}" crossorigin="anonymous"></script>
+		<script src="{% static 'js/custom_validation.js' %}" crossorigin="anonymous"></script>
 
 
     </body>
