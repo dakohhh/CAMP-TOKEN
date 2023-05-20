@@ -42,6 +42,17 @@
 					Verification email has been sent
 				</div>
 
+				{% if form.errors %}
+					<div class="error-msg go-down-md">
+						{% for field in form %}
+							{% for error in field.errors %}
+								<i class="fa-solid fa-circle-exclamation"></i>
+								{{ error }}
+							{% endfor %}
+						{% endfor %}
+					</div>
+				{% endif %}
+
 				<form method="POST" action="#" class="row needs-validation" novalidate>
 					{% csrf_token %}
 					<div class="item col-md-6">
@@ -79,6 +90,7 @@
 						<div class="input-group has-validation">
 							{{ form.password1 }}
 							<div class="invalid-feedback"><ul><li>Password must be equal to or more than 8-characters</li></ul></div>
+				
 						</div>
 					</div>
 

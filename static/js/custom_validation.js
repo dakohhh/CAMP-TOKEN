@@ -42,7 +42,7 @@ passwordInput.addEventListener('input', () => {
     }
 
     else {
-        passwordInput.setCustomValidity('Phone number must be 10-digits');
+        passwordInput.setCustomValidity('');
         passwordInput.classList.remove('is-valid');
         passwordInput.classList.add('is-invalid');
     }
@@ -59,9 +59,35 @@ confirmpasswordInput.addEventListener('input', () => {
     }
 
     else {
-        confirmpasswordInput.setCustomValidity('Phone number must be 10-digits');
+        confirmpasswordInput.setCustomValidity('');
         confirmpasswordInput.classList.remove('is-valid');
         confirmpasswordInput.classList.add('is-invalid');
     }
 });
+
+
+const businessNameInput = document.querySelector("#id_business_name")
+
+console.log(businessNameInput)
+
+businessNameInput.addEventListener("input", ()=>{
+
+    if (businessNameInput.value.length >=5) {
+
+        businessNameInput.setCustomValidity('');
+        businessNameInput.classList.remove('is-invalid');
+        businessNameInput.classList.add('is-valid');
+    }
+    
+    else {
+        businessNameInput.setCustomValidity('');
+        businessNameInput.classList.remove('is-valid');
+        businessNameInput.classList.add('is-invalid');    
+    
+    }
+
+})
+
+
+
 

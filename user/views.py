@@ -10,6 +10,11 @@ def signup_student(request:HttpRequest):
 
 
     form = StudentRegistrationForm()
+
+    if request.method == "POST":
+        form = StudentRegistrationForm(request.POST)
+
+        print(form)
     
     context = {"form": form}
 

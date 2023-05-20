@@ -65,7 +65,7 @@ class User(AbstractUser, PermissionsMixin):
 
     phone_number = models.IntegerField(unique=True, null=False)
 
-    business_name = models.CharField(max_length=200, null=True)
+    business_name = models.CharField(max_length=100, null=True)
 
     business_id = models.CharField(max_length=200, unique=True ,null=True)
 
