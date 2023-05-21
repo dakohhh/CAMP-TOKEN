@@ -32,25 +32,32 @@
 				<h4 class="">Sign Up Students</h4>
 				<p class="form-explain">Welcome students, please fill in correct details</p>
 
-				<div class="error-msg">
-					<i class="fa-solid fa-circle-exclamation"></i>
-					Username and password is incorrect 
-				</div>
-				<br>
-				<div class="success-msg">
-					<i class="fa-solid fa-circle-check"></i>
-					Verification email has been sent
-				</div>
-
 				{% if form.errors %}
-					<div class="error-msg go-down-md">
+					<div class="error-msg">
 						{% for field in form %}
 							{% for error in field.errors %}
 								<i class="fa-solid fa-circle-exclamation"></i>
-								{{ error }}
+								{{ error }} 
+								<br>
 							{% endfor %}
 						{% endfor %}
 					</div>
+				{% endif %}
+
+				{% if messages %}
+					{% for message in messages %}
+						{% if message.tags == "success" %}
+							<div class="success-msg">
+								<i class="fa-solid fa-circle-check"></i>
+								{{ message }}
+							</div>
+						{% else %}
+							<div class="error-msg">
+								<i class="fa-solid fa-circle-check"></i>
+								{{ message }}
+							</div>
+						{% endif %}
+					{% endfor %}
 				{% endif %}
 
 				<form method="POST" action="#" class="row needs-validation" novalidate>

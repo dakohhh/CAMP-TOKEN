@@ -40,7 +40,36 @@
 				Verification email has been sent
 			</div>
 
+			{% if form.errors %}
+					<div class="error-msg">
+						{% for field in form %}
+							{% for error in field.errors %}
+								<i class="fa-solid fa-circle-exclamation"></i>
+								{{ error }} 
+								<br>
+							{% endfor %}
+						{% endfor %}
+					</div>
+				{% endif %}
+
+			{% if messages %}
+				{% for message in messages %}
+					{% if message.tags == "success" %}
+						<div class="success-msg">
+							<i class="fa-solid fa-circle-check"></i>
+							{{ message }}
+						</div>
+					{% else %}
+						<div class="error-msg">
+							<i class="fa-solid fa-circle-check"></i>
+							{{ message }}
+						</div>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+
 			<form class="row needs-validation" novalidate>
+				{% csrf_token %}
 				<div class="item col-md-6">
 					<label for="id_first_name" class="form-label">First name</label>
 					{{ form.first_name }}

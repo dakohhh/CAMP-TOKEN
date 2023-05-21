@@ -58,6 +58,8 @@ class User(AbstractUser, PermissionsMixin):
     first_name = models.CharField(max_length=100, blank=True, null=True)
 
     last_name = models.CharField(max_length=100, blank=True, null=True)
+
+    username = models.CharField(max_length=50, null=True, default=None)
     
     email = models.EmailField(max_length=254, db_index=True, unique=True, null=False)
 
@@ -67,7 +69,7 @@ class User(AbstractUser, PermissionsMixin):
 
     business_name = models.CharField(max_length=100, null=True)
 
-    business_id = models.CharField(max_length=200, unique=True ,null=True)
+    business_id = models.CharField(max_length=200, unique=True, null=True)
 
     balance = models.FloatField(default=0)
     
@@ -76,7 +78,6 @@ class User(AbstractUser, PermissionsMixin):
     is_verified = models.BooleanField(default=False)
 
     is_merchant = models.BooleanField(default=False)
-
 
     is_staff = models.BooleanField(default=True)
 
