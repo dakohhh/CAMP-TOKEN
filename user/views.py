@@ -3,7 +3,9 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from utils.generate import generate_wallet_id
 from django.contrib import messages
-from .forms import StudentRegistrationForm, MerchantRegistrationForm
+from django.contrib.auth import authenticate
+from django.contrib import auth
+from .forms import StudentRegistrationForm, MerchantRegistrationForm, LoginForm
 # Create your views here.
 
 
@@ -57,6 +59,29 @@ def signup_merchant(request:HttpRequest):
     context = {"form": form}
 
     return render(request, "registration/signup_merchants.html", context)
+
+
+def login(request:HttpRequest):
+    form = LoginForm()
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            user = authenticate(request, username=email, password=password)
+
+            if user is not None:
+                messages.success(request, "Login Sucessfull")
+            else:
+                messages.error(request, 'Username and password is incorrect')
+
+        
+
+    context = {"form":form}
+
+    return render(request, "login/login.html", context)
 
 
 

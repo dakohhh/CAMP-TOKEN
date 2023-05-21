@@ -47,3 +47,14 @@ class MerchantRegistrationForm(UserCreationForm):
         model = User
         
         fields = ['first_name', 'last_name', 'email', 'business_name', 'phone_number', 'password1', 'password2']
+
+# form-control
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(max_length=254,required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}))\
+    
+    password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'aria-describedby': 'inputGroupPrepend'}, render_value=False))
+    
+
+
+
