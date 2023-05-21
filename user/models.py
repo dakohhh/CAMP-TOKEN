@@ -37,7 +37,7 @@ class UserProfileManager(BaseUserManager):
     
     def create_user(self, email, password, first_name, last_name, phone_number, **extra_fields):
 
-        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("is_superuser", False)
 
@@ -63,13 +63,11 @@ class User(AbstractUser, PermissionsMixin):
     
     email = models.EmailField(max_length=254, db_index=True, unique=True, null=False)
 
-    wallet_id = models.IntegerField(unique=True, null=False)
+    wallet_id = models.IntegerField(unique=True, null=True)
 
     phone_number = models.IntegerField(unique=True, null=False)
 
-    business_name = models.CharField(max_length=100, null=True)
-
-    business_id = models.CharField(max_length=200, unique=True, null=True)
+    business_name = models.CharField(max_length=100, unique=True, null=True)
 
     balance = models.FloatField(default=0)
     
@@ -79,7 +77,7 @@ class User(AbstractUser, PermissionsMixin):
 
     is_merchant = models.BooleanField(default=False)
 
-    is_staff = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)
 

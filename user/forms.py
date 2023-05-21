@@ -46,4 +46,4 @@ class MerchantRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         
-        fields = ['first_name', 'last_name', 'email', 'phone_number', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'email', 'business_name', 'phone_number', 'password1', 'password2']

@@ -36,8 +36,23 @@ def signup_student(request:HttpRequest):
 
 def signup_merchant(request:HttpRequest):
 
-
     form = MerchantRegistrationForm()
+
+    if request.method == "POST":
+        form = MerchantRegistrationForm(request.POST)
+
+        if form.is_valid():
+            current_user = form.save(commit=False)
+
+            current_user.wallet_id = generate_wallet_id()
+            current_user.is_merchant = True
+
+            current_user.save()
+
+            messages.success(request, "Verification email has been sent")
+
+            return redirect("signup_merchant")
+
     
     context = {"form": form}
 

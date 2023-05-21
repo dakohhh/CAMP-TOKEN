@@ -30,7 +30,7 @@
 			<h4 class="">Sign Up Merchants</h4>
 			<p class="form-explain">Welcome merchants please fill in correct details</p>
 
-			<div class="error-msg">
+			{% comment %} <div class="error-msg">
 				<i class="fa-solid fa-circle-exclamation"></i>
 				Username and password is incorrect 
 			</div>
@@ -38,7 +38,7 @@
 			<div class="success-msg">
 				<i class="fa-solid fa-circle-check"></i>
 				Verification email has been sent
-			</div>
+			</div> {% endcomment %}
 
 			{% if form.errors %}
 					<div class="error-msg">
@@ -68,7 +68,7 @@
 				{% endfor %}
 			{% endif %}
 
-			<form class="row needs-validation" novalidate>
+			<form method="POST" action="#" class="row needs-validation" novalidate>
 				{% csrf_token %}
 				<div class="item col-md-6">
 					<label for="id_first_name" class="form-label">First name</label>
