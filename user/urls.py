@@ -11,4 +11,6 @@ urlpatterns = [
 
     path("accounts/signup/merchant", views.signup_merchant, name="signup_merchant"),
 
+    path("accounts/choose", views.choose_sign_student_merchant, name="choose_sign_student_merchant")
+
 ]

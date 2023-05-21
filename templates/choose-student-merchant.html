@@ -1,0 +1,73 @@
+{% load static %} 
+<!doctype html>
+<html lang="en">
+
+	{% include "head.html" %}
+  
+	<body>
+	<nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background-color: white;">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+			<img src="{% static 'img/logo4.png' %}" width="" height="40px" alt="Logo">
+			</a>
+			<div class="nav-sec" id="">
+				<ul class="navbar-nav ms-auto flex" style="margin-right: 200px;">
+					<li class="nav-item ">
+						<button class="btn-oacc-link" style="">
+							<a class="" href="#" style="color: #40196d;">Open an account</a>
+						</button>
+					</li>
+					<li class="nav-item">
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="check-header">
+			Please check that you are visiting the correct URL <a href="#">https://camptoken.com</a>
+		</div>
+		<div class="signup-form">
+			<h4 class="">Choose Option</h4>
+			<p class="form-explain">Sign up securely with one of the options</p>
+			<br>
+			<div id="s-student" class="choose-option d-flex align-items-center">
+				<div>
+					<h5>As student</h5>
+					<p>A student of a recognized institution</p>
+				</div>
+				<i class="fa-solid fa-chevron-right fa-2xl" style="color: #40196d;"></i> 
+			</div>
+			<br>
+			<div id="s-merchant" class="choose-option d-flex align-items-center">
+				<div>
+					<h5>As Merchants</h5>
+					<p>A merchant of a recognized institution</p>
+				</div>
+				<i class="fa-solid fa-chevron-right fa-2xl" style="color: #40196d;"></i> 
+			</div>
+
+
+
+
+		</div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/5f0ec56c6d.js" crossorigin="anonymous"></script>
+
+	<script>
+		document.getElementById("s-student").addEventListener("click", ()=>{
+			window.location.href = "/accounts/signup/student"
+		})
+
+		document.getElementById("s-merchant").addEventListener("click", ()=>{
+			window.location.href = "/accounts/signup/merchant"
+		})
+
+	</script>
+
+	</body>
+</html>
