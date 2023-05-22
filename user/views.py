@@ -5,6 +5,7 @@ from utils.generate import generate_wallet_id
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from .forms import StudentRegistrationForm, MerchantRegistrationForm, LoginForm
 # Create your views here.
 
@@ -62,6 +63,13 @@ def signup_merchant(request:HttpRequest):
 
 
 def login(request:HttpRequest):
+
+    if request.user.is_authenticated:
+        if not request.user.is_merchant:
+            return redirect("dashboard_student")
+        else:
+            return redirect("dashboard_merchant")
+
     form = LoginForm()
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -73,15 +81,43 @@ def login(request:HttpRequest):
             user = authenticate(request, username=email, password=password)
 
             if user is not None:
-                messages.success(request, "Login Sucessfull")
-            else:
-                messages.error(request, 'Username and password is incorrect')
+                auth.login(request, user)
 
-        
+                if not user.is_merchant:
+                    return redirect("dashboard_student")
+                else:
+                    return redirect("dashboard_merchant")
+
+            else:
+                messages.error(request, 'Username or password is incorrect')
 
     context = {"form":form}
 
     return render(request, "login/login.html", context)
+
+    
+
+@login_required(login_url="login")
+def dashboard_student(request:HttpRequest):
+
+    return HttpResponse("This is the dashboard for student")
+
+
+
+
+@login_required(login_url="login")
+def dashboard_merchant(request:HttpRequest):
+
+    return HttpResponse("This is the dashboard for merchant")
+
+
+
+
+def logout(request:HttpRequest):
+    
+    auth.logout(request)
+
+    return redirect("login")
 
 
 
