@@ -28,6 +28,8 @@ urlpatterns = [
 
     # DASHBOARD MERCHANT
 
-    path("dashboard/m/", views.dashboard_merchant, name="dashboard_merchant")
+    path("dashboard/m/", views.dashboard_merchant, name="dashboard_merchant"),
+
+    path("404", views.http404, name="404")
 
 ]

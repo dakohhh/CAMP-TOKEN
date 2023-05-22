@@ -100,7 +100,9 @@ def login(request:HttpRequest):
 @login_required(login_url="login")
 def dashboard_student(request:HttpRequest):
 
-    return HttpResponse("This is the dashboard for student")
+    context = {"user":request.user}
+
+    return render(request, "dashboard/dashboard_student.html", context)
 
 
 
@@ -125,3 +127,11 @@ def choose_sign_student_merchant(request:HttpRequest):
     
 
     return render(request, "choose-student-merchant.html")
+
+
+
+
+def http404(request:HttpRequest):
+
+    return render(request, "404.html")
+    
