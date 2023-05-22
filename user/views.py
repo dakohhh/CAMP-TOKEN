@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from utils.generate import generate_wallet_id
+from utils.shortcuts import redirect_not_student, redirect_not_merchant
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib import auth
@@ -98,6 +99,7 @@ def login(request:HttpRequest):
     
 
 @login_required(login_url="login")
+@redirect_not_student
 def dashboard_student(request:HttpRequest):
 
     context = {"user":request.user}
@@ -108,6 +110,7 @@ def dashboard_student(request:HttpRequest):
 
 
 @login_required(login_url="login")
+@redirect_not_merchant
 def dashboard_merchant(request:HttpRequest):
 
     return HttpResponse("This is the dashboard for merchant")
