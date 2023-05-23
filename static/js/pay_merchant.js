@@ -59,7 +59,7 @@ pay_button.addEventListener("click", ()=>{
 
             setTimeout(() => {
 
-                window.location.href = '/dashboard_student.html';
+                window.location.href = '/dashboard/s/';
 
             }, 3000);
         }

@@ -28,4 +28,6 @@ urlpatterns = [
     path("", home, name="home"),
 
     path("", include("user.urls")),
+    
+    path("", include("transaction.urls")),
 ]
