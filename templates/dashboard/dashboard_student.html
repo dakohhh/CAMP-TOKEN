@@ -18,7 +18,7 @@
 			<div class="row justify-content-between dash-head">
 				<div class="col dash-details">
 					<span class="currency">Nigerian Naira</span>
-					<h2>₦{{ user.balance|intcomma|floatformat:2}}</h2>
+					<h2>₦{{ user.balance|floatformat:"2g"}}</h2>
 					<span class="update-time">Last Updtated 5s ago</span>
 				</div>
 

@@ -16,21 +16,20 @@
 			
             <div class="pay-merchant-form">
                 <div class="prm-color-grey text-center">
-                    <span style="font-size: 14px;" >NGN Balance: ₦12,005.00</span>
+                    <span style="font-size: 14px;" >NGN Balance: ₦{{ user.balance|floatformat:"2g" }}</span>
                 </div>
 
-                <div class="mb-6 go-down-md">
+                <div id="merchant-id-section" class="mb-6 go-down-md">
                     <label for="id-merchant-id" class="form-label">Merchant Wallet ID </label>
                     <input type="number" class="form-control" id="id-merchant-id" aria-describedby="emailHelp">
-                    <div id="show_merchant" class="form-text prm-color-green pay-msg"></div>
-                    <div id="show_merchant" class="form-text prm-color-red pay-msg"><i class="fa-solid fa-circle-xmark"></i><span> INCORRECT MERCHANT</span></div>
+                    <div id="show_merchant" class=""></div>
                 </div>
 
                 <div class="mb-3 go-down-sm">
                     <label for="amount" class="form-label">Amount</label>
-                    <input type="number" class="form-control" id="amount" placeholder="₦0.00">
+                    <input type="number" class="form-control" id="amount" placeholder="₦0.00" disabled>
                 </div>
-                <button type="button" class="bg-prm-color go-down-md" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Next</button>
+                <button id="next-btn" type="button" class="bg-prm-color go-down-md" data-bs-toggle="modal" data-bs-target="#staticBackdrop" disabled>Next</button>
             </div>
 		</div>
 
@@ -52,12 +51,12 @@
 
 						<div class="confirm_merchant" style="float: left; width: 80%;">
 							<div class="row pay_detail">To</div>
-							<div id="merchant-name" class="row">BUNLAB VENTURES</div>
+							<div id="modal-merchant-name" class="row"></div>
 						</div>
 
 						<div class="confirm_amount" style="float: left; width: 20%;">
 							<div class="row pay_detail">Amount</div>
-							<div id="amount" class="row">₦100.00</div>
+							<div id="modal-amount" class="row"></div>
 						</div>
 
 					</div>
@@ -73,7 +72,7 @@
 					<div class="row text-center">
 
 						<form>
-							<div class="form-group pin-input">
+							<div id="pin-inputs-field" class="form-group pin-input">
 
 								<input type="password"  maxlength="1" pattern="[0-9]+" required />
 								<input type="password"  maxlength="1" pattern="[0-9]+" required />
@@ -93,7 +92,7 @@
 						</div>
 
 						<div class="col pay-button">
-							<button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal">Pay</button>
+							<button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal" disabled>Pay</button>
 						</div>
 
 					</div>
@@ -114,13 +113,14 @@
 
 					<div class="modal-body">
 						<div class="text-center">
-							<img src="{% static 'img/check.png' %}" width="70" height="70">
+							<img id="pay_suc_or_fail_img" width="70" height="70" alt="success or fail">
 						</div>
 
 						<div class="pay-success-info text-center">
-							<h2 class="go-down-sm">Success!</h2>
 
-							<p class="go-down-md reciept-no">Reciept No: 5dc3790abfde4cbdd309432</p>
+							<h2 id="pay-success-fail-info" class="go-down-sm"></h2>
+
+							<p id="pay-success-fail-reciept-no" class="go-down-md reciept-no">Reciept No: 5dc3790abfde4cbdd309432</p>
 
 							<p id="redirect-msg" class="">Redirecting you in 3...</p>
 						</div>
