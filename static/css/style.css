@@ -712,6 +712,11 @@ input[type="password"]::-webkit-reveal {
 
 }
 
+.bold-sm{
+	font-weight: 600;
+
+}
+
 
 /* MEDIA QUERIES */
 @media screen and (max-width: 767px) {

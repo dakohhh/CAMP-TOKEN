@@ -160,43 +160,132 @@ pay_button.addEventListener("click", ()=>{
 
     console.log(merchant_id, amount, trans_pin)
 
-    const pay_suc_or_fail_img = document.getElementById("pay_suc_or_fail_img")
+    let test_trans_req = 1
 
-    const pay_success_fail_info = document.getElementById("pay-success-fail-info")
+    const successModal = document.getElementById('staticBackdrop2');
+    const pay_modal = document.getElementById('staticBackdrop')
 
-    const pay_success_fail_reciept_no = document.getElementById("pay-success-fail-reciept-no")
 
-    pay_success_fail_info.textContent = "Success! or Transaction Failed"
+    if (test_trans_req === 1){
+        
 
-    pay_success_fail_reciept_no.textContent = `Reciept No: 5dc3790abfde4cbdd309432`
+        pay_modal.classList.remove('show')
+        pay_modal.style.display = 'none'
+        pay_modal.setAttribute('aria-hidden', 'true');
 
-    pay_suc_or_fail_img.src = "/static/img/x-mark.png"
+        successModal.classList.add('fade');
+
+        setTimeout(function() {
+            successModal.classList.add('show');
+        }, 100);
+
+        successModal.style.display = 'block';
+        successModal.setAttribute('aria-hidden', 'false');
+
+        
+
+        const pay_suc_or_fail_img = document.getElementById("pay_suc_or_fail_img")
+
+        const pay_success_fail_info = document.getElementById("pay-success-fail-info")
+
+        const pay_success_fail_reciept_no = document.getElementById("pay-success-fail-reciept-no")
+
+        pay_success_fail_info.textContent = "Success!"
+
+        pay_success_fail_reciept_no.textContent = `Reciept No: 5dc3790abfde4cbdd309432`
+
+        pay_suc_or_fail_img.src = "/static/img/check.png"
+
+        const redirect_msg = document.getElementById("redirect-msg")
+
+        let count = 3;
+
+        const countdownInterval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                redirect_msg.textContent = `Redirecting you in ${count}...`;
+            } 
+            
+            else {
+                
+                clearInterval(countdownInterval);
+
+                redirect_msg.textContent = 'Redirecting now...';
+
+                setTimeout(() => {
+
+                    window.location.href = '/dashboard/s/';
+
+                }, 3000);
+            }
+            
+        }, 1000);
+
+    }
+
+    else if (test_trans_req === 2){
+
+
+        pay_modal.classList.remove('show')
+        pay_modal.style.display = 'none'
+        pay_modal.setAttribute('aria-hidden', 'true');
+
+        successModal.classList.add('fade');
+
+        setTimeout(function() {
+            successModal.classList.add('show');
+        }, 100);
+
+        successModal.style.display = 'block';
+        successModal.setAttribute('aria-hidden', 'false');
+
+        const pay_suc_or_fail_img = document.getElementById("pay_suc_or_fail_img")
+
+        const pay_success_fail_info = document.getElementById("pay-success-fail-info")
+
+        const pay_success_fail_reciept_no =  document.getElementById("pay-success-fail-reciept-no")
+
+        pay_success_fail_info.textContent = "Transaction Failed"
+
+        pay_success_fail_reciept_no.textContent = `Reciept No: 5dc3790abfde4cbdd309432`
+
+        pay_suc_or_fail_img.src = "/static/img/x-mark.png"
+        
+        const redirect_msg = document.getElementById("redirect-msg")
+
+        let count = 3;
+
+        const countdownInterval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                redirect_msg.textContent = `Redirecting you in ${count}...`;
+            } 
+            
+            else {
+                
+                clearInterval(countdownInterval);
+
+                redirect_msg.textContent = 'Redirecting now...';
+
+                setTimeout(() => {
+
+                    window.location.href = '/dashboard/s/';
+
+                }, 3000);
+            }
+            
+        }, 1000);
+
+    }
+
+    else if (test_trans_req === 3){
+        const incorrect_pin_msg = document.getElementById("incorrect-pin-msg")
+
+        incorrect_pin_msg.textContent = "Incorrect Pin"        
+
+    }
 
 
     
-    const redirect_msg = document.getElementById("redirect-msg")
-
-    let count = 3;
-
-    const countdownInterval = setInterval(() => {
-        count--;
-        if (count > 0) {
-            redirect_msg.textContent = `Redirecting you in ${count}...`;
-        } 
-        
-        else {
-            
-            clearInterval(countdownInterval);
-
-            redirect_msg.textContent = 'Redirecting now...';
-
-            setTimeout(() => {
-
-                window.location.href = '/dashboard/s/';
-
-            }, 3000);
-        }
-        
-      }, 1000);
 
 })
