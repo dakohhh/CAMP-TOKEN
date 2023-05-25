@@ -17,6 +17,11 @@ def generate_wallet_id()-> int:
 
 
 
+def generate_transaction_id(length:int):
+    
+    return token_hex(length)
+
+
 def generate_verification_token() -> str:
 
     return str(uuid.uuid4())

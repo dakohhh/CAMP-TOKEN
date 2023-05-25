@@ -22,6 +22,14 @@ class NotFoundResponse(CustomResponse):
     def __init__(self, msg):
         super().__init__(msg, status=404, success=False)
 
+    
+
+
+class BadRequest(CustomResponse):
+    def __init__(self, msg):
+        super().__init__(msg, status=400, success=False)
+
+
 
 
 
