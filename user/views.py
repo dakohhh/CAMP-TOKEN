@@ -113,7 +113,7 @@ def dashboard_student(request:HttpRequest):
 @redirect_not_merchant
 def dashboard_merchant(request:HttpRequest):
 
-    return HttpResponse("This is the dashboard for merchant")
+    return HttpResponse(f"This is the dashboard for merchant, the balance is {request.user.balance}, the wallet id is {request.user.wallet_id}")
 
 
 

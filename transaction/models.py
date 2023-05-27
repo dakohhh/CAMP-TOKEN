@@ -43,3 +43,16 @@ class Transactions(models.Model):
     was_refunded = models.BooleanField(default=False)
 
     date_added = models.DateTimeField(auto_now_add=True, null=False)
+
+
+    def to_dict(self):
+        return {
+            "transaction_id": self.transaction_id,
+            "sender": f'{self.sender.first_name} {self.sender.last_name}',
+            "recipient": f'{self.recipient.business_name}', 
+            "amount": self.amount, 
+            "transaction_type": self.transaction_type, 
+            "transaction_status": self.transaction_status, 
+            "was_refunded": self.was_refunded, 
+            "date_added": self.date_added
+        }

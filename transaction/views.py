@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.http.request import HttpRequest
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from utils.generate import generate_transaction_id
 from utils.shortcuts import redirect_not_merchant, redirect_not_student
 from user.models import User
-from utils.crud import fetchone
-from utils.response import CustomResponse, NotFoundResponse, BadRequest
+from utils.crud import fetchone, pay_merchant_transaction
+from utils.response import CustomResponse, NotFoundResponse, BadRequest, ServiceUnavailable
 # Create your views here.
 
 @login_required(login_url="login")
@@ -23,23 +24,28 @@ def pay_merchant(request:HttpRequest):
         test_pin = 5050
 
         if len(str(merchant_wallet_id)) != 10 or len(str(trasaction_pin)) != 4:
-            return BadRequest("Validation Error: check Wallet ID (must be 10-digits) or Transaction Pin(must be 4-digits)")
+            return BadRequest("Validation Error: check Wallet ID (must be 10-digits) or Transaction Pin(must be 4-digits)", data="00")
         
         if trasaction_pin != test_pin:
-            return BadRequest("Incorrect Pin")
+            return BadRequest("Incorrect Pin", data="01")
         
         if request.user.balance < amount:
 
-            return BadRequest("Insufficient Balance, you may need to fund your wallet")
+            return BadRequest("Insufficient Balance, you may need to fund your wallet", data="02")
         
         merchant = fetchone(User, wallet_id=merchant_wallet_id)
 
-        trasaction_id = generate_transaction_id(15)
+        transaction_id = generate_transaction_id(15)
 
         if merchant is None:
             return NotFoundResponse("Merchant ID Not Found")
+
+        payment = pay_merchant_transaction(request, merchant, amount, transaction_id)
+
+        if payment.transaction_status == 0:
+            return ServiceUnavailable(msg="Something went wrong, please try again", data=payment.to_dict())
         
-        return CustomResponse(msg="Things Worked Out", data=merchant)
+        return CustomResponse(msg="Sucesssfull Transaction", data=payment.to_dict())
 
     context = {"user": request.user}
 

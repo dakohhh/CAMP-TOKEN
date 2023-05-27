@@ -1,4 +1,7 @@
 
+import { getCSRFTokenFromCookie } from "./csrf.js"
+
+
 const merchant_id_input = document.getElementById("id-merchant-id");
 
 const show_merchant =  document.getElementById("show_merchant")
@@ -143,7 +146,7 @@ pin_inputs_field.addEventListener('input', function() {
   
 
 
-pay_button.addEventListener("click", ()=>{
+pay_button.addEventListener("click", async ()=>{
 
     let merchant_id = merchant_id_input.value;
 
@@ -158,15 +161,38 @@ pay_button.addEventListener("click", ()=>{
         trans_pin += inputs.value
     })
 
-    console.log(merchant_id, amount, trans_pin)
+    const csrf_token = getCSRFTokenFromCookie();
+
+    console.log(csrf_token)
+
+    let formdata = new FormData();
+    formdata.append("trans_pin", `${trans_pin}`);
+    formdata.append("merchant_wallet_id", `${merchant_id}`);
+    formdata.append("amount", `${amount}`);
+
+
+    let myHeaders = new Headers();
+    myHeaders.append("X-CSRFToken", csrf_token);
+    
+    const response = await fetch("/dashboard/s/pay", {
+        method: 'POST',
+        body: formdata,
+        headers: myHeaders,  
+        redirect: 'follow'
+    });
+    
+    const result = await response.json();
+    console.log(result);
+    
 
     let test_trans_req = 1
+
 
     const successModal = document.getElementById('staticBackdrop2');
     const pay_modal = document.getElementById('staticBackdrop')
 
 
-    if (test_trans_req === 1){
+    if (result.success === true){
         
 
         pay_modal.classList.remove('show')
@@ -196,34 +222,34 @@ pay_button.addEventListener("click", ()=>{
 
         pay_suc_or_fail_img.src = "/static/img/check.png"
 
-        const redirect_msg = document.getElementById("redirect-msg")
+        // const redirect_msg = document.getElementById("redirect-msg")
 
-        let count = 3;
+        // let count = 3;
 
-        const countdownInterval = setInterval(() => {
-            count--;
-            if (count > 0) {
-                redirect_msg.textContent = `Redirecting you in ${count}...`;
-            } 
+        // const countdownInterval = setInterval(() => {
+        //     count--;
+        //     if (count > 0) {
+        //         redirect_msg.textContent = `Redirecting you in ${count}...`;
+        //     } 
             
-            else {
+        //     else {
                 
-                clearInterval(countdownInterval);
+        //         clearInterval(countdownInterval);
 
-                redirect_msg.textContent = 'Redirecting now...';
+        //         redirect_msg.textContent = 'Redirecting now...';
 
-                setTimeout(() => {
+        //         setTimeout(() => {
 
-                    window.location.href = '/dashboard/s/';
+        //             window.location.href = '/dashboard/s/';
 
-                }, 3000);
-            }
+        //         }, 3000);
+        //     }
             
-        }, 1000);
+        // }, 1000);
 
     }
 
-    else if (test_trans_req === 2){
+    else if (result.success === false){
 
 
         pay_modal.classList.remove('show')
@@ -251,30 +277,30 @@ pay_button.addEventListener("click", ()=>{
 
         pay_suc_or_fail_img.src = "/static/img/x-mark.png"
         
-        const redirect_msg = document.getElementById("redirect-msg")
+        // const redirect_msg = document.getElementById("redirect-msg")
 
-        let count = 3;
+        // let count = 3;
 
-        const countdownInterval = setInterval(() => {
-            count--;
-            if (count > 0) {
-                redirect_msg.textContent = `Redirecting you in ${count}...`;
-            } 
+        // const countdownInterval = setInterval(() => {
+        //     count--;
+        //     if (count > 0) {
+        //         redirect_msg.textContent = `Redirecting you in ${count}...`;
+        //     } 
             
-            else {
+        //     else {
                 
-                clearInterval(countdownInterval);
+        //         clearInterval(countdownInterval);
 
-                redirect_msg.textContent = 'Redirecting now...';
+        //         redirect_msg.textContent = 'Redirecting now...';
 
-                setTimeout(() => {
+        //         setTimeout(() => {
 
-                    window.location.href = '/dashboard/s/';
+        //             window.location.href = '/dashboard/s/';
 
-                }, 3000);
-            }
+        //         }, 3000);
+        //     }
             
-        }, 1000);
+        // }, 1000);
 
     }
 

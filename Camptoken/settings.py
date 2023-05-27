@@ -60,8 +60,6 @@ ROOT_URLCONF = "Camptoken.urls"
 
 AUTH_USER_MODEL = 'user.User'
 
-CSRF_COOKIE_SECURE = False
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

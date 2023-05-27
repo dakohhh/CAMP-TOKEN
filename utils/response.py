@@ -19,15 +19,20 @@ class CustomResponse(JsonResponse):
 
 
 class NotFoundResponse(CustomResponse):
-    def __init__(self, msg):
-        super().__init__(msg, status=404, success=False)
+    def __init__(self, msg, data=None):
+        super().__init__(msg, status=404, success=False, data=data)
 
     
 
 
 class BadRequest(CustomResponse):
-    def __init__(self, msg):
-        super().__init__(msg, status=400, success=False)
+    def __init__(self, msg, data=None):
+        super().__init__(msg, status=400, success=False, data=data)
+
+
+class ServiceUnavailable(CustomResponse):
+    def __init__(self, msg, data=None):
+        super().__init__(msg, status=503, success=False, data=data)
 
 
 
