@@ -1,6 +1,7 @@
 
 import { getCSRFTokenFromCookie } from "./csrf.js"
 
+import { modalCancel, payRedirectToDashboard } from "./components.js";
 
 const merchant_id_input = document.getElementById("id-merchant-id");
 
@@ -20,6 +21,8 @@ const pin_inputs = pin_inputs_field.querySelectorAll('input[type="password"]');
 
 const pay_button = document.getElementById("pay-btn");
 
+const modal_body2 = document.getElementById("modal-body2");
+const modal2 = document.getElementById("staticBackdrop2");
 
 
 merchant_id_input.addEventListener("input", async (event) =>{
@@ -183,9 +186,6 @@ pay_button.addEventListener("click", async ()=>{
     
     const result = await response.json();
     console.log(result);
-    
-
-    let test_trans_req = 1
 
 
     const successModal = document.getElementById('staticBackdrop2');
@@ -216,41 +216,68 @@ pay_button.addEventListener("click", async ()=>{
 
         const pay_success_fail_reciept_no = document.getElementById("pay-success-fail-reciept-no")
 
+        const pay_success_fail_message = document.getElementById("pay-success-fail-message")
+
+        const redirect_msg = document.getElementById("redirect-msg")
+
+
         pay_success_fail_info.textContent = "Success!"
 
-        pay_success_fail_reciept_no.textContent = `Reciept No: 5dc3790abfde4cbdd309432`
+        pay_success_fail_message.textContent = result.message
+
+        pay_success_fail_reciept_no.textContent = `Reciept No: ${result.data.transaction_id}`
 
         pay_suc_or_fail_img.src = "/static/img/check.png"
 
-        // const redirect_msg = document.getElementById("redirect-msg")
+        payRedirectToDashboard(redirect_msg);
 
-        // let count = 3;
-
-        // const countdownInterval = setInterval(() => {
-        //     count--;
-        //     if (count > 0) {
-        //         redirect_msg.textContent = `Redirecting you in ${count}...`;
-        //     } 
-            
-        //     else {
-                
-        //         clearInterval(countdownInterval);
-
-        //         redirect_msg.textContent = 'Redirecting now...';
-
-        //         setTimeout(() => {
-
-        //             window.location.href = '/dashboard/s/';
-
-        //         }, 3000);
-        //     }
-            
-        // }, 1000);
 
     }
 
-    else if (result.success === false){
+    else if (result.success === false && result.data === "00"){
 
+        pay_modal.classList.remove('show')
+        pay_modal.style.display = 'none'
+        pay_modal.setAttribute('aria-hidden', 'true');
+
+        successModal.classList.add('fade');
+
+        setTimeout(function() {
+            successModal.classList.add('show');
+        }, 100);
+
+        successModal.style.display = 'block';
+        successModal.setAttribute('aria-hidden', 'false');
+
+        const pay_suc_or_fail_img = document.getElementById("pay_suc_or_fail_img")
+
+        const pay_success_fail_info = document.getElementById("pay-success-fail-info")
+
+        const pay_success_fail_message = document.getElementById("pay-success-fail-message")
+
+        const redirect_msg = document.getElementById("redirect-msg")
+
+
+        pay_success_fail_info.textContent = "Transaction Failed"
+
+        pay_success_fail_message.textContent = result.message
+
+        pay_suc_or_fail_img.src = "/static/img/x-mark.png"
+
+        payRedirectToDashboard(redirect_msg);
+    
+
+        
+    }
+
+    else if (result.success === false && result.data === "01"){
+        const incorrect_pin_msg = document.getElementById("incorrect-pin-msg")
+
+        incorrect_pin_msg.textContent = result.message        
+
+    }
+
+    else if (result.success === false && typeof result.data === "object"){
 
         pay_modal.classList.remove('show')
         pay_modal.style.display = 'none'
@@ -271,47 +298,28 @@ pay_button.addEventListener("click", async ()=>{
 
         const pay_success_fail_reciept_no =  document.getElementById("pay-success-fail-reciept-no")
 
+        const pay_success_fail_message = document.getElementById("pay-success-fail-message")
+
+        const redirect_msg = document.getElementById("redirect-msg")
+
+
         pay_success_fail_info.textContent = "Transaction Failed"
 
-        pay_success_fail_reciept_no.textContent = `Reciept No: 5dc3790abfde4cbdd309432`
+        pay_success_fail_message.textContent = result.message
+
+        pay_success_fail_reciept_no.textContent = `Reciept No: ${result.data.transaction_id}`
 
         pay_suc_or_fail_img.src = "/static/img/x-mark.png"
-        
-        // const redirect_msg = document.getElementById("redirect-msg")
 
-        // let count = 3;
-
-        // const countdownInterval = setInterval(() => {
-        //     count--;
-        //     if (count > 0) {
-        //         redirect_msg.textContent = `Redirecting you in ${count}...`;
-        //     } 
-            
-        //     else {
-                
-        //         clearInterval(countdownInterval);
-
-        //         redirect_msg.textContent = 'Redirecting now...';
-
-        //         setTimeout(() => {
-
-        //             window.location.href = '/dashboard/s/';
-
-        //         }, 3000);
-        //     }
-            
-        // }, 1000);
-
-    }
-
-    else if (test_trans_req === 3){
-        const incorrect_pin_msg = document.getElementById("incorrect-pin-msg")
-
-        incorrect_pin_msg.textContent = "Incorrect Pin"        
-
-    }
-
+        payRedirectToDashboard(redirect_msg);
 
     
 
-})
+
+        
+
+    }
+
+
+
+});

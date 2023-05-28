@@ -31,21 +31,22 @@ def pay_merchant(request:HttpRequest):
         
         if request.user.balance < amount:
 
-            return BadRequest("Insufficient Balance, you may need to fund your wallet", data="02")
+            return BadRequest("Insufficient Balance", data="01")
         
         merchant = fetchone(User, wallet_id=merchant_wallet_id)
 
         transaction_id = generate_transaction_id(15)
 
         if merchant is None:
-            return NotFoundResponse("Merchant ID Not Found")
+            return NotFoundResponse("Merchant ID Not Found", data="00")
 
         payment = pay_merchant_transaction(request, merchant, amount, transaction_id)
 
         if payment.transaction_status == 0:
             return ServiceUnavailable(msg="Something went wrong, please try again", data=payment.to_dict())
         
-        return CustomResponse(msg="Sucesssfull Transaction", data=payment.to_dict())
+        return CustomResponse(msg="Your transfer is on the way!", data=payment.to_dict())
+
 
     context = {"user": request.user}
 
