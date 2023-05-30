@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from utils.generate import generate_wallet_id
+from utils.response import CustomResponse, BadRequest
 from utils.shortcuts import redirect_not_student, redirect_not_merchant
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -90,7 +91,7 @@ def login(request:HttpRequest):
                     return redirect("dashboard_merchant")
 
             else:
-                messages.error(request, 'Username or password is incorrect')
+                messages.error(request, 'Email or password is incorrect')
 
     context = {"form":form}
 

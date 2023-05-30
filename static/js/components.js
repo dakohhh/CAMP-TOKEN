@@ -139,3 +139,16 @@ export function mainTransactionComponent() {
     return mainDiv;
 
 }
+
+
+export function noTransactionCompnent(){
+
+    const mainHead = document.createElement("h5")
+
+    mainHead.className = "go-down-bg prm-color-grey text-center";
+
+    mainHead.textContent = "No Transactions yet!"
+
+    return mainHead
+
+}

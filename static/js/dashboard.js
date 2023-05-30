@@ -1,4 +1,4 @@
-import { transactionBlurComponent, mainTransactionComponent } from "./components.js"
+import { transactionBlurComponent, mainTransactionComponent, noTransactionCompnent } from "./components.js"
 
 const balance = document.getElementById("user-balance");
 
@@ -12,11 +12,14 @@ balance.addEventListener("click", async () =>{
 
 let transactionsContainer = document.getElementById('transactions');
 
-for (let index = 0; index < 6; index++) {
 
-    transactionsContainer.appendChild(transactionBlurComponent())
+transactionsContainer.appendChild(noTransactionCompnent())
+
+// for (let index = 0; index < 6; index++) {
+
+//     transactionsContainer.appendChild(transactionBlurComponent())
     
-}
+// }
 
 
 
