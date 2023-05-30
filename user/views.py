@@ -118,6 +118,15 @@ def dashboard_merchant(request:HttpRequest):
 
 
 
+@login_required(login_url="login")
+@redirect_not_student
+def get_student_transactions(request:HttpRequest):
+    pass
+
+
+
+
+
 def logout(request:HttpRequest):
     
     auth.logout(request)
@@ -127,14 +136,10 @@ def logout(request:HttpRequest):
 
 
 def choose_sign_student_merchant(request:HttpRequest):
-    
-
     return render(request, "choose-student-merchant.html")
 
 
 
-
 def http404(request:HttpRequest):
-
     return render(request, "404.html")
     
