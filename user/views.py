@@ -1,7 +1,9 @@
 from django.shortcuts import redirect, render
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
+from transaction.models import Transactions
 from utils.generate import generate_wallet_id
+from utils.order import group_transaction_by_date
 from utils.response import CustomResponse, BadRequest
 from utils.shortcuts import redirect_not_student, redirect_not_merchant
 from django.contrib import messages
@@ -116,13 +118,6 @@ def dashboard_merchant(request:HttpRequest):
 
     return HttpResponse(f"This is the dashboard for merchant, the balance is {request.user.balance}, the wallet id is {request.user.wallet_id}")
 
-
-
-
-@login_required(login_url="login")
-@redirect_not_student
-def get_student_transactions(request:HttpRequest):
-    pass
 
 
 

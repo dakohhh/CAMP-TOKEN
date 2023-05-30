@@ -1,5 +1,6 @@
 import { transactionBlurComponent, mainTransactionComponent, noTransactionCompnent } from "./components.js"
 
+
 const balance = document.getElementById("user-balance");
 
 balance.addEventListener("click", async () =>{
@@ -7,6 +8,22 @@ balance.addEventListener("click", async () =>{
     balance.classList.toggle('blur');
 })
 
+
+async function getTransactions() {
+
+    const requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    const request = await fetch("/get_student_transactions", requestOptions)
+
+    const result = await request.json()
+
+    return result
+
+    
+}
 
 
 

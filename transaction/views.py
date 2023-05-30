@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.http.request import HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from transaction.models import Transactions
 from utils.generate import generate_transaction_id
+from utils.order import group_transaction_by_date
 from utils.shortcuts import redirect_not_merchant, redirect_not_student
 from user.models import User
 from utils.crud import fetchone, pay_merchant_transaction
@@ -59,6 +61,22 @@ def pay_merchant(request:HttpRequest):
 def refund_student(request:HttpRequest):
     
     return render(request, "transactions/refund_student.html")
+
+
+
+
+
+@login_required(login_url="login")
+@redirect_not_student
+def get_student_transactions(request:HttpRequest):
+
+    trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added")
+
+    trans_history = group_transaction_by_date(trans_history)
+
+
+
+    return CustomResponse("Get Transactions Succussfull", data=trans_history)
 
 
 

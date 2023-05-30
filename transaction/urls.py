@@ -13,6 +13,10 @@ urlpatterns = [
 
     # CONFIRM MERCHANT WALLET
 
-    path("confirm_merchant_wallet", views.confirm_merchant_wallet, name="confirm_merchant_wallet")
+    path("confirm_merchant_wallet", views.confirm_merchant_wallet, name="confirm_merchant_wallet"),
+
+    # GET ALL TRANSACTON FOR STUDENT
+
+    path("get_student_transactions", views.get_student_transactions, name="get_student_transactions"),
 
 ]
