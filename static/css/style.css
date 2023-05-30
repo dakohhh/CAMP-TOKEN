@@ -188,10 +188,6 @@ font-family: 'Mulish', sans-serif;
  }
 
 
-
-
-
-
  
  .signup-form{
 	margin-top: 14px;
@@ -331,10 +327,9 @@ font-family: 'Mulish', sans-serif;
 	text-align: center;
 }
 
-/* .dash-nav .about{
+.dash-nav .about{
 	margin-right: 1000px;
-} */
-
+}
 
 
 
@@ -344,15 +339,15 @@ font-family: 'Mulish', sans-serif;
 
 .camp-contain{
 
-	margin: 0px 40px;
+	margin: 0px 50px;
 }
 
-
+/* 
 .dash-details{
 	margin-right: 281px;
 	
 
-}
+} */
 
 .dash-details h2{
 	font-weight: 800;

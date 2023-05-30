@@ -1,4 +1,6 @@
 {% load static %}
+{% load custom_tags %}
+
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background-color: white;">
     <div class="container">
       <a class="navbar-brand" href="#">
@@ -11,12 +13,12 @@
       <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="dash-nav navbar-nav  flex">
                     <li class="nav-item d-flex align-items-center">
-                        <i class="fa-solid fa-house prm-color"></i>
-                        <a class="nav-link dash-active" href="#" style="color: #40196d;" >Home</a>
+                        <i class="fa-solid fa-house {% if request|is_active:'dashboard_student' %}prm-color{% endif %}"></i>
+                        <a class="nav-link dash-active {% if request|is_active:'dashboard_student' %}prm-color{% endif %}" href="{% if not user.is_merchant %}{% url 'dashboard_student' %} {% else %}{% url 'dashboard_merchant' %}{% endif %}" {% if not user.is_merchant %}{% if request|is_active:'dashboard_student' %}style="color: #40196d;"{% endif %}{% else %}{% if request|is_active:'dashboard_student' %}style="color: #40196d;"{% endif %}{% endif %} >Home</a>
                     </li>
                     <li class="nav-item d-flex align-items-center">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <a class="nav-link dash-active" href="{% url 'pay_merchant' %}">Pay</a>
+                        <i class="fa-solid fa-paper-plane {% if request|is_active:'pay_merchant' %}prm-color{% endif %}"></i>
+                        <a class="nav-link dash-active" href="{% url 'pay_merchant' %}"{% if request|is_active:'pay_merchant' %}style="color: #40196d;"{% endif %}>Pay</a>
                     </li>
                     <li class="nav-item d-flex align-items-center">
                         <i class="fa-solid fa-piggy-bank"></i>
@@ -24,7 +26,7 @@
                     </li>
                     <li class="nav-item d-flex align-items-center">
                         <i class="fa-solid fa-hand-holding-dollar"></i>
-                        <a class="nav-link" href="#">Borrow</a>
+                        <a class="nav-link dash-active" href="#">Borrow</a>
                     </li>
                     
             </ul>
