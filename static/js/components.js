@@ -87,7 +87,7 @@ export function dateRowComponent(date = "Today"){
 }
 
 
-export function transactionRowComponent(isCredit = false){
+export function transactionRowComponent(merchantName, amount , time="10:00 AM", isCredit = false){
 
     let transactionRow = document.createElement('div');
     transactionRow.className = 'row transaction d-flex align-items-center justify-content-start';
@@ -96,10 +96,10 @@ export function transactionRowComponent(isCredit = false){
     transactionInfo1.className = 'col transaction-info-1';
 
     let span1 = document.createElement('span');
-    span1.textContent = 'Glo Penis';
+    span1.textContent = merchantName;
 
     let p1 = document.createElement('p');
-    p1.textContent = '9:08 PM';
+    p1.textContent = time;
 
     transactionInfo1.appendChild(span1);
     transactionInfo1.appendChild(p1);
@@ -112,7 +112,7 @@ export function transactionRowComponent(isCredit = false){
     let span1_2 = document.createElement('span');
     span1_2.className = isCredit ? 'prm-color-green' : "";
 
-    span1_2.textContent = isCredit ? '+₦2,500.00' : "₦2,500.00";
+    span1_2.textContent = isCredit ? `+₦${amount}` : `₦${amount}`;
 
     innerDiv1_2.appendChild(span1_2);
     transactionInfo2.appendChild(innerDiv1_2);
@@ -120,21 +120,22 @@ export function transactionRowComponent(isCredit = false){
     transactionRow.appendChild(transactionInfo1);
     transactionRow.appendChild(transactionInfo2);
 
-
     return transactionRow
-
-
 
 }
 
 
-export function mainTransactionComponent() {
+export function mainTransactionComponent(date, transactions) {
 
     let mainDiv = document.createElement('div');
     mainDiv.className = 'row transaction d-flex align-items-center justify-content-start';
 
-    mainDiv.appendChild(dateRowComponent());
-    mainDiv.appendChild(transactionRowComponent());
+    mainDiv.appendChild(dateRowComponent(date));
+
+    for (const transaction of transactions) {
+
+        mainDiv.appendChild(transaction.getTransactionRow());
+    }
 
     return mainDiv;
 

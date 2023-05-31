@@ -342,12 +342,19 @@ font-family: 'Mulish', sans-serif;
 	margin: 0px 50px;
 }
 
-/* 
+
+.dash-section1{
+	margin-left: 50px;
+}
+
+
 .dash-details{
-	margin-right: 281px;
+	/* margin: 400px; */
 	
 
-} */
+}
+
+
 
 .dash-details h2{
 	font-weight: 800;
@@ -486,6 +493,10 @@ font-family: 'Mulish', sans-serif;
 }
 
 
+
+.transactions{
+	padding: 0px 100px;
+}
 
 .transactions .trans-date{
 	background-color: #f9f9f9;
@@ -933,6 +944,15 @@ animation: fadeOut 0.5s forwards;
 	margin-right: 900px;
 	width: 390px;
 
+	}
+
+	.dash-section1{
+		margin-left: 0px;
+
+	}
+
+	.transactions{
+		padding: 0px 0px;
 	}
 	
 	  

@@ -16,45 +16,51 @@
 		<div class="d-flex  justify-content-center camp-contain">
 
 			<div class="row justify-content-between  dash-head">
-				<div class="col dash-details">
-					<span class="currency">Nigerian Naira</span>
-					<h2 id="user-balance">₦{{ user.balance|floatformat:"2g"}}</h2>
-					<span class="update-time">Last Updtated 5s ago</span>
-				</div>
 
-				<div class="col-4 trans-section">
-					<div class="col-6 col-sm-6 add-money">
-						<i class="fa-solid fa-circle-plus prm-color"></i>
-						<a href="#">Add Money</a>
+				<div class="row dash-section1">
+					<div class="col dash-details">
+						<span class="currency">Nigerian Naira</span>
+						<h2 id="user-balance">₦{{ user.balance|floatformat:"2g"}}</h2>
+						<span class="update-time">Last Updtated 5s ago</span>
 					</div>
 
-					<div class="col-6 wallet-id go-down-sm d-flex align-items-center">
-						<i class="fa-solid fa-copy prm-color"></i>
-						<div class="justify-content-center">
-							<span class="wallet-id-text">Your Wallet ID</span>
-							<span class="wallet-id-number">{{ user.wallet_id }}</span>
+					<div class="col-4 trans-section">
+						<div class="col-6 col-sm-6 add-money">
+							<i class="fa-solid fa-circle-plus prm-color"></i>
+							<a href="#">Add Money</a>
+						</div>
+
+						<div class="col-6 wallet-id go-down-sm d-flex align-items-center">
+							<i class="fa-solid fa-copy prm-color"></i>
+							<div class="justify-content-center">
+								<span class="wallet-id-text">Your Wallet ID</span>
+								<span class="wallet-id-number">{{ user.wallet_id }}</span>
+							</div>
 						</div>
 					</div>
+
 				</div>
 
 
 				<div class="w-100"></div>
 
-				<button id="replace-btn">replace</button>
-
 
 				<div id="transactions" class="col transactions">
 					<div style="margin-top: 40px;"></div>
 
+					{% comment %} <div id="loading-div" class="go-down-sm row transaction d-flex align-items-center justify-content-start"></div>
 
+					<div id="loading-div" class="go-down-sm row transaction d-flex align-items-center justify-content-start"></div>
+
+					<div id="loading-div" class="go-down-sm row transaction d-flex align-items-center justify-content-start"></div> {% endcomment %}
 					
 				</div>
 
 
-
-				
-
 			</div>
+
+
+			
 
 		</div>
 
