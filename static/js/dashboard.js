@@ -44,17 +44,57 @@ let trasactionBlocks = [];
 
 
 for (const transactions in mainTransactions) {
-
-
     trasactionBlocks.push(new MainBlockTransaction(transactions, mainTransactions[transactions]))
-
 }
 
-for (const transactionBlock of trasactionBlocks) {
 
-    transactionsContainer.appendChild(transactionBlock.getMainBlockRow())
+
+const divsToRemove = document.querySelectorAll('#loading-div');
+
+// console.log(divsToRemove)
+
+// divsToRemove.forEach(function(div) {
+
+//     div.classList.add('fade-out');
+
+//     setTimeout(function() {
+//         div.remove();
+
+//     }, 1000);
+// });
+
+// setTimeout(function() {
+//     let div1 = createDiv('New Div 1');
+//     let div2 = createDiv('New Div 2');
+//     let div3 = createDiv('New Div 3');
+//     container.appendChild(div1);
+//     container.appendChild(div2);
+//     container.appendChild(div3);
+//     animateFadeIn([div1, div2, div3]);
+// }, 500);
+
+
+
+// function animateFadeIn(divs) {
+//   divs.forEach(function(div) {
+//     div.classList.add('fade-in');
+//   });
+// }
+
+
+
+
+
+
+
+
+
+
+// for (const transactionBlock of trasactionBlocks) {
+
+//     transactionsContainer.appendChild(transactionBlock.getMainBlockRow())
     
-}
+// }
 
 
 
