@@ -494,6 +494,7 @@ font-family: 'Mulish', sans-serif;
 
 .transactions{
 	padding: 0px 100px;
+	width: 400px
 }
 
 .transactions .trans-date{
@@ -750,7 +751,7 @@ input[type="password"]::-webkit-reveal {
 	background-color: #dbdbdb;
 	position: relative;
 	border-radius: 10px;
-	height: 54px;
+	height: 50px;
 
 }
   
@@ -951,7 +952,10 @@ animation: fadeOut 0.5s forwards;
 	}
 
 	.transactions{
-		padding: 0px 0px;
+		padding-left: 30px;
+		padding-right: 30px;
+		width: 300px
+
 	}
 	
 	  

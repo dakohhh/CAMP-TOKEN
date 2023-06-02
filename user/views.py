@@ -116,7 +116,17 @@ def dashboard_student(request:HttpRequest):
 @redirect_not_merchant
 def dashboard_merchant(request:HttpRequest):
 
-    return HttpResponse(f"This is the dashboard for merchant, the balance is {request.user.balance}, the wallet id is {request.user.wallet_id}")
+    context = {"user":request.user}
+    
+    return render(request, "dashboard/dashboard_merchant.html", context)
+
+
+
+
+@login_required(login_url="login")
+def get_user_data(request:HttpRequest):
+    
+    return CustomResponse("Get User Data successfull", data=request.user.to_dict())
 
 
 

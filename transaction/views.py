@@ -56,25 +56,28 @@ def pay_merchant(request:HttpRequest):
 
 
 
-
-
+@login_required(login_url="login")
+@redirect_not_merchant
 def refund_student(request:HttpRequest):
+
+    context = {"user": request.user}
     
-    return render(request, "transactions/refund_student.html")
+    return render(request, "transactions/refund_student.html", context)
 
 
 
 
 
 @login_required(login_url="login")
-@redirect_not_student
 def get_student_transactions(request:HttpRequest):
 
-    trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added")
+    if request.user.is_merchant:
+        trans_history = Transactions.objects.filter(recipient=request.user).order_by("-date_added")
+    else:
+        trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added")
+
 
     trans_history = group_transaction_by_date(trans_history)
-
-
 
     return CustomResponse("Get Transactions Succussfull", data=trans_history)
 

@@ -30,6 +30,9 @@ urlpatterns = [
 
     path("dashboard/m/", views.dashboard_merchant, name="dashboard_merchant"),
 
+    # GET USER DATA
+    path("get_user_data", views.get_user_data, name="get_user_data"),
+
 
 
     path("404", views.http404, name="404")

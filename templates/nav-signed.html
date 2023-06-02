@@ -16,10 +16,16 @@
                         <i class="fa-solid fa-house {% if request|is_active:'dashboard_student' %}prm-color{% endif %}"></i>
                         <a class="nav-link dash-active {% if request|is_active:'dashboard_student' %}prm-color{% endif %}" href="{% if not user.is_merchant %}{% url 'dashboard_student' %} {% else %}{% url 'dashboard_merchant' %}{% endif %}" {% if not user.is_merchant %}{% if request|is_active:'dashboard_student' %}style="color: #40196d;"{% endif %}{% else %}{% if request|is_active:'dashboard_student' %}style="color: #40196d;"{% endif %}{% endif %} >Home</a>
                     </li>
+
+					{% if not user.is_merchant %}
+
                     <li class="nav-item d-flex align-items-center">
                         <i class="fa-solid fa-paper-plane {% if request|is_active:'pay_merchant' %}prm-color{% endif %}"></i>
                         <a class="nav-link dash-active" href="{% url 'pay_merchant' %}"{% if request|is_active:'pay_merchant' %}style="color: #40196d;"{% endif %}>Pay</a>
                     </li>
+
+					{% endif %}
+
                     <li class="nav-item d-flex align-items-center">
                         <i class="fa-solid fa-piggy-bank"></i>
                         <a class="nav-link dash-active" href="#">Save</a>

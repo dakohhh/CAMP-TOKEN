@@ -9,7 +9,7 @@ urlpatterns = [
 
     # REFUND STUDENT
 
-    path("dashboard/m/refund", views.refund_student, name="refund_student"),
+    path("dashboard/m/refund/<str:transaction_id>", views.refund_student, name="refund_student"),
 
     # CONFIRM MERCHANT WALLET
 

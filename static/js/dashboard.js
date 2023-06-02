@@ -1,5 +1,4 @@
-import { transactionBlurComponent, mainTransactionComponent, noTransactionCompnent } from "./components.js"
-import { Transaction, MainBlockTransaction } from "./classes.js";
+import { MainBlockTransaction } from "./classes.js";
 
 
 async function getTransactions() {
@@ -10,6 +9,21 @@ async function getTransactions() {
     };
 
     const request = await fetch("/get_student_transactions", requestOptions)
+
+    const result = await request.json()
+
+    return result.data
+
+}
+
+async function getUser(){
+
+    const requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    const request = await fetch("/get_user_data", requestOptions)
 
     const result = await request.json()
 
@@ -28,73 +42,53 @@ balance.addEventListener("click", async () =>{
 
 
 
-let transactionsContainer = document.getElementById('transactions');
-
-// for (let index = 0; index < 6; index++) {
-
-//     transactionsContainer.appendChild(transactionBlurComponent())
-    
-// }
+const transactionsContainer = document.getElementById('transactions');
 
 
-
+const user = await getUser();
 const mainTransactions = await getTransactions();
+
+
 
 let trasactionBlocks = [];
 
 
 for (const transactions in mainTransactions) {
-    trasactionBlocks.push(new MainBlockTransaction(transactions, mainTransactions[transactions]))
+    trasactionBlocks.push(new MainBlockTransaction(transactions, mainTransactions[transactions], user.is_merchant))
 }
 
 
 
 const divsToRemove = document.querySelectorAll('#loading-div');
 
-// console.log(divsToRemove)
+divsToRemove.forEach(function(div) {
 
-// divsToRemove.forEach(function(div) {
+    div.classList.add('fade-out');
 
-//     div.classList.add('fade-out');
+    setTimeout(function() {
+        div.remove();
 
-//     setTimeout(function() {
-//         div.remove();
-
-//     }, 1000);
-// });
-
-// setTimeout(function() {
-//     let div1 = createDiv('New Div 1');
-//     let div2 = createDiv('New Div 2');
-//     let div3 = createDiv('New Div 3');
-//     container.appendChild(div1);
-//     container.appendChild(div2);
-//     container.appendChild(div3);
-//     animateFadeIn([div1, div2, div3]);
-// }, 500);
-
-
-
-// function animateFadeIn(divs) {
-//   divs.forEach(function(div) {
-//     div.classList.add('fade-in');
-//   });
-// }
+    }, 1000);
+});
 
 
 
 
+for (const transactionBlock of trasactionBlocks) {
 
+    const  transactionBlockElement = transactionBlock.getMainBlockRow();
 
+    console.log(transactionBlockElement)
 
+    transactionBlockElement.classList.add('fade-in')
 
+    setTimeout(function() {
+        transactionsContainer.appendChild(transactionBlockElement)
 
-
-// for (const transactionBlock of trasactionBlocks) {
-
-//     transactionsContainer.appendChild(transactionBlock.getMainBlockRow())
+    }, 1000);
     
-// }
+}
+
 
 
 

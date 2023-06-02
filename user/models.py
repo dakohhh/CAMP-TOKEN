@@ -91,4 +91,16 @@ class User(AbstractUser, PermissionsMixin):
     REQUIRED_FIELDS = ["first_name", "last_name", "phone_number"]
 
 
+    def to_dict(self)->dict :
+        return {
+            "first_name": self.first_name, 
+            "last_name":self.last_name,  
+            "username":self.username,  
+            "email":self.email,  
+            "wallet_id":self.wallet_id,  
+            "phone_number":self.phone_number,
+            "is_merchant": self.is_merchant
+        }
+
+
 
