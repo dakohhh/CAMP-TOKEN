@@ -63,30 +63,29 @@
 
 					<div class="row pay_confirm">
 
-						<div class="confirm_merchant" style="float: left; width: 80%;">
+						<div class="confirm_merchant" style="float: left; width: 85%;">
 							<div class="row pay_detail">To</div>
-							<div id="merchant-name" class="row">WISDOM OGHENAGWE DAKOH </div>
+							<div id="modal-merchant-name" class="row"></div>
 						</div>
 
-						<div class="confirm_amount" style="float: left; width: 20%;">
+						<div class="confirm_amount" style="float: left; width: 15%;">
 							<div class="row pay_detail">Amount</div>
-							<div id="amount" class="row">₦3000.00</div>
+							<div id="modal-amount" class="row"></div>
 						</div>
 
 					</div>
 
-					<div style="margin-top: 30px;"></div>
+					<div style="margin-top: 20px;"></div>
 
 
 					<h5 class="modal-title con" style="text-align: center;">Enter Pin</h5>
 
-					<div style="margin-top: 10px;"></div>
 
 
 					<div class="row text-center">
 
 						<form>
-							<div class="form-group pin-input">
+							<div id="pin-inputs-field" class="form-group pin-input">
 
 								<input type="password"  maxlength="1" pattern="[0-9]+" required />
 								<input type="password"  maxlength="1" pattern="[0-9]+" required />
@@ -97,6 +96,8 @@
 
 					</div>
 
+					<div id="incorrect-pin-msg" class="prm-color-red text-center go-down-sm bold-sm" style="font-weight: 700;"></div>
+
 					<div style="margin-top: 30px;"></div>
 
 					<div class="row text-center">
@@ -106,7 +107,8 @@
 						</div>
 
 						<div class="col pay-button">
-							<button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal">Pay</button>
+							{% comment %} <button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal" disabled>Pay</button> {% endcomment %}
+							<button id="pay-btn" class="bg-prm-color" type="button"  disabled>Pay</button>
 						</div>
 
 					</div>
@@ -125,19 +127,23 @@
 				<div class="modal-content">
 
 
-					<div class="modal-body">
+					<div id="modal_body2" class="modal-body">
 						<div class="text-center">
-							<img src="img/check.png" width="70" height="70">
+							<img id="pay_suc_or_fail_img" width="70" height="70" alt="success or fail">
 						</div>
 
 						<div class="pay-success-info text-center">
-							<h2 class="go-down-sm">Success!</h2>
 
-							<p class="go-down-md reciept-no">Reciept No: 5dc3790abfde4cbdd309432</p>
+							<h2 id="pay-success-fail-info" class="go-down-sm"></h2>
+
+							<p id="pay-success-fail-message" class="go-down-md reciept-no"></p>
+							<p id="pay-success-fail-reciept-no" class="go-down-md reciept-no"></p>
 
 							<p id="redirect-msg" class="">Redirecting you in 3...</p>
-						</div>
 
+							
+
+						</div>
 
 					</div>
 				
@@ -155,8 +161,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/5f0ec56c6d.js" crossorigin="anonymous"></script> 
-	<script src="/js/refund_student.js"></script>
-	<script src="/js/pin_input.js"></script>
+	<script type="module" src="{% static '/js/refund_student.js' %}"></script>
+	<script src="{% static '/js/pin_input.js' %}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 		const navbarToggler = document.querySelector('.navbar-toggler');

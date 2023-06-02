@@ -7,7 +7,7 @@ from utils.generate import generate_transaction_id
 from utils.order import group_transaction_by_date
 from utils.shortcuts import redirect_not_merchant, redirect_not_student
 from user.models import User
-from utils.crud import fetchone, pay_merchant_transaction
+from utils.crud import fetchone, pay_merchant_transaction, refund_student_transaction
 from utils.response import CustomResponse, NotFoundResponse, BadRequest, ServiceUnavailable
 # Create your views here.
 
@@ -58,7 +58,35 @@ def pay_merchant(request:HttpRequest):
 
 @login_required(login_url="login")
 @redirect_not_merchant
-def refund_student(request:HttpRequest):
+def refund_student(request:HttpRequest, transaction_id):
+
+    transaction = fetchone(Transactions, transaction_id=transaction_id)
+
+    print(transaction)
+
+    if request.method == "POST":
+
+        trasaction_pin = int(request.POST.get("trans_pin"))
+
+        test_pin = 5050
+
+        if trasaction_pin != test_pin:
+            return BadRequest("Incorrect Pin", data="01")
+        
+        if request.user.balance < transaction.amount:
+
+            return BadRequest("Insufficient Balance", data="01")
+
+
+        transaction_id = generate_transaction_id(15)
+
+        refund = refund_student_transaction(request, transaction, transaction_id)
+
+        if refund.transaction_status == 0:
+            return ServiceUnavailable(msg="Something went wrong, please try again", data=refund.to_dict())
+        
+        return CustomResponse(msg="Refund is on the way!", data=refund.to_dict())
+
 
     context = {"user": request.user}
     
