@@ -10,146 +10,182 @@
 
     <div class="container d-flex justify-content-center">
 
-        <div class="pay-contain">
-            <div class="pay-heading text-center">
-                <span>Refund Student</span>
-            </div>
-			
-            <div class="pay-merchant-form">
-                <div class="prm-color-grey text-center">
-                    <span style="font-size: 14px;" >NGN Balance: ₦{{ user.balance|floatformat:"2g"}}</span>
-                </div>
+		{% if transaction.was_refunded == False %}
 
-                <div class="mb-6 go-down-md text-center">
-                    <h4>You're about to refund </h4>
-                </div>
-
-                <div class="mb-6 go-down-md text-center">
-                    <span class="refund-student-name">WISDOM OGHENAGWE DAKOH</span>
-                    <p class="refund-student-amount">₦3000</p>
-                </div>
-
-
-                <div class="mb-6 go-down-sm text-center">
-                    <span>Date payment was made</span>
-                    <p class="refund-student-date prm-color-grey"> March 12 2023</p>
-                </div>
-
-                <div class="mb-6 go-down-sm text-center">
-                    <span>Student Wallet ID:</span>
-                    <p class="prm-color-grey"> 4387578654</p>
-                </div>
-
-
-                <div class="text-center">
-                    <button type="button" class="bg-prm-color go-down-md" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Next</button>
-                </div>
-            </div>
-		</div>
-
-		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			  <div class="modal-content">
-		  
-				<!-- Modal body -->
-				<div class="modal-body">
-
-
-
-					<h4 class="modal-title con modal_head"style="text-align: center;">Confirm</h4>
-
-					<div style="margin-top: 30px;"></div>
-
-
-					<div class="row pay_confirm">
-
-						<div class="confirm_merchant" style="float: left; width: 85%;">
-							<div class="row pay_detail">To</div>
-							<div id="modal-merchant-name" class="row"></div>
-						</div>
-
-						<div class="confirm_amount" style="float: left; width: 15%;">
-							<div class="row pay_detail">Amount</div>
-							<div id="modal-amount" class="row"></div>
-						</div>
-
-					</div>
-
-					<div style="margin-top: 20px;"></div>
-
-
-					<h5 class="modal-title con" style="text-align: center;">Enter Pin</h5>
-
-
-
-					<div class="row text-center">
-
-						<form>
-							<div id="pin-inputs-field" class="form-group pin-input">
-
-								<input type="password"  maxlength="1" pattern="[0-9]+" required />
-								<input type="password"  maxlength="1" pattern="[0-9]+" required />
-								<input type="password"  maxlength="1" pattern="[0-9]+" required />
-								<input type="password"  maxlength="1" pattern="[0-9]+" required />
-							</div>
-						</form>
-
-					</div>
-
-					<div id="incorrect-pin-msg" class="prm-color-red text-center go-down-sm bold-sm" style="font-weight: 700;"></div>
-
-					<div style="margin-top: 30px;"></div>
-
-					<div class="row text-center">
-
-						<div class="col pay-cancel">
-							<button type="button" style="color: #40196d;" data-bs-dismiss="modal">Cancel</button>
-						</div>
-
-						<div class="col pay-button">
-							{% comment %} <button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal" disabled>Pay</button> {% endcomment %}
-							<button id="pay-btn" class="bg-prm-color" type="button"  disabled>Pay</button>
-						</div>
-
-					</div>
-
-
-					  
+			<div class="pay-contain">
+				<div class="pay-heading text-center">
+					<span>Refund Student</span>
 				</div>
-		  
-			  </div>
-			</div>
-		</div>
-
-
-		<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-
-
-					<div id="modal_body2" class="modal-body">
-						<div class="text-center">
-							<img id="pay_suc_or_fail_img" width="70" height="70" alt="success or fail">
-						</div>
-
-						<div class="pay-success-info text-center">
-
-							<h2 id="pay-success-fail-info" class="go-down-sm"></h2>
-
-							<p id="pay-success-fail-message" class="go-down-md reciept-no"></p>
-							<p id="pay-success-fail-reciept-no" class="go-down-md reciept-no"></p>
-
-							<p id="redirect-msg" class="">Redirecting you in 3...</p>
-
-							
-
-						</div>
-
-					</div>
 				
+				<div class="pay-merchant-form">
+					<div class="prm-color-grey text-center">
+						<span style="font-size: 14px;" >NGN Balance: ₦{{ user.balance|floatformat:"2g"}}</span>
+					</div>
+
+					<div class="mb-6 go-down-md text-center">
+						<h4>You're about to refund </h4>
+					</div>
+
+					<div class="mb-6 go-down-md text-center">
+						<span class="refund-student-name">{{ transaction.sender.first_name|upper }} {{ transaction.sender.last_name|upper }}</span>
+						<p class="refund-student-amount">₦{{ transaction.amount }}</p>
+					</div>
+
+
+					<div class="mb-6 go-down-sm text-center">
+						<span>Date payment was made</span>
+						<p class="refund-student-date prm-color-grey">{{ transaction.date_added }}</p>
+					</div>
+
+					<div class="mb-6 go-down-sm text-center">
+						<span>Student Wallet ID:</span>
+						<p class="prm-color-grey">{{ transaction.sender.wallet_id }}</p>
+					</div>
+
+
+					<div class="text-center">
+						<button type="button" class="bg-prm-color go-down-md" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Next</button>
+					</div>
 				</div>
 			</div>
-		</div>
+
+			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+			
+					<!-- Modal body -->
+					<div class="modal-body">
+
+
+
+						<h4 class="modal-title con modal_head"style="text-align: center;">Confirm</h4>
+
+						<div style="margin-top: 30px;"></div>
+
+
+						<div class="row pay_confirm">
+
+							<div class="confirm_merchant" style="float: left; width: 85%;">
+								<div class="row pay_detail">To</div>
+								<div id="modal-merchant-name" class="row" style="margin-left: -25px"><strong>{{ transaction.sender.first_name|upper }} {{ transaction.sender.last_name|upper }}</strong></div>
+							</div>
+
+							<div class="confirm_amount" style="float: left; width: 15%;">
+								<div class="row pay_detail">Amount</div>
+								<div id="modal-amount" class="row" style="margin-left: -25px"><strong>₦{{ transaction.amount }}</strong></div>
+							</div>
+
+						</div>
+
+						<div style="margin-top: 20px;"></div>
+
+
+						<h5 class="modal-title con" style="text-align: center;">Enter Pin</h5>
+
+
+
+						<div class="row text-center">
+
+							<form>
+								<div id="pin-inputs-field" class="form-group pin-input">
+
+									<input type="password"  maxlength="1" pattern="[0-9]+" required />
+									<input type="password"  maxlength="1" pattern="[0-9]+" required />
+									<input type="password"  maxlength="1" pattern="[0-9]+" required />
+									<input type="password"  maxlength="1" pattern="[0-9]+" required />
+								</div>
+							</form>
+
+						</div>
+
+						<div id="incorrect-pin-msg" class="prm-color-red text-center go-down-sm bold-sm" style="font-weight: 700;"></div>
+
+						<div style="margin-top: 30px;"></div>
+
+						<div class="row text-center">
+
+							<div class="col pay-cancel">
+								<button type="button" style="color: #40196d;" data-bs-dismiss="modal">Cancel</button>
+							</div>
+
+							<div class="col pay-button">
+								{% comment %} <button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal" disabled>Pay</button> {% endcomment %}
+								<button id="pay-btn" class="bg-prm-color" type="button"  disabled>Pay</button>
+							</div>
+
+						</div>
+
+
+						
+					</div>
+			
+				</div>
+				</div>
+			</div>
+
+
+			<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+
+
+						<div id="modal_body2" class="modal-body">
+							<div class="text-center">
+								<img id="pay_suc_or_fail_img" width="70" height="70" alt="success or fail">
+							</div>
+
+							<div class="pay-success-info text-center">
+
+								<h2 id="pay-success-fail-info" class="go-down-sm"></h2>
+
+								<p id="pay-success-fail-message" class="go-down-md reciept-no"></p>
+								<p id="pay-success-fail-reciept-no" class="go-down-md reciept-no"></p>
+
+								<p id="redirect-msg" class="">Redirecting you in 3...</p>
+
+								
+
+							</div>
+
+						</div>
+					
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div class="pay-contain">
+				<div class="pay-heading text-center">
+					<span>Refund Student</span>
+				</div>
+				
+				<div class="pay-merchant-form">
+					<div class="prm-color-grey text-center">
+						<span style="font-size: 14px;" >NGN Balance: ₦{{ user.balance|floatformat:"2g"}}</span>
+					</div>
+
+					<div class="mb-6 go-down-md text-center">
+						<h4>This trasnsaction has already been refunded </h4>
+					</div>
+
+					<div class="mb-6 go-down-md text-center">
+						<span class="refund-student-name">{{ transaction.sender.first_name|upper }} {{ transaction.sender.last_name|upper }}</span>
+						<p class="refund-student-amount">₦{{ transaction.amount }}</p>
+					</div>
+
+
+					<div class="mb-6 go-down-sm text-center">
+						<span>Date payment was made</span>
+						<p class="refund-student-date prm-color-grey">{{ transaction.date_added }}</p>
+					</div>
+
+					<div class="mb-6 go-down-sm text-center">
+						<span>Student Wallet ID:</span>
+						<p class="prm-color-grey">{{ transaction.sender.wallet_id }}</p>
+					</div>
+
+				</div>
+			</div>
+		{% endif %}
 	
 
     </div>

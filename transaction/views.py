@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.http.request import HttpRequest
 from django.contrib.auth.decorators import login_required
@@ -62,7 +63,10 @@ def refund_student(request:HttpRequest, transaction_id):
 
     transaction = fetchone(Transactions, transaction_id=transaction_id)
 
-    print(transaction)
+    if transaction == None or transaction.recipient != request.user:
+        return render(request, "404.html", status=404)
+    
+
 
     if request.method == "POST":
 
@@ -88,7 +92,7 @@ def refund_student(request:HttpRequest, transaction_id):
         return CustomResponse(msg="Refund is on the way!", data=refund.to_dict())
 
 
-    context = {"user": request.user}
+    context = {"user": request.user, "transaction":transaction}
     
     return render(request, "transactions/refund_student.html", context)
 

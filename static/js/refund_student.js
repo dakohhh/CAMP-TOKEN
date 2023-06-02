@@ -58,7 +58,9 @@ pin_inputs_field.addEventListener('input', function() {
 
 pay_button.addEventListener("click", async ()=>{
 
-    let transaction_id = "wisdomdkoh2"
+    const active_page = window.location.href.split("/");
+
+    const transaction_id = active_page[active_page.length - 1]
 
     let trans_pin = ""
 
@@ -195,15 +197,11 @@ pay_button.addEventListener("click", async ()=>{
 
         pay_suc_or_fail_img.src = "/static/img/x-mark.png"
 
-        payRedirectToDashboard(redirect_msg);
-
-    
-
-
-        
+        payRedirectToDashboard(redirect_msg);        
 
     }
 
-
-
 });
+
+
+
