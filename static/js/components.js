@@ -87,7 +87,7 @@ export function dateRowComponent(date = "Today"){
 }
 
 
-export function transactionRowComponent(merchantName, amount , isCredit, time="10:00 AM"){
+export function transactionRowComponent(merchantName, amount , isCredit, isFailed, time="10:00 AM"){
 
     let transactionRow = document.createElement('div');
     transactionRow.className = 'row transaction d-flex align-items-center justify-content-start';
@@ -110,7 +110,16 @@ export function transactionRowComponent(merchantName, amount , isCredit, time="1
     let innerDiv1_2 = document.createElement('div');
 
     let span1_2 = document.createElement('span');
-    span1_2.className = isCredit ? 'prm-color-green' : "";
+
+    if (isCredit && !isFailed){
+        span1_2.className = 'prm-color-green';
+    }
+    else if (!isCredit && !isFailed){
+        span1_2.className = '';
+    }
+    else{
+        span1_2.className = 'prm-color-red';
+    }
 
     span1_2.textContent = isCredit ? `+₦${amount}` : `₦${amount}`;
 

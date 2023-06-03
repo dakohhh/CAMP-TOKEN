@@ -73,14 +73,14 @@ def refund_student_transaction(request:HttpRequest, _transaction:Transactions, r
 
             _transaction.save()
 
-            new_transaction = Transactions(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, transaction_status=Transactions.SUCCESS, transaction_type=Transactions.REFUNDED)
+            new_transaction = Transactions(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, initiated_by_student=False,  transaction_status=Transactions.SUCCESS, transaction_type=Transactions.REFUNDED)
 
             new_transaction.save() 
 
             return new_transaction
 
     except ValidationError:
-        failed_transaction = Transactions(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, transaction_status=Transactions.FAILED, transaction_type=Transactions.REFUNDED)
+        failed_transaction = Transactions(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, initiated_by_student=False,  transaction_status=Transactions.FAILED, transaction_type=Transactions.REFUNDED)
 
         failed_transaction.save()
 

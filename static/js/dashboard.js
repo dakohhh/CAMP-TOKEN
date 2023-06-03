@@ -1,4 +1,5 @@
 import { MainBlockTransaction } from "./classes.js";
+import { noTransactionCompnent } from "./components.js";
 
 
 async function getTransactions() {
@@ -49,16 +50,6 @@ const user = await getUser();
 const mainTransactions = await getTransactions();
 
 
-
-let trasactionBlocks = [];
-
-
-for (const transactions in mainTransactions) {
-    trasactionBlocks.push(new MainBlockTransaction(transactions, mainTransactions[transactions], user.is_merchant))
-}
-
-
-
 const divsToRemove = document.querySelectorAll('#loading-div');
 
 divsToRemove.forEach(function(div) {
@@ -73,21 +64,48 @@ divsToRemove.forEach(function(div) {
 
 
 
+let trasactionBlocks = [];
 
-for (const transactionBlock of trasactionBlocks) {
+if (Object.keys(mainTransactions).length == 0 ){
 
-    const  transactionBlockElement = transactionBlock.getMainBlockRow();
+    const noTransaction = noTransactionCompnent()
 
-    console.log(transactionBlockElement)
+    noTransaction.classList.add('fade-in');
 
-    transactionBlockElement.classList.add('fade-in')
 
     setTimeout(function() {
-        transactionsContainer.appendChild(transactionBlockElement)
+        transactionsContainer.appendChild(noTransaction)
 
     }, 1000);
-    
+
 }
+else{
+
+    for (const transactions in mainTransactions) {
+        trasactionBlocks.push(new MainBlockTransaction(transactions, mainTransactions[transactions], user.is_merchant))
+    }
+    
+    
+    
+    for (const transactionBlock of trasactionBlocks) {
+    
+        const  transactionBlockElement = transactionBlock.getMainBlockRow();
+    
+        console.log(transactionBlockElement)
+    
+        transactionBlockElement.classList.add('fade-in')
+    
+        setTimeout(function() {
+            transactionsContainer.appendChild(transactionBlockElement)
+    
+        }, 1000);
+        
+    }
+
+}
+
+
+
 
 
 

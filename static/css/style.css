@@ -947,7 +947,8 @@ animation: fadeOut 0.5s forwards;
 	}
 
 	.dash-section1{
-		margin-left: 0px;
+		margin-left: -40px;
+		padding-right: 30px;
 
 	}
 

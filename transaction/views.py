@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render
 from django.http.request import HttpRequest
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from transaction.models import Transactions
@@ -67,7 +68,6 @@ def refund_student(request:HttpRequest, transaction_id):
         return render(request, "404.html", status=404)
     
 
-
     if request.method == "POST":
 
         trasaction_pin = int(request.POST.get("trans_pin"))
@@ -104,12 +104,22 @@ def refund_student(request:HttpRequest, transaction_id):
 def get_student_transactions(request:HttpRequest):
 
     if request.user.is_merchant:
-        trans_history = Transactions.objects.filter(recipient=request.user).order_by("-date_added")
+        trans_history = Transactions.objects.filter(recipient=request.user).order_by("-date_added").exclude(transaction_status=Transactions.FAILED, initiated_by_student=True)
     else:
-        trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added")
+        trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added").exclude(transaction_status=Transactions.FAILED, initiated_by_student=False)
 
+    
+    page_number = request.GET.get('page', 1) 
+    per_page = 10
 
-    trans_history = group_transaction_by_date(trans_history)
+    paginator = Paginator(trans_history, per_page)
+
+ 
+    page_transactions = paginator.page(page_number)
+
+    print(page_transactions.number)
+
+    trans_history = group_transaction_by_date(page_transactions.object_list)
 
     return CustomResponse("Get Transactions Succussfull", data=trans_history)
 

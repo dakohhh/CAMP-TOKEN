@@ -18,6 +18,8 @@ export class Transaction {
 
     getTransactionRow(){
         let isCredit;
+        let isFailed = this.transaction_status == 1 ? false : true
+
 
         if (this.is_for_merchant && this.transaction_type === 1){
             isCredit = true
@@ -33,7 +35,7 @@ export class Transaction {
             isCredit = true;
         }
 
-        return transactionRowComponent(this.is_for_merchant ? this.sender : this.recipient, this.amount, isCredit, "10:00 AM")
+        return transactionRowComponent(this.is_for_merchant ? this.sender : this.recipient, this.amount, isCredit, isFailed, "10:00 AM")
     }
 
 }
