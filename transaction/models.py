@@ -18,6 +18,8 @@ class Transactions(models.Model):
 
     FAILED = 0
 
+    
+
     _TRANSACTION_TYPES = [
         (SENT, 'Sent'),
         (REFUNDED, 'Refunded'),
@@ -41,6 +43,8 @@ class Transactions(models.Model):
     transaction_status = models.SmallIntegerField(choices=_TRANSACTION_STATUS)
 
     was_refunded = models.BooleanField(default=False)
+
+    initiated_by_student = models.BooleanField(default=True)
 
     date_added = models.DateTimeField(auto_now_add=True, null=False)
 
