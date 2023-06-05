@@ -767,6 +767,21 @@ input[type="password"]::-webkit-reveal {
 }
 
 
+.view-more-btn{
+	width: 30%;
+	margin-left: 35%;
+	border: none;
+	border-radius: 5px;
+	background-color: #fff;
+	box-shadow: 0 4px 10px 0px rgba(64,25,109,0.25);
+	font-weight: 700;
+	transition: transform 0.5s ease-in-out;
+}
+
+.view-more-btn:hover{
+	transform: translateY(-5px);
+}
+
 @keyframes fadeOut {
 	from { opacity: 1; }
 	to { opacity: 0; }
@@ -863,6 +878,12 @@ animation: fadeOut 0.5s forwards;
 	
 		}
 
+	
+	.view-more-btn{
+		width: 50%;
+		margin-left: 25%;
+	}
+
 
 
 }
@@ -957,6 +978,11 @@ animation: fadeOut 0.5s forwards;
 		padding-right: 30px;
 		width: 300px
 
+	}
+
+	.view-more-btn{
+		width: 50%;
+		margin-left: 25%;
 	}
 	
 	  

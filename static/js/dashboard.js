@@ -1,5 +1,5 @@
 import { MainBlockTransaction } from "./classes.js";
-import { noTransactionCompnent } from "./components.js";
+import { noTransactionCompnent, viewMoreButtonComponent } from "./components.js";
 
 
 async function getTransactions() {
@@ -96,13 +96,19 @@ else{
         transactionBlockElement.classList.add('fade-in')
     
         setTimeout(function() {
-            transactionsContainer.appendChild(transactionBlockElement)
-    
+            transactionsContainer.appendChild(transactionBlockElement)    
         }, 1000);
         
     }
 
+    setTimeout(function() {
+        transactionsContainer.appendChild(viewMoreButtonComponent())
+
+    }, 1000);
+
 }
+
+
 
 
 

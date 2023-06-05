@@ -162,3 +162,30 @@ export function noTransactionCompnent(){
     return mainHead
 
 }
+
+
+
+export function viewMoreButtonComponent(){
+    const mainDiv = document.createElement("div");
+
+    mainDiv.className = "go-down-sm row d-flex align-items-center justify-content-start"
+
+    const button = document.createElement("button");
+
+    const iElement = document.createElement("i");
+
+    iElement.className = "prm-color fa-solid fa-magnifying-glass";
+
+    button.className = "prm-color text-center view-more-btn";
+
+    const buttonText = document.createTextNode(" View More");
+
+    button.appendChild(iElement);
+    
+    button.appendChild(buttonText)
+    
+    mainDiv.appendChild(button);
+
+    return mainDiv;
+
+}

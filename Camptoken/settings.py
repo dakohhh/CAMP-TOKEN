@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "user.apps.UserConfig",
     "transaction.apps.TransactionConfig",
+    "payment.apps.PaymentConfig",
 ]
 
 MIDDLEWARE = [
