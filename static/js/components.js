@@ -189,3 +189,26 @@ export function viewMoreButtonComponent(){
     return mainDiv;
 
 }
+
+
+export function errorTextComponent(message){
+
+    const divElement = document.createElement('div');
+
+    divElement.id = 'incorrect-pin-msg';
+    divElement.className = 'prm-color-red go-down-sm';
+    divElement.style.fontWeight = '700';
+    divElement.style.fontSize = '11px';
+
+    const iconElement = document.createElement('i');
+    iconElement.className = 'fa-solid fa-circle-exclamation';
+
+    const textNode = document.createTextNode(` ${message}`);
+
+    divElement.appendChild(iconElement);
+    divElement.appendChild(textNode);
+
+
+    return divElement
+
+}

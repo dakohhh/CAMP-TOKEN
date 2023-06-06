@@ -19,7 +19,7 @@
                     <span style="font-size: 14px;" >NGN Balance: ₦{{ user.balance|floatformat:"2g" }}</span>
                 </div>
 
-                <div class="mb-3 go-down-md">
+                <div id="amount-area" class="mb-3 go-down-md">
                     <label for="amount" class="form-label">Amount(NGN)</label>
                     <input type="number" class="add-money-amount form-control" id="amount" placeholder="₦0.00">
 					{% csrf_token %}

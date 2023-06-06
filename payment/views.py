@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -27,19 +27,13 @@ def add_money(request:HttpRequest):
 
             checkout = add_money_transaction(request, email, amount, transaction_id)
 
-            new_transaction = Transactions(transaction_id=transaction_id, student=request.user, amount=amount, transaction_type=Transactions.PAID_ONLINE, transaction_status=Transactions.PENDING)
-
-            print(checkout)
-
-
-        except PaystackAPIException as e:
+            new_transaction = Transactions(transaction_id=transaction_id, student=request.user, amount=amount, transaction_type=Transactions.PAID_ONLINE, transaction_status=Transactions.PENDING)\
             
-            return ServiceUnavailable(e)
+            return CustomResponse("Payment Link Generated Successfull", data={"checkout": checkout})
+
+        except PaystackAPIException:
+            
+            return ServiceUnavailable("Something went wrong, please try again")
 
     return render(request, "addmoney/add_money.html")
 
-
-def add_money_success(request:HttpRequest):
-
-
-    return HttpResponse("Payment Success boi")
