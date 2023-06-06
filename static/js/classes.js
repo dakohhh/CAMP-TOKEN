@@ -2,12 +2,12 @@ import { transactionBlurComponent, mainTransactionComponent, noTransactionCompne
 
 
 export class Transaction {
-    constructor(amount, date_added, recipient, sender, transaction_id, transaction_status, transaction_type, was_refunded, is_for_merchant){
+    constructor(amount, date_added, merchant, student, transaction_id, transaction_status, transaction_type, was_refunded, is_for_merchant){
 
         this.amount = amount
         this.date_added = date_added
-        this.recipient = recipient
-        this.sender = sender
+        this.merchant = merchant
+        this.student = student
         this.transaction_id = transaction_id
         this.transaction_status = transaction_status
         this.transaction_type = transaction_type
@@ -35,7 +35,7 @@ export class Transaction {
             isCredit = true;
         }
 
-        return transactionRowComponent(this.is_for_merchant ? this.sender : this.recipient, this.amount, isCredit, isFailed, "10:00 AM")
+        return transactionRowComponent(this.is_for_merchant ? this.student : this.merchant, this.amount, isCredit, isFailed, "10:00 AM")
     }
 
 }
@@ -47,7 +47,7 @@ export class MainBlockTransaction {
 
         for (const i of transactions) {
 
-            const _  = new Transaction(i.amount, i.date_added, i.recipient, i.sender, i.transaction_id, i.transaction_status, i.transaction_type, i.was_refunded, is_for_merchant)
+            const _  = new Transaction(i.amount, i.date_added, i.merchant, i.student, i.transaction_id, i.transaction_status, i.transaction_type, i.was_refunded, is_for_merchant)
 
             arrTrans.push(_)
         }

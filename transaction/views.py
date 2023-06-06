@@ -104,9 +104,9 @@ def refund_student(request:HttpRequest, transaction_id):
 def get_student_transactions(request:HttpRequest):
 
     if request.user.is_merchant:
-        trans_history = Transactions.objects.filter(recipient=request.user).order_by("-date_added").exclude(transaction_status=Transactions.FAILED, initiated_by_student=True)
+        trans_history = Transactions.objects.filter(merchant=request.user).order_by("-date_added").exclude(transaction_status=Transactions.FAILED, initiated_by_student=True)
     else:
-        trans_history = Transactions.objects.filter(sender=request.user).order_by("-date_added").exclude(transaction_status=Transactions.FAILED, initiated_by_student=False)
+        trans_history = Transactions.objects.filter(student=request.user).order_by("-date_added").exclude(transaction_status=Transactions.FAILED, initiated_by_student=False)
 
     
     page_number = request.GET.get('page', 1) 

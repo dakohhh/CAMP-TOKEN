@@ -14,27 +14,33 @@ class Transactions(models.Model):
 
     REFUNDED = 2
 
+    PAID_ONLINE = 3
+
     SUCCESS  = 1
 
     FAILED = 0
+
+    PENDING = 2
 
     
 
     _TRANSACTION_TYPES = [
         (SENT, 'Sent'),
         (REFUNDED, 'Refunded'),
+        (PAID_ONLINE, "Paid Online")
     ]
 
     _TRANSACTION_STATUS = [
         (SUCCESS, "Success"),
-        (FAILED, "Failed"),         
+        (FAILED, "Failed"),
+        (PENDING, "Pending")       
     ]
 
     transaction_id = models.CharField(max_length=30, primary_key=True, blank=True)
 
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender_transactions')
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender_transactions')
 
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient_transactions')
+    merchant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient_transactions', null=True)
 
     amount = models.DecimalField(max_digits=10, null=False,  decimal_places=2)
 
@@ -52,8 +58,8 @@ class Transactions(models.Model):
     def to_dict(self):
         return {
             "transaction_id": self.transaction_id,
-            "sender": f'{self.sender.first_name} {self.sender.last_name}',
-            "recipient": f'{self.recipient.business_name}', 
+            "student": f'{self.student.first_name} {self.student.last_name}',
+            "merchant": f'{self.merchant.business_name}', 
             "amount": self.amount, 
             "transaction_type": self.transaction_type, 
             "transaction_status": self.transaction_status, 

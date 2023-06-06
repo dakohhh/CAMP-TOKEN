@@ -39,5 +39,10 @@ class ServiceUnavailable(CustomResponse):
 
 
 
+class PaystackAPIException(Exception):
+    pass
+
+
+
 
 

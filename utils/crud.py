@@ -41,7 +41,7 @@ def pay_merchant_transaction(request:HttpRequest, merchant:User, amount:int, tra
 
             merchant.save()
 
-            new_transaction = Transactions(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, transaction_status=Transactions.SUCCESS, transaction_type=Transactions.SENT)
+            new_transaction = Transactions(transaction_id=transaction_id, student=request.user, merchant=merchant, amount=amount, transaction_status=Transactions.SUCCESS, transaction_type=Transactions.SENT)
 
             new_transaction.save()
 
@@ -49,7 +49,7 @@ def pay_merchant_transaction(request:HttpRequest, merchant:User, amount:int, tra
 
     except:
 
-        failed_transaction = Transactions(transaction_id=transaction_id, sender=request.user, recipient=merchant, amount=amount, transaction_status=Transactions.FAILED, transaction_type=Transactions.SENT)
+        failed_transaction = Transactions(transaction_id=transaction_id, student=request.user, merchant=merchant, amount=amount, transaction_status=Transactions.FAILED, transaction_type=Transactions.SENT)
 
         return failed_transaction
 
@@ -65,22 +65,22 @@ def refund_student_transaction(request:HttpRequest, _transaction:Transactions, r
 
             request.user.save()
 
-            _transaction.sender.balance += float(_transaction.amount)
+            _transaction.student.balance += float(_transaction.amount)
 
-            _transaction.sender.save()
+            _transaction.student.save()
 
             _transaction.was_refunded = True
 
             _transaction.save()
 
-            new_transaction = Transactions(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, initiated_by_student=False,  transaction_status=Transactions.SUCCESS, transaction_type=Transactions.REFUNDED)
+            new_transaction = Transactions(transaction_id=refund_transaction_id, student=_transaction.student, merchant=request.user, amount=_transaction.amount, initiated_by_student=False,  transaction_status=Transactions.SUCCESS, transaction_type=Transactions.REFUNDED)
 
             new_transaction.save() 
 
             return new_transaction
 
     except ValidationError:
-        failed_transaction = Transactions(transaction_id=refund_transaction_id, sender=_transaction.sender, recipient=request.user, amount=_transaction.amount, initiated_by_student=False,  transaction_status=Transactions.FAILED, transaction_type=Transactions.REFUNDED)
+        failed_transaction = Transactions(transaction_id=refund_transaction_id, student=_transaction.student, merchant=request.user, amount=_transaction.amount, initiated_by_student=False,  transaction_status=Transactions.FAILED, transaction_type=Transactions.REFUNDED)
 
         failed_transaction.save()
 
