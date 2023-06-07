@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 from user.models import User
@@ -63,6 +64,7 @@ class Transactions(models.Model):
             "amount": self.amount, 
             "transaction_type": self.transaction_type, 
             "transaction_status": self.transaction_status, 
-            "was_refunded": self.was_refunded, 
+            "was_refunded": self.was_refunded,
+            "formated_time": self.date_added.strftime("%I:%M %p"),   
             "date_added": self.date_added
         }

@@ -87,7 +87,7 @@ export function dateRowComponent(date = "Today"){
 }
 
 
-export function transactionRowComponent(merchantName, amount , isCredit, isFailed, time="10:00 AM"){
+export function transactionRowComponent(merchantName, amount , isCredit, isFailed, time){
 
     let transactionRow = document.createElement('div');
     transactionRow.className = 'row transaction d-flex align-items-center justify-content-start';
