@@ -9,5 +9,7 @@ urlpatterns = [
 
     path("dashboard/addmoney", views.add_money, name="add_money"),
 
+    path("camptoken/webhook", views.webhook, name="webhook"),
+
 
 ]

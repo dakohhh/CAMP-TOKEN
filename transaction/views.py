@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.http.request import HttpRequest
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 from transaction.models import Transactions
 from utils.generate import generate_transaction_id
 from utils.order import group_transaction_by_date

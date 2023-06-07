@@ -32,6 +32,9 @@ async function getUser(){
 
 }
 
+async function goToAddMoney(){
+    window.location.href = "/addmoney"
+}
 
 
 const balance = document.getElementById("user-balance");

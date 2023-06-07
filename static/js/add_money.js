@@ -32,6 +32,8 @@ async function  makePayment(amount){
 
         if (response.status == 200){
 
+            addMoneyButton.disabled = false;
+
             window.location.href = result.data.checkout
 
 

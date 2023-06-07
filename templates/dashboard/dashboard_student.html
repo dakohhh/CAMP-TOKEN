@@ -25,9 +25,9 @@
 					</div>
 
 					<div class="col-4 trans-section">
-						<div class="col-6 col-sm-6 add-money">
+						<div id="add-money" class="col-6 col-sm-6 add-money" onClick="goToAddMoney()">
 							<i class="fa-solid fa-circle-plus prm-color"></i>
-							<a href="#">Add Money</a>
+							<a href="{% url 'add_money' %}">Add Money</a>
 						</div>
 
 						<div class="col-6 wallet-id go-down-sm d-flex align-items-center">

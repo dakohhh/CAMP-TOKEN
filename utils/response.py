@@ -14,8 +14,6 @@ class CustomResponse(JsonResponse):
             "data": data
         }
 
-        print(kwargs == {})
-
         super().__init__(data=response, status=status)
 
 

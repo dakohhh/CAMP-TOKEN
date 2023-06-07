@@ -8,7 +8,7 @@ load_dotenv()
 
 
 
-def add_money_transaction(request:HttpRequest, email:str, amount:int, trasaction_id:str):
+def add_money_request(request:HttpRequest, email:str, amount:int, trasaction_id:str):
 
     base = request.scheme + "://" + request.get_host()
 

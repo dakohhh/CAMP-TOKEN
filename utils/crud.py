@@ -1,9 +1,11 @@
 from typing import List, Type, Union
+from django.http import Http404
 from django.http import HttpRequest
 from django.db import transaction
 from django.db.models import Model
 from django.core.exceptions import ValidationError
 from transaction.models import Transactions
+from utils.exceptions import TransactionFailed
 from user.models import User
 
 
@@ -85,6 +87,32 @@ def refund_student_transaction(request:HttpRequest, _transaction:Transactions, r
         failed_transaction.save()
 
         return failed_transaction
+
+
+
+@transaction.atomic
+def add_money_transaction(request:HttpRequest, transaction_id:str, amount, _status):
+
+    try:
+        with transaction.atomic():
+
+            if _status == "success":
+                status = Transactions.SUCCESS
+            elif _status == "failed":
+                status = Transactions.FAILED
+            else:
+                status = Transactions.PENDING
+
+            new_transaction = Transactions(transaction_id=transaction_id, student=request.user, amount=amount, transaction_type=Transactions.PAID_ONLINE, transaction_status=status)
+
+            new_transaction.save()
+
+    except ValidationError:
+        
+        raise TransactionFailed()
+
+        
+
 
 
 
