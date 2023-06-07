@@ -2,18 +2,23 @@ import { MainBlockTransaction } from "./classes.js";
 import { noTransactionCompnent, viewMoreButtonComponent } from "./components.js";
 
 
-async function getTransactions() {
+
+
+let currentTransactionPage = 1;
+
+
+async function getTransactions(page=1) {
 
     const requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
 
-    const request = await fetch("/get_student_transactions", requestOptions)
+    const request = await fetch(`/get_student_transactions?page=${page}`, requestOptions)
 
     const result = await request.json()
 
-    return result.data
+    return result
 
 }
 
@@ -50,7 +55,8 @@ const transactionsContainer = document.getElementById('transactions');
 
 
 const user = await getUser();
-const mainTransactions = await getTransactions();
+const transactionRequest = await getTransactions()
+const mainTransactions = transactionRequest.data;
 
 
 const divsToRemove = document.querySelectorAll('#loading-div');
@@ -104,10 +110,20 @@ else{
         
     }
 
-    setTimeout(function() {
-        transactionsContainer.appendChild(viewMoreButtonComponent())
+    try{
+        if (transactionRequest.extra_vals.page_detials.has_next)
+        setTimeout(function() {
+            transactionsContainer.appendChild(viewMoreButtonComponent())
 
-    }, 1000);
+        }, 1000);
+
+        console.log(transactionRequest.extra_vals.page_detials.has_next)
+
+
+    }
+    catch(e){
+        console.log("error", error)
+    }
 
 }
 

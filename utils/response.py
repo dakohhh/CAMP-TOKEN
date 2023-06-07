@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 class CustomResponse(JsonResponse):
     
-    def __init__(self, msg, status=200, success=True, data=None, **kwargs) -> None:
+    def __init__(self, msg, *args, status=200,  success=True, data=None, **kwargs) -> None:
 
         response = {
             "status": status, 
@@ -13,6 +13,11 @@ class CustomResponse(JsonResponse):
             "success":success,
             "data": data
         }
+
+
+        if kwargs != {}:
+            response["extra_vals"] = kwargs
+
 
         super().__init__(data=response, status=status)
 

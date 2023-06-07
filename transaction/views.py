@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render
 from django.http.request import HttpRequest
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from transaction.models import Transactions
 from utils.generate import generate_transaction_id
@@ -113,15 +113,28 @@ def get_student_transactions(request:HttpRequest):
 
     paginator = Paginator(trans_history, per_page)
 
+    try:
  
-    page_transactions = paginator.page(page_number)
+        page_transactions = paginator.page(page_number)
 
-    print(page_transactions.number)
+        print(page_number)
 
-    trans_history = group_transaction_by_date(page_transactions.object_list)
+        page_detials = {
+            'has_previous': page_transactions.has_previous(),
+            'has_next': page_transactions.has_next(),
+            'total_pages': paginator.num_pages
+        }
 
-    return CustomResponse("Get Transactions Succussfull", data=trans_history)
+        trans_history = group_transaction_by_date(page_transactions.object_list)
 
+        return CustomResponse("Get Transactions Succussfull", data=trans_history, page_detials=page_detials)
+    
+    
+    except PageNotAnInteger:
+        return BadRequest("Invalid page number")
+    
+    except EmptyPage:
+        return NotFoundResponse("Page out of range")
 
 
 def confirm_merchant_wallet(request:HttpRequest):
