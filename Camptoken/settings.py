@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["4e72-197-149-92-226.ngrok-free.app", "127.0.0.1"]
+ALLOWED_HOSTS = ["1e6f-102-88-35-232.ngrok-free.app", "127.0.0.1"]
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',  

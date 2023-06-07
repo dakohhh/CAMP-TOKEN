@@ -59,7 +59,7 @@ class Transactions(models.Model):
         return {
             "transaction_id": self.transaction_id,
             "student": f'{self.student.first_name} {self.student.last_name}',
-            "merchant": f'{self.merchant.business_name}', 
+            "merchant": f'{self.merchant.business_name}' if self.merchant else "Paystack", 
             "amount": self.amount, 
             "transaction_type": self.transaction_type, 
             "transaction_status": self.transaction_status, 

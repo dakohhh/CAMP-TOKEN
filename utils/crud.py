@@ -91,7 +91,7 @@ def refund_student_transaction(request:HttpRequest, _transaction:Transactions, r
 
 
 @transaction.atomic
-def add_money_transaction(request:HttpRequest, transaction_id:str, amount, _status):
+def add_money_transaction(user:User, transaction_id:str, amount:float, _status):
 
     try:
         with transaction.atomic():
@@ -103,12 +103,16 @@ def add_money_transaction(request:HttpRequest, transaction_id:str, amount, _stat
             else:
                 status = Transactions.PENDING
 
-            new_transaction = Transactions(transaction_id=transaction_id, student=request.user, amount=amount, transaction_type=Transactions.PAID_ONLINE, transaction_status=status)
+            user.balance += amount
+
+            user.save()
+
+            new_transaction = Transactions(transaction_id=transaction_id, student=user, amount=amount, transaction_type=Transactions.PAID_ONLINE, transaction_status=status)
 
             new_transaction.save()
 
     except ValidationError:
-        
+
         raise TransactionFailed()
 
         

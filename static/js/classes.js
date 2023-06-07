@@ -35,6 +35,10 @@ export class Transaction {
             isCredit = true;
         }
 
+        if (this.transaction_type === 3){
+            isCredit = true;
+        }
+
         return transactionRowComponent(this.is_for_merchant ? this.student : this.merchant, this.amount, isCredit, isFailed, "10:00 AM")
     }
 

@@ -1,14 +1,16 @@
 import hashlib
 import hmac
 import os
+import json
 from django.shortcuts import redirect, render
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from transaction.models import Transactions
+from user.models import User
 from utils.generate import generate_transaction_id
-from utils.crud import add_money_transaction
+from utils.crud import add_money_transaction, fetchone
 from utils.request import add_money_request, PaystackAPIException
 from utils.response import CustomResponse, ServiceUnavailable
 from utils.shortcuts import redirect_not_student
@@ -64,9 +66,14 @@ def webhook(request:HttpRequest):
                 return HttpResponse(status=403)
             
             
-            request_data = dict(request.body.decode("utf-8")).data
+            request_data = json.loads(request.body).get("data")
 
-            add_money_transaction(request, request_data.reference, int(request_data.amount), request_data.status)
+            user_reference = request_data.get("customer")
+
+            user = fetchone(User, email=user_reference.get("email"))
+
+
+            add_money_transaction(user, request_data.get("reference"), float(request_data.get("amount") / 100), request_data.get("status"))
 
             return HttpResponse(status=200)
         
