@@ -111,7 +111,10 @@ def get_student_transactions(request:HttpRequest):
     page_number = request.GET.get('page', 1) 
     per_page = 6
 
+
     paginator = Paginator(trans_history, per_page)
+
+    print(len(trans_history))
 
     try:
  
