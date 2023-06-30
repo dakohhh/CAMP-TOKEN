@@ -108,19 +108,16 @@ def get_student_transactions(request:HttpRequest):
         trans_history = Transactions.objects.filter(student=request.user).order_by("-date_added").exclude(transaction_status=Transactions.FAILED, initiated_by_student=False)
 
     
-    page_number = request.GET.get('page', 1) 
+    page_number = request.GET.get('page') 
     per_page = 6
 
 
     paginator = Paginator(trans_history, per_page)
 
-    print(len(trans_history))
-
     try:
  
-        page_transactions = paginator.page(page_number)
+        page_transactions = paginator.page(int(page_number))
 
-        print(page_number)
 
         page_detials = {
             'has_previous': page_transactions.has_previous(),

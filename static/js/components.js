@@ -129,7 +129,9 @@ export function transactionRowComponent(merchantName, amount , isCredit, isFaile
     transactionRow.appendChild(transactionInfo1);
     transactionRow.appendChild(transactionInfo2);
 
-    return transactionRow
+
+
+    return transactionRow;
 
 }
 
@@ -138,6 +140,8 @@ export function mainTransactionComponent(date, transactions) {
 
     let mainDiv = document.createElement('div');
     mainDiv.className = 'row transaction d-flex align-items-center justify-content-start';
+
+    mainDiv.id = "main-tran-sec";
 
     mainDiv.appendChild(dateRowComponent(date));
 
