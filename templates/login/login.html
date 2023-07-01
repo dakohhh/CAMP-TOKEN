@@ -32,7 +32,6 @@
 			<h4 class="">Sign in to Camptoken</h4>
 			<p class="form-explain">To sign, please type in the email address linked to your Camptoken account</p>
 
-<<<<<<< HEAD
 			{% if messages %}
 				{% for message in messages %}
 					{% if message.tags == "success" %}
@@ -45,34 +44,21 @@
 
 						<div class="warning-msg fade-in">
 							<i class="fa-solid fa-circle-exclamation"></i>
-							{{ message }} click <a href="#">here</a> to verify
+							{{ message }} click <a href="">here</a> to verify
 						</div>
 					
 					{% else %}
 						<div class="error-msg fade-in">
-=======
-			{% comment %} <div class="warning-msg">
-				<i class="fa-solid fa-circle-exclamation"></i>
-				Account not verified click <a href="#">here</a> to verify
-			</div>  {% endcomment %}
-
-			{% if messages %}
-				{% for message in messages %}
-					{% if message.tags == "success" %}
-						<div class="success-msg">
-							<i class="fa-solid fa-circle-check"></i>
-							{{ message }}
-						</div>
-					{% else %}
-						<div class="error-msg">
->>>>>>> f9b028f1b108ab82a4ea14e2253326fd9fe6f7f7
 							<i class="fa-solid fa-circle-exclamation"></i>
 							{{ message }}
 						</div>
 					{% endif %}
+					
 				{% endfor %}
 			{% endif %}
+
 			<br>
+
 			<form method="POST" action="#" class="">
 				{% csrf_token %}
 
@@ -86,7 +72,7 @@
 					{{ form.password }}
 				</div>
 				<div class="mb-3">
-					<p class="forgot-password">Forgot Password? <a href="#">Reset it</a></p>
+					<p class="forgot-password">Forgot Password? <a href="{% url 'password_reset' %}">Reset it</a></p>
 				</div>
 				<button type="submit" class="">Sign in</button>
 			</form>
