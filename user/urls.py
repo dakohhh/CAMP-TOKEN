@@ -1,5 +1,8 @@
 from django.urls import path
+<<<<<<< HEAD
 from django.contrib.auth import views as auth_views
+=======
+>>>>>>> f9b028f1b108ab82a4ea14e2253326fd9fe6f7f7
 from . import views
 
 urlpatterns = [
@@ -35,6 +38,7 @@ urlpatterns = [
     path("get_user_data", views.get_user_data, name="get_user_data"),
 
 
+<<<<<<< HEAD
     # FORGOT PASSWORD ROUTE
     path("accounts/password/reset", auth_views.PasswordResetView.as_view(template_name="password_reset/password_reset.html"), name="password_reset"),
 
@@ -47,6 +51,8 @@ urlpatterns = [
     # path("accounts/password_reset", auth_views.PasswordResetView.as_view(template_name="password_reset/password_reset.html"), name="password_reset"),
 
 
+=======
+>>>>>>> f9b028f1b108ab82a4ea14e2253326fd9fe6f7f7
 
     path("404", views.http404, name="404")
 

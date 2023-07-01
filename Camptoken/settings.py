@@ -142,6 +142,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+<<<<<<< HEAD
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -161,3 +162,5 @@ EMAIL_HOST_PASSWORD = os.getenv("MAIL_PASSWORD")
 
 
 DEFAULT_FROM_EMAIL =  "Camptoken"
+=======
+>>>>>>> f9b028f1b108ab82a4ea14e2253326fd9fe6f7f7

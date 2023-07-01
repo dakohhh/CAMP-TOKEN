@@ -32,6 +32,7 @@
 			<h4 class="">Sign in to Camptoken</h4>
 			<p class="form-explain">To sign, please type in the email address linked to your Camptoken account</p>
 
+<<<<<<< HEAD
 			{% if messages %}
 				{% for message in messages %}
 					{% if message.tags == "success" %}
@@ -49,6 +50,22 @@
 					
 					{% else %}
 						<div class="error-msg fade-in">
+=======
+			{% comment %} <div class="warning-msg">
+				<i class="fa-solid fa-circle-exclamation"></i>
+				Account not verified click <a href="#">here</a> to verify
+			</div>  {% endcomment %}
+
+			{% if messages %}
+				{% for message in messages %}
+					{% if message.tags == "success" %}
+						<div class="success-msg">
+							<i class="fa-solid fa-circle-check"></i>
+							{{ message }}
+						</div>
+					{% else %}
+						<div class="error-msg">
+>>>>>>> f9b028f1b108ab82a4ea14e2253326fd9fe6f7f7
 							<i class="fa-solid fa-circle-exclamation"></i>
 							{{ message }}
 						</div>

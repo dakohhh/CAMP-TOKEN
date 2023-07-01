@@ -85,6 +85,7 @@ def login(request:HttpRequest):
             user = authenticate(request, username=email, password=password)
 
             if user is not None:
+<<<<<<< HEAD
 
                 if not user.is_verified:
                     messages.warning(request, "Account not verified")
@@ -96,6 +97,14 @@ def login(request:HttpRequest):
                         return redirect("dashboard_student")
                     else:
                         return redirect("dashboard_merchant")
+=======
+                auth.login(request, user)
+
+                if not user.is_merchant:
+                    return redirect("dashboard_student")
+                else:
+                    return redirect("dashboard_merchant")
+>>>>>>> f9b028f1b108ab82a4ea14e2253326fd9fe6f7f7
 
             else:
                 messages.error(request, 'Email or password is incorrect')
@@ -134,9 +143,13 @@ def get_user_data(request:HttpRequest):
     return CustomResponse("Get User Data successfull", data=request.user.to_dict())
 
 
+<<<<<<< HEAD
 def forgot_password(request:HttpRequest):
     
     return render(request, "forget_password/forget_password.html")
+=======
+
+>>>>>>> f9b028f1b108ab82a4ea14e2253326fd9fe6f7f7
 
 
 
