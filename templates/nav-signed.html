@@ -1,0 +1,41 @@
+{% load static %}
+{% load custom_tags %}
+
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background-color: white;">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="{% static 'img/logo4.png' %}" width="" height="40px" alt="Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fa-solid fa-bars">
+        </span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="dash-nav navbar-nav  flex">
+                    <li class="nav-item d-flex align-items-center">
+                        <i class="fa-solid fa-house {% if request|is_active:'dashboard_student' %}prm-color{% endif %}"></i>
+                        <a class="nav-link dash-active {% if request|is_active:'dashboard_student' %}prm-color{% endif %}" href="{% if not user.is_merchant %}{% url 'dashboard_student' %} {% else %}{% url 'dashboard_merchant' %}{% endif %}" {% if not user.is_merchant %}{% if request|is_active:'dashboard_student' %}style="color: #40196d;"{% endif %}{% else %}{% if request|is_active:'dashboard_student' %}style="color: #40196d;"{% endif %}{% endif %} >Home</a>
+                    </li>
+
+					{% if not user.is_merchant %}
+
+                    <li class="nav-item d-flex align-items-center">
+                        <i class="fa-solid fa-paper-plane {% if request|is_active:'pay_merchant' %}prm-color{% endif %}"></i>
+                        <a class="nav-link dash-active" href="{% url 'pay_merchant' %}"{% if request|is_active:'pay_merchant' %}style="color: #40196d;"{% endif %}>Pay</a>
+                    </li>
+
+					{% endif %}
+
+                    <li class="nav-item d-flex align-items-center">
+                        <i class="fa-solid fa-piggy-bank"></i>
+                        <a class="nav-link dash-active" href="#">Save</a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        <a class="nav-link dash-active" href="#">Borrow</a>
+                    </li>
+                    
+            </ul>
+      </div>
+    </div>
+</nav>
