@@ -1,15 +1,13 @@
 from django.shortcuts import redirect, render
 from django.http.request import HttpRequest
-from django.http.response import HttpResponse
-from transaction.models import Transactions
 from utils.generate import generate_wallet_id
-from utils.order import group_transaction_by_date
-from utils.response import CustomResponse, BadRequest
+from utils.response import CustomResponse
+from utils.mail import send_verification_mail, get_user_from_email_verification_token
 from utils.shortcuts import redirect_not_student, redirect_not_merchant
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib import auth
-from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from .forms import StudentRegistrationForm, MerchantRegistrationForm, LoginForm
 # Create your views here.
@@ -28,6 +26,8 @@ def signup_student(request:HttpRequest):
             current_user = form.save(commit=False)
 
             current_user.wallet_id = generate_wallet_id()
+
+            send_verification_mail(request, current_user)
 
             current_user.save()
 
@@ -138,18 +138,50 @@ def get_user_data(request:HttpRequest):
     return CustomResponse("Get User Data successfull", data=request.user.to_dict())
 
 
-# class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-
-#     def form_valid(self, form):
-#         try:
-#             return super().form_valid(form)
-#         except Exception as e:
-
-#             messages.error(self.request, 'The password reset link is expired or invalid.')
-            
-#             return self.render_to_response(self.get_context_data(form=form))
 
 
+def request_verification(request:HttpRequest):
+
+    return render(request, "verification/request_verification.html")
+
+
+
+
+
+
+
+def verify_user(request:HttpRequest, uidb64, token):
+
+    user = get_user_from_email_verification_token(uidb64, token)
+
+
+    if request.method == "POST":
+
+        transaction_pin = request.POST.get("transaction_pin")
+
+        hashed_transaction_pin = make_password(transaction_pin)
+
+        if user is not None:
+            user.transaction_pin = hashed_transaction_pin
+            user.is_verified = True
+
+            user.save
+
+            auth.login(request, user)
+
+            if not request.user.is_merchant:
+                return redirect("dashboard_student")
+            else:
+                return redirect("dashboard_merchant")
+
+    if user is None:
+
+        messages.error(request, "Invalid Verification Link")
+        
+        
+    return render(request, "verification/verify_account.html")
+
+        
 
 
 

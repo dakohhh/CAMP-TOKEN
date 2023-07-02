@@ -45,6 +45,10 @@ urlpatterns = [
 
     path('accounts/password/reset_complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
+    path('accounts/verify/<uidb64>/<token>', views.verify_user, name='verify_user'),
+    
+    path('accounts/request_verification', views.request_verification, name='request_verification'),
+
 
     path("404", views.http404, name="404")
 

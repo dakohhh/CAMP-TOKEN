@@ -71,7 +71,7 @@ class User(AbstractUser, PermissionsMixin):
 
     balance = models.FloatField(default=0)
     
-    transaction_pin = models.CharField(max_length=6, null=True)
+    transaction_pin = models.CharField(max_length=100, null=True)
 
     is_verified = models.BooleanField(default=False)
 
