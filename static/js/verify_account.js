@@ -76,9 +76,15 @@ verifyAccountButton.addEventListener("click", async ()=>{
 
         const success_fail_info = document.getElementById("success_fail_info")
 
+        const redirect_msg = document.getElementById("redirect_msg")
+
         const success_fail_message = document.getElementById("success_fail_message")
 
         suc_or_fail_img.src = "https://res.cloudinary.com/do1iufmkf/image/upload/v1686433502/static/img/check.011bb4cf6289.png"
+
+        success_fail_info.textContent = "Account Verified"
+
+        payRedirectToDashboard(redirect_msg);
   
         modal.show()
     }
@@ -92,6 +98,9 @@ verifyAccountButton.addEventListener("click", async ()=>{
         const success_fail_message = document.getElementById("success_fail_message")
 
         suc_or_fail_img.src = "https://res.cloudinary.com/do1iufmkf/image/upload/v1686433506/static/img/x-mark.a142a3b18fe3.png"
+
+        success_fail_info.textContent = "Oops"
+
   
         modal.show()
 
