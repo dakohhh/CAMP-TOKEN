@@ -27,14 +27,34 @@
         <div class="check-header">
             Please check that you are visiting the correct URL <a href="#">https://camptoken.com</a>
         </div>
+
         <div class="signup-form">
             <h4 class="">Verify account</h4>
 
+            {% if messages %}
+				{% for message in messages %}
+					{% if message.tags == "success" %}
+                        <div class="success-msg go-down-md fade-in">
+                            <i class="fa-solid fa-circle-check"></i>
+                            {{ message }}
+                        </div>
+
+                    {% elif message.tags == "error" %}
+						<div class="error-msg go-down-md fade-in">
+							<i class="fa-solid fa-circle-exclamation"></i>
+							{{ message }}
+						</div>
+
+                    {% endif %}
+					
+				{% endfor %}
+
+            {% else  %}
 
             <p class="form-explain go-down-md">Welcome,  please enter your new transaction pin</p>
 
-            <form>
-                <div class="form-group pin-input">
+            <form id="verify_form">
+                <div id="pin-inputs-field" class="form-group pin-input">
 
                     {% csrf_token %}
 
@@ -47,35 +67,38 @@
 
 
             <div class="pay-button go-down-md">
-                <button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal">Proceed</button>
+                <button id="verify-btn" class="bg-prm-color" type="button" disabled>Proceed</button>
             </div>
-            
-
-        </div>
-
-        <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
 
 
-                    <div class="modal-body">
-
-                        <div class="text-center">
-                            <img src="img/check.png" width="70" height="70">
+            <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+    
+    
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <img id="suc_or_fail_img" src="img/check.png" width="70" height="70">
+                            </div>
+    
+                            <div class="pay-success-info text-center">
+                                <h2 id="success_fail_info" class="go-down-sm"></h2>
+    
+                                <p id= "success_fail_message" class="go-down-md reciept-no"></p>
+    
+                            </div>
+    
+    
                         </div>
-
-                        <div class="acc-verified-success text-center">
-                            <h2 class="go-down-sm">Account Verified!</h2>
-
-
-                            <p id="redirect-msg" class="">Redirecting you in 3...</p>
-                        </div>
-
-
+                    
                     </div>
-                
                 </div>
             </div>
+
+            </div>
+            
+			{% endif %}
+
         </div>
 
     </div>

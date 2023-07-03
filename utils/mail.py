@@ -30,7 +30,7 @@ def send_verification_mail(request:HttpRequest, user:User):
 
     encoded_user = urlsafe_b64encode(force_bytes(user.pk))
 
-    verification_url = f'http://{current_site.domain}/accounts/verify/{encoded_user}/{token}'
+    verification_url = f'http://{current_site.domain}/accounts/verify/{str(encoded_user)}/{token}'
 
 
     send_mail(
@@ -50,10 +50,13 @@ def get_user_from_email_verification_token(uidb64, token: str) -> Union[User, No
 
         user = fetchone(User, pk=user_id)
 
+
     except (User.DoesNotExist , TypeError, ValueError, OverflowError):
         return None
     
-    if user is not None and email_verification.check_token(user, token):
+
+    
+    if user and email_verification.check_token(user, token):
 
         return user
 

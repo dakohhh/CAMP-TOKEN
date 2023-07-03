@@ -40,6 +40,12 @@
                             {{ message }}
                         </div>
 
+                    {% elif message.tags == "error" %}
+						<div class="error-msg go-down-md fade-in">
+							<i class="fa-solid fa-circle-exclamation"></i>
+							{{ message }}
+						</div>
+
                     {% endif %}
 					
 				{% endfor %}
@@ -53,9 +59,9 @@
                 {% csrf_token %}
                 
                 <div class="item col-md-12">
-                    <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                    <label for="id_email" class="form-label">Email</label>
                     <div class="input-group has-validation">
-                        <input name="{{ form.email.name }}" type="email" class="form-control" id="{{ form.email.id_for_label }}" aria-describedby="inputGroupPrepend" required>
+                        <input name="email" type="email" class="form-control" id="id_email" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">Please choose a valid email.</div>
                     </div>
                 </div>
