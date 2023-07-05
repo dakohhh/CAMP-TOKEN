@@ -77,6 +77,8 @@ def refund_student_transaction(request:HttpRequest, _transaction:Transactions, r
 
             new_transaction = Transactions(transaction_id=refund_transaction_id, student=_transaction.student, merchant=request.user, amount=_transaction.amount, initiated_by_student=False,  transaction_status=Transactions.SUCCESS, transaction_type=Transactions.REFUNDED)
 
+            new_transaction.was_refunded = True
+
             new_transaction.save() 
 
             return new_transaction

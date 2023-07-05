@@ -2,6 +2,8 @@
 
 import {getCSRFTokenFromCookie} from "./csrf.js"
 
+import { payRedirectToDashboard } from "./components.js";
+
 
 async function makeRefund(transaction_id, trans_pin) {
 
