@@ -64,7 +64,7 @@ def refund_student(request:HttpRequest, transaction_id):
 
     transaction = fetchone(Transactions, transaction_id=transaction_id)
 
-    if transaction == None or transaction.recipient != request.user:
+    if transaction == None or transaction.merchant != request.user:
         return render(request, "404.html", status=404)
     
 
@@ -72,7 +72,7 @@ def refund_student(request:HttpRequest, transaction_id):
 
         trasaction_pin = int(request.POST.get("trans_pin"))
 
-        user_pin = request.user.transaction_id
+        user_pin = request.user.transaction_pin
 
         if not check_password(trasaction_pin, user_pin):
             return BadRequest("Incorrect Pin", data="01")

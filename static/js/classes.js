@@ -40,7 +40,7 @@ export class Transaction {
             isCredit = true;
         }
 
-        return transactionRowComponent(this.is_for_merchant ? this.student : this.merchant, this.amount, isCredit, isFailed, this.formated_time)
+        return transactionRowComponent(this.is_for_merchant ? this.student : this.merchant, this.amount, isCredit, isFailed, this.formated_time, this.is_for_merchant, this.transaction_id)
     }
 
 }

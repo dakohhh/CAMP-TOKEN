@@ -87,7 +87,7 @@ export function dateRowComponent(date = "Today"){
 }
 
 
-export function transactionRowComponent(merchantName, amount , isCredit, isFailed, time){
+export function transactionRowComponent(merchantName, amount , isCredit, isFailed, time, is_for_merchant, transaction_id){
 
     let transactionRow = document.createElement('div');
     transactionRow.className = 'row transaction d-flex align-items-center justify-content-start';
@@ -129,6 +129,15 @@ export function transactionRowComponent(merchantName, amount , isCredit, isFaile
     transactionRow.appendChild(transactionInfo1);
     transactionRow.appendChild(transactionInfo2);
 
+    if(is_for_merchant === true){
+
+        transactionRow.onclick = ()=>{
+            
+            window.location.href = `/dashboard/m/refund/${transaction_id}`
+
+        }
+
+    }
 
 
     return transactionRow;

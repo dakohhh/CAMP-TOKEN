@@ -513,8 +513,12 @@ font-family: 'Mulish', sans-serif;
 	background-color: #fff;
 	padding: 20px 20;
 	border-top: 1px solid #eff1ff;
+	cursor: pointer;
 
+}
 
+.transactions .transaction:hover{
+	background-color: #eeecec;
 }
 
 

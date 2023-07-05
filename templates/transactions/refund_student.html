@@ -27,7 +27,7 @@
 					</div>
 
 					<div class="mb-6 go-down-md text-center">
-						<span class="refund-student-name">{{ transaction.sender.first_name|upper }} {{ transaction.sender.last_name|upper }}</span>
+						<span class="refund-student-name">{{ transaction.student.first_name|upper }} {{ transaction.student.last_name|upper }}</span>
 						<p class="refund-student-amount">₦{{ transaction.amount }}</p>
 					</div>
 
@@ -39,7 +39,7 @@
 
 					<div class="mb-6 go-down-sm text-center">
 						<span>Student Wallet ID:</span>
-						<p class="prm-color-grey">{{ transaction.sender.wallet_id }}</p>
+						<p class="prm-color-grey">{{ transaction.student.wallet_id }}</p>
 					</div>
 
 
@@ -67,7 +67,7 @@
 
 							<div class="confirm_merchant" style="float: left; width: 85%;">
 								<div class="row pay_detail">To</div>
-								<div id="modal-merchant-name" class="row" style="margin-left: -25px"><strong>{{ transaction.sender.first_name|upper }} {{ transaction.sender.last_name|upper }}</strong></div>
+								<div id="modal-merchant-name" class="row" style="margin-left: -25px"><strong>{{ transaction.student.first_name|upper }} {{ transaction.student.last_name|upper }}</strong></div>
 							</div>
 
 							<div class="confirm_amount" style="float: left; width: 15%;">
@@ -109,7 +109,6 @@
 							</div>
 
 							<div class="col pay-button">
-								{% comment %} <button id="pay-btn" class="bg-prm-color" type="button" data-bs-target="#staticBackdrop2" data-bs-toggle="modal" data-bs-dismiss="modal" disabled>Pay</button> {% endcomment %}
 								<button id="pay-btn" class="bg-prm-color" type="button"  disabled>Pay</button>
 							</div>
 
