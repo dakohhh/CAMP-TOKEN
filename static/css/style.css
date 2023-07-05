@@ -850,6 +850,16 @@ animation: fadeOut 0.5s forwards;
   .fade-in {
 	animation: fadeIn 0.5s forwards;
   }
+
+
+
+@keyframes fadeInMd {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+.fade-in-md {
+	animation: fadeInMd 1.5s forwards;
+}
   
   
 

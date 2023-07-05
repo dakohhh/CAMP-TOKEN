@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.http.request import HttpRequest
 from utils.generate import generate_wallet_id
 from utils.crud import fetchone
-from utils.response import CustomResponse
+from utils.response import CustomResponse, BadRequest
 from utils.mail import send_verification_mail, get_user_from_email_verification_token
 from utils.shortcuts import redirect_not_student, redirect_not_merchant
 from .models import User
@@ -167,9 +167,6 @@ def request_verification(request:HttpRequest):
 
 
 
-
-
-
 def verify_user(request:HttpRequest, uidb64, token):
 
     user = get_user_from_email_verification_token(uidb64, token)
@@ -183,27 +180,20 @@ def verify_user(request:HttpRequest, uidb64, token):
 
         transaction_pin = request.POST.get("transaction_pin")
 
+        if transaction_pin is None or  transaction_pin == "" or len(transaction_pin) != 4:
+            return BadRequest("Please Check transaction pin")
+
         hashed_transaction_pin = make_password(transaction_pin)
 
-        print(transaction_pin, hashed_transaction_pin)
+        if user is not None:
+            user.transaction_pin = hashed_transaction_pin
+            user.is_verified = True
 
+            user.save()
 
-        
+            auth.login(request, user)
 
-        # if user is not None:
-        #     user.transaction_pin = hashed_transaction_pin
-        #     user.is_verified = True
-
-        #     user.save
-
-        #     auth.login(request, user)
-
-        #     if not request.user.is_merchant:
-        #         return redirect("dashboard_student")
-        #     else:
-        #         return redirect("dashboard_merchant")
-
-        return CustomResponse("Account Verified")
+            return CustomResponse("Account Verified")
         
         
     return render(request, "verification/verify_account.html")

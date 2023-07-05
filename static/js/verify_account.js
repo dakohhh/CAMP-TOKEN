@@ -1,4 +1,7 @@
 
+import {payRedirectToDashboard} from "./components.js"
+
+
 
 const form = document.getElementById("verify_form")
 
@@ -83,10 +86,11 @@ verifyAccountButton.addEventListener("click", async ()=>{
         suc_or_fail_img.src = "https://res.cloudinary.com/do1iufmkf/image/upload/v1686433502/static/img/check.011bb4cf6289.png"
 
         success_fail_info.textContent = "Account Verified"
+  
+        modal.show();
 
         payRedirectToDashboard(redirect_msg);
-  
-        modal.show()
+
     }
 
     else{
@@ -97,10 +101,15 @@ verifyAccountButton.addEventListener("click", async ()=>{
 
         const success_fail_message = document.getElementById("success_fail_message")
 
+        const redirect_msg = document.getElementById("redirect_msg")
+
         suc_or_fail_img.src = "https://res.cloudinary.com/do1iufmkf/image/upload/v1686433506/static/img/x-mark.a142a3b18fe3.png"
+
+        redirect_msg.textContent = "";
 
         success_fail_info.textContent = "Oops"
 
+        success_fail_message.textContent = result.message;
   
         modal.show()
 

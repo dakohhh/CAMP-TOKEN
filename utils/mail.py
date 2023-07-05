@@ -30,7 +30,7 @@ def send_verification_mail(request:HttpRequest, user:User):
 
     encoded_user = urlsafe_b64encode(force_bytes(user.pk))
 
-    verification_url = f'http://{current_site.domain}/accounts/verify/{str(encoded_user)}/{token}'
+    verification_url = f'http://{current_site.domain}/accounts/verify/{encoded_user.decode()}/{token}'
 
 
     send_mail(
