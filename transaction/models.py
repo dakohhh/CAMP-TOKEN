@@ -49,11 +49,11 @@ class Transactions(models.Model):
 
     transaction_status = models.SmallIntegerField(choices=_TRANSACTION_STATUS)
 
-    was_refunded = models.BooleanField(default=False)
+    was_refunded = models.BooleanField(default=True)
 
-    initiated_by_student = models.BooleanField(default=True)
+    initiated_by_student = models.BooleanField(default=False)
 
-    date_added = models.DateTimeField(auto_now_add=True, null=False)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
 
 
     def to_dict(self):
