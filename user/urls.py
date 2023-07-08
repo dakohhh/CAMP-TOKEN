@@ -36,14 +36,14 @@ urlpatterns = [
     path("get_user_data", views.get_user_data, name="get_user_data"),
 
     # FORGOT PASSWORD ROUTE
-    
+
     path("accounts/password/reset", auth_views.PasswordResetView.as_view(template_name="password_reset/password_reset.html"), name="password_reset"),
 
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="password_reset/password_reset_confirm.html"), name='password_reset_confirm'),
 
     path('accounts/password/reset_done', auth_views.PasswordResetDoneView.as_view(template_name="password_reset/password_reset_done.html"), name='password_reset_done'),
 
-    path('accounts/password/reset_complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('accounts/password/reset_complete', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset/password_reset_complete.html"), name='password_reset_complete'),
 
     path('accounts/verify/<uidb64>/<token>', views.verify_user, name='verify_user'),
     

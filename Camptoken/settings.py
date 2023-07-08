@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
-import os
+
 
 load_dotenv()
 
@@ -27,9 +29,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ["1e6f-102-88-35-232.ngrok-free.app", "127.0.0.1"]
+DEBUG = 'RENDER' not in os.environ
+
+ALLOWED_HOSTS = []
+
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',  
@@ -56,12 +66,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
 ]
 
 ROOT_URLCONF = "Camptoken.urls"
@@ -92,20 +104,15 @@ WSGI_APPLICATION = "Camptoken.wsgi.application"
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        
-        'NAME': os.getenv("DB_NAME"), 
+    'default': dj_database_url.config(
 
-        'USER': os.getenv("DB_USER"),
-
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-
-        'HOST': os.getenv("DB_HOST"), 
-
-        'PORT': os.getenv("DB_PORT"),
-    }
+        default= os.getenv("DB_URL"),
+        conn_max_age=600
+    )
 }
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -143,6 +150,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+if not DEBUG:
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+  
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
