@@ -32,11 +32,11 @@ urlpatterns = [
     path("dashboard/m/", views.dashboard_merchant, name="dashboard_merchant"),
 
     # GET USER DATA
+
     path("get_user_data", views.get_user_data, name="get_user_data"),
 
-
-
     # FORGOT PASSWORD ROUTE
+    
     path("accounts/password/reset", auth_views.PasswordResetView.as_view(template_name="password_reset/password_reset.html"), name="password_reset"),
 
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="password_reset/password_reset_confirm.html"), name='password_reset_confirm'),

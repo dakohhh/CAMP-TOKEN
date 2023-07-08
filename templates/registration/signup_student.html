@@ -16,7 +16,7 @@
 					<ul class="navbar-nav ms-auto flex" style="margin-right: 200px;">
 						<li class="nav-item ">
 							<button class="btn-oacc-link" style="">
-								<a class="" href="#" style="color: #40196d;">Open an account</a>
+								<a class="" href="{% url 'choose_sign_student_merchant' %}" style="color: #40196d;">Open an account</a>
 							</button>
 						</li>
 						<li class="nav-item">
@@ -130,7 +130,7 @@
 					</div>
 
 					<div class="item col-12">
-						<p class="forgot-password">Already have an account? <a href="#">Sign in</a></p>
+						<p class="forgot-password">Already have an account? <a href="{% url "login" %}">Sign in</a></p>
 					</div>
 					<div class="item col-12">
 						<button type="submit" class="">Sign Up</button>

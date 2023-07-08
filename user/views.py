@@ -29,9 +29,11 @@ def signup_student(request:HttpRequest):
 
             current_user.wallet_id = generate_wallet_id()
 
+            current_user.save()
+
+
             send_verification_mail(request, current_user)
 
-            current_user.save()
 
             messages.success(request, "Verification email has been sent")
 
@@ -57,9 +59,10 @@ def signup_merchant(request:HttpRequest):
             current_user.wallet_id = generate_wallet_id()
             current_user.is_merchant = True
 
+            current_user.save()
+
             send_verification_mail(request, current_user)
 
-            current_user.save()
 
             messages.success(request, "Verification email has been sent")
 

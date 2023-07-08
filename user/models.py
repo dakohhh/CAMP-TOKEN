@@ -63,9 +63,9 @@ class User(AbstractUser, PermissionsMixin):
     
     email = models.EmailField(max_length=254, db_index=True, unique=True, null=False)
 
-    wallet_id = models.IntegerField(unique=True, null=True)
+    wallet_id = models.BigIntegerField(unique=True, null=True)
 
-    phone_number = models.IntegerField(unique=True, null=False)
+    phone_number = models.BigIntegerField(unique=True, null=False)
 
     business_name = models.CharField(max_length=100, unique=True, null=True)
 
